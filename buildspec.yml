@@ -13,6 +13,8 @@ phases:
       - pip install psycopg2
       - pip install django-cors-headers
       - pip install mutagen
+      - pip install mollie-api-python
+
 
   pre_build:
     commands:
