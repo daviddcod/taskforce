@@ -117,28 +117,29 @@ WSGI_APPLICATION = 'taskforce.wsgi.application'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 AUTH_USER_MODEL = 'auth_app.CustomUser'
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': get_env_variable('DB_NAME'),
-        'USER': get_env_variable('DB_USER'),
-        'PASSWORD': get_env_variable('DB_PASSWORD'),
-        'HOST': get_env_variable('DB_HOST'),
-        'PORT': get_env_variable('DB_PORT'),
+        'NAME': 'wdmdatabase',
+        'USER': 'atlas',
+        'PASSWORD': 'Lightvessel100!',  # Updated password
+        'HOST': 'wdm-db.cihp8rwuaz6j.eu-north-1.rds.amazonaws.com',
+        'PORT': '5432',
     }
 }
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/x.x/howto/static-files/
-AWS_ACCESS_KEY_ID = get_env_variable('AWS_ACCESS_KEY_ID')
-AWS_SECRET_ACCESS_KEY = get_env_variable('AWS_SECRET_ACCESS_KEY')
-AWS_STORAGE_BUCKET_NAME = get_env_variable('AWS_STORAGE_BUCKET_NAME')
-AWS_S3_REGION_NAME = get_env_variable('AWS_S3_REGION_NAME')
-AWS_S3_CUSTOM_DOMAIN = get_env_variable('AWS_S3_CUSTOM_DOMAIN')
-AWS_LOCATION = get_env_variable('AWS_LOCATION')
-STATIC_URL = get_env_variable('STATIC_URL')
+AWS_ACCESS_KEY_ID = 'AKIAZPFM3ISB4EG5U5JY'
+AWS_SECRET_ACCESS_KEY = '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'
+AWS_STORAGE_BUCKET_NAME = 'mediawdm'
+AWS_S3_REGION_NAME = 'eu-north-1'
+AWS_S3_CUSTOM_DOMAIN = 'mediawdm.s3.amazonaws.com'
+AWS_LOCATION = 'static'
+STATIC_URL = 'https://mediawdm.s3.amazonaws.com//static'
 STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-MEDIA_URL = get_env_variable('MEDIA_URL')
+MEDIA_URL = 'https://mediawdm.s3.amazonaws.com/media/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/x.x/ref/settings/#default-auto-field
