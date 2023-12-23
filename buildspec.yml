@@ -5,7 +5,7 @@ phases:
     runtime-versions:
       python: 3.10 # Updated to your specified version
     commands:
-      - echo "Installing dependencies for WDMMORPG2"
+      - echo "Installing dependencies for taskforce"
       - pip install --upgrade pip
       - pip install -r requirements.txt  # Assumes requirements.txt is in the root
       - pip install django-storages
@@ -14,18 +14,18 @@ phases:
 
   pre_build:
     commands:
-      - echo "Running pre-build commands for WDMMORPG2"
-      - python manage.py migrate --settings=WDMMORPG2.settings --noinput  # Updated path
-      - python manage.py collectstatic --settings=WDMMORPG2.settings --noinput  # Handle static files
+      - echo "Running pre-build commands for taskforce"
+      - python manage.py migrate --settings=taskforce.settings --noinput  # Updated path
+      - python manage.py collectstatic --settings=taskforce.settings --noinput  # Handle static files
 
   build:
     commands:
-      - echo "Build commands for WDMMORPG2"
+      - echo "Build commands for taskforce"
       # Insert any additional build commands if needed later
 
   post_build:
     commands:
-      - echo "WDMMORPG2 build and deployment completed."
+      - echo "taskforce build and deployment completed."
 
 artifacts:
   files:
