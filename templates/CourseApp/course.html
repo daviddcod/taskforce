@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Blog Home</title>
+    {% load static %}
+
+    <script src="{% static 'jumbotron.js' %}"></script>
+
+
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'beathome.css' %}">
+
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'welcome' %}">WDM - Home</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'taskplayer' %}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'taskplayer' %}">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'taskplayer' %}">Services</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'taskplayer' %}">Contact</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'bloghome' %}">Blog</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <style>
+        body {
+            background-image: url("{% static 'images/ceo.jpg' %}");
+            background-repeat: no-repeat;
+            background-position: 60% 25%;
+            background-size: 100%;
+        }
+
+        .textfx {
+            background-color: rgb(255, 255, 255);
+            font-weight: bold;
+            border: 5px solid rgb(255, 255, 255);
+            border-radius: 10px;
+            color: rgb(0, 0, 0);
+            font-size: 30px;
+            box-shadow: 0 0 70px rgba(255, 174, 0, 0.5);
+        }
+
+        .textfx2{
+            padding-inline: 10px;
+            background-color: rgb(255, 174, 0);
+            font-weight: bold;
+            border: 5px solid rgb(255, 174, 0);
+            border-radius: 10px;
+            color: rgb(255, 170, 0);
+            font-size: 30px;
+            box-shadow: 0 0 70px rgba(255, 174, 0, 0.5);
+        }
+
+        .textfx2:hover {
+            padding-inline: 10px;
+            background-color: rgb(0, 0, 0);
+            font-weight: bold;
+            border: 5px solid rgb(0, 0, 0);
+            border-radius: 10px;
+            color: rgb(255, 174, 0);
+            font-size: 30px;
+            box-shadow: 0 0 70px rgba(255, 174, 0, 0.5);
+        }
+
+
+        .title-display {
+            color: rgb(59, 15, 255);
+        }
+
+        .title-display2 {
+            color: rgb(255, 174, 0);
+        }
+
+        .cbg{
+            background-image: url("{% static 'images/intro.jpg' %}");
+        }
+
+        .team-blue:hover {
+            color: blue;
+        }
+
+        .hero-section {
+            height: 200px;
+        }
+
+        .hra {
+            height: auto;
+        }
+
+        .paragraph {
+            background-color: black;
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 10px;
+            color: white;
+        }
+    </style>
+
+    <div class="container">
+
+        <div class="row">
+            <div class="col">
+                <h1 class="textfx center">COURSES</h1>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <div class="hero-section hero-section">
+                    
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <h1 class="title-display textfx2">
+                    <a style="color: black;" 
+                        class="title-display3 " 
+                        href="{% url 'blog'%}" 
+                        onmouseover="this.style.color='orange';" 
+                        onmouseout="this.style.color='black';">
+                        LATEST
+                    </a>
+                </h1>
+            </div>
+        </div>
+
+
+
+        <div class="row">
+            <div class="col-5 center">
+
+                <h1 class="title-display textfx2">
+                    <a style="color: black;" 
+                        class="title-display3 " 
+                        href="{% url 'blog'%}" 
+                        onmouseover="this.style.color='orange';" 
+                        onmouseout="this.style.color='black';">
+                        NLP
+                    </a>
+                </h1>
+
+            </div>
+
+            <div class="col-2 hra center">
+
+                <h1 class="title-display textfx2">
+                    <a style="color: black;" 
+                        class="title-display3 " 
+                        href="{% url 'blog'%}" 
+                        onmouseover="this.style.color='orange';" 
+                        onmouseout="this.style.color='black';">
+                    </a>
+                </h1>
+
+            </div>
+
+            <div class="col-5 center">
+
+                <h1 class="title-display textfx2">
+                    <a style="color: black;" 
+                        class="title-display3 " 
+                        href="{% url 'blog'%}" 
+                        onmouseover="this.style.color='orange';" 
+                        onmouseout="this.style.color='black';">
+                        Personality Order
+                    </a>
+                </h1>
+            </div>
+
+            <div class="col-5">
+                <div class="paragraph">
+                    <p>
+                        The Majority of Information and Communication jobs will be stolen by machines
+                    </p>
+
+                    <p>
+                        90% of Humanity will have clustered up in their own homes planning each and every hour of their lives using planning applications
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-2">
+
+            </div>
+
+            <div class="col-5">
+                <div class="paragraph">
+                    <p>
+                        A parent from country A has a child with a parent from country B
+                        and the child is born and raised in country C
+                    </p>
+
+                    <p>
+                        The child becomes a human being with the mentality of country C , blood in heritance of country A and B
+                        Succesfully birthing a child from country ABC
+                    </p>
+                </div>
+            </div>
+
+            </div>
+        </div>
+
+    <footer>
+
+    </footer>
+</body>
+
+</html>

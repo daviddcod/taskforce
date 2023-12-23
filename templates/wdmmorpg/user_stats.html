@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Statistics</title>
+    <!-- Link to CSS files and Bootstrap for styling if needed -->
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome, {{ user_profile.user.username }}</h1>
+        <div class="user-stats">
+            <p>Level: {{ user_profile.level }}</p>
+            <p>Experience: {{ user_profile.experience }}</p>
+            <p>Prestige: {{ user_profile.prestige }}</p>
+            <p>Health: {{ user_profile.health }}</p>
+            <p>Endurance: {{ user_profile.endurance }}</p>
+            <p>Mind: {{ user_profile.mind }}</p>
+        </div>
+        <!-- Add more statistics if needed -->
+    </div>
+    <!-- Link to JavaScript files if needed -->
+</body>
+</html>

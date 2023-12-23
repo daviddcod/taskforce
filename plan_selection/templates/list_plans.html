@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>List of Plans</title>
+    <style>
+        .plan {
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin: 10px;
+            width: 30%;
+            text-align: center;
+        }
+
+        .plan h2 {
+            color: #333;
+        }
+
+        .plan-details {
+            margin-bottom: 15px;
+        }
+
+        button, a {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        button:hover, a:hover {
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <h1 style="text-align:center;">Available Plans</h1>
+    <div style="display: flex; justify-content: space-around; flex-wrap: wrap;">
+        {% for plan in plans %}
+        <div class="plan">
+            <h2>{{ plan.name }}</h2>
+            <div class="plan-details">
+                <p>{{ plan.description }}</p>
+                <p><strong>Price:</strong> ${{ plan.price }}</p>
+                <p><strong>Billing Cycle:</strong> {{ plan.get_billing_cycle_display }}</p>
+            </div>
+            <a href="{% url 'payment_processor:create_billing_detail' %}?selected_plan={{ plan.id }}" class="select-plan-button">Select Plan</a>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Skip button -->
+    <button id="skip-button">Skip</button>
+
+    <script>
+        document.getElementById("skip-button").addEventListener("click", function() {
+            // Perform an action to assign the user the traverser plan (you might need to make an AJAX request here)
+            
+            // Redirect the user to the wdm/dashboard screen
+            window.location.href = "/wdm/dashboard";
+        });
+    </script>
+</body>
+</html>

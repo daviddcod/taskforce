@@ -1,0 +1,8 @@
+<!-- blog/templates/blog/blog_list.html -->
+<h1>Blog List</h1>
+<ul>
+  {% for blog in blogs %}
+    <li><a href="{% url 'blog-detail' pk=blog.pk %}">{{ blog.title }}</a></li>
+  {% endfor %}
+</ul>
+<a href="{% url 'blog-create' %}">Create a new blog</a>

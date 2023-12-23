@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>List of Plans</title>
+    <!-- Add any additional CSS or JS here -->
+</head>
+<body>
+    <h1>Available Plans</h1>
+    {% for plan in plans %}
+    <form action="{% url 'payment_processor:start_payment' billing_detail_id=plan.id %}" method="post">
+        {% csrf_token %}
+        <div style="border: 1px solid #ddd; padding: 10px; margin: 10px; width: 30%;">
+            <input type="radio" name="selected_plan" value="{{ plan.id }}" required>
+            <div>
+                <h2>{{ plan.name }}</h2>
+                <p>{{ plan.description }}</p>
+                <p><strong>Price:</strong> ${{ plan.price }}</p>
+                <p><strong>Billing Cycle:</strong> {{ plan.get_billing_cycle_display }}</p>
+                <!-- Add more plan details as needed -->
+            </div>
+            <button type="submit">Pay with Mollie</button>
+        </div>
+    </form>
+    {% endfor %}
+</body>
+</html>

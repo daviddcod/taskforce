@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Album List</title>
+</head>
+<body>
+    <h1>Albums</h1>
+    <ul>
+        {% for album in albums %}
+        <li><a href="{% url 'music:album_detail' album.id %}">{{ album.title }} by {{ album.artist }}</a></li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

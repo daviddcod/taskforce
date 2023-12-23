@@ -1,0 +1,17 @@
+<!-- myblog/templates/myblog/blog_edit.html -->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create/Edit Blog</title>
+</head>
+<body>
+    <h1>{% if blog.pk %}Edit Blog{% else %}Create Blog{% endif %}</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Save</button>
+    </form>
+    <a href="{% url 'blog_list' %}">Back to Blog List</a>
+</body>
+</html>

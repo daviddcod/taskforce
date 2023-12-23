@@ -1,0 +1,267 @@
+{% load static %}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+<style>
+.image-frame{
+    max-height: 70vh;
+}
+
+
+.hero-section {
+            height: 300px;
+            padding: 20px;
+            margin-bottom: 80px;
+            border-radius: 20px;
+            border: 7px;
+            background-image: url("{% static 'images/CEO.jpg' %}");
+            filter: grayscale(100%);
+            background-size: 100% 300%;
+            background-position: 20% 40%;
+            border-color: rgb(0, 0, 0);
+            opacity: 100%;
+            box-shadow: 0 0 70px rgb(255, 174, 0.5);
+            transition: all 0.5s ease-in-out 0s;
+
+        }
+
+.i-frame{
+    border-radius: 20px;
+}
+
+.pluk {
+    background-image: url("{% static 'images/CEO.jpg' %}");
+}
+
+.carousel-inner{
+    margin: 0px;
+    display: flex;
+    align-items: center;
+    justify-self: center;
+    border: 0px solid #007bff; /* Add a border to the active image */
+}
+
+.c-container{
+    height: 20px;
+}
+
+#carouselExampleIndicators{
+    margin: 0;
+    padding: 24px;
+}
+
+
+/* Styles for the carousel caption */
+.carousel-caption {
+    background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent black background */
+    color: #fff; /* Text color for the caption */
+    padding: 10px; /* Padding for the caption */
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.carousel-caption h5 {
+    font-size: 1.5rem; /* Adjust the font size as needed */
+}
+
+.carousel-caption p {
+    font-size: 1rem; /* Adjust the font size as needed */
+}
+
+.line {
+    border: 20px solid red;
+}
+
+.line img{
+    border: 20px solid rgb(68, 255, 0);
+}
+
+.image-container {
+    position: relative;
+    height: 400px; /* Adjust the height as needed */
+    overflow: hidden; /* Clip the image that overflows */
+}
+
+.jumbotron-image {
+    height: 100%; /* Ensure the image height matches the container height */
+    object-fit: cover; /* Zoom and crop the image within the container */
+    transform: scaleX(-1); /* Flip horizontally */
+
+}
+.vertical-caption {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 33.33%; /* One-third of the carousel's width */
+    padding: 24px;
+}
+
+.vertical-caption h1 {
+    font-size: 2.5rem; /* Adjust the font size as needed */
+}
+
+.vertical-caption h2 {
+    font-size: 2rem; /* Adjust the font size as needed */
+}
+
+.vertical-caption h5 {
+    font-size: 1.5rem; /* Adjust the font size as needed */
+}
+
+.vertical-caption .left {
+    text-align: center; /* Center text within the column */
+}
+
+/* Add this custom CSS to adjust the carousel control buttons' spacing */
+.carousel-control-prev,
+.carousel-control-next {
+    margin-left: -85px; /* Adjust the left spacing as needed */
+    margin-right: -85px; /* Adjust the right spacing as needed */
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+.responsive-text {
+    font-size: 4vw; /* 4% of the viewport width */
+    line-height: 1.5;
+}
+
+
+
+
+
+</style>
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+    <div class="carousel-inner">
+        <div class="carousel-item">
+            <div class="image-container">
+                <img class="d-block w-100 jumbotron-image" src="{% static 'images/dgart_1.jpg' %}" alt="First slide">
+                <div class="vertical-caption">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-sm">
+                                <h1 class="mb-5 responsive-text">TASKFORCE</h1>
+                            </div>
+                            <div class="col-sm red">
+                                <h2 class="responsive-text" >Exclusive Planner</h2>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm red mb-5">
+                                <h5 class="responsive-text" >Life & Strategy Planning</h5>
+                            </div>
+                        </div>
+                        <div class="left mb-2">
+                            <h3 class="title-display textfx2">
+                                <a href="{% url 'taskplayer'%}" class="title-display"
+                                   onmouseover="this.style.color='orange';"
+                                   onmouseout="this.style.color='black';"
+                                   style="color: black; z-index: 1; position: relative;">START</a>
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Add more carousel items as needed -->
+        <div class="carousel-item">
+            <div class="image-container">
+                <img class="d-block w-100 jumbotron-image" src="{% static 'images/avalon.jpg' %}" alt="First slide">
+                <div class="vertical-caption">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-sm">
+                                <h1 class="mb-5 responsive-text">BLOG</h1>
+                            </div>
+                            <div class="col-sm red ">
+                                <h2 class="responsive-text" >Information</h2>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm red mb-5">
+                                <h5 class="responsive-text" >Latest information WDM</h5>
+                            </div>
+                        </div>
+                        <div class="left mt-4">
+                            <h3 class="title-display textfx2">
+                                <a href="{% url 'bloghome'%}" class="title-display"
+                                   onmouseover="this.style.color='orange';"
+                                   onmouseout="this.style.color='black';"
+                                   style="color: black; z-index: 1; position: relative;">START</a>
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--End Carousel Item-->
+
+        <!-- Add more carousel items as needed -->
+        <div class="carousel-item active">
+            <div class="image-container">
+                <img class="d-block w-100 jumbotron-image" src="{% static 'images/artprint_1.jpg' %}" alt="First slide">
+                <div class="vertical-caption">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-sm">
+                                <h1 class="mb-5 responsive-text">Music</h1>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-sm red mb-5">
+                                <h5 class="responsive-text" >Latest Sound of WDM</h5>
+                            </div>
+                        </div>
+                        <div class="left mt-4">
+                            <h3 class="title-display textfx2">
+                                <a href="{% url 'beathome'%}" class="title-display"
+                                   onmouseover="this.style.color='orange';"
+                                   onmouseout="this.style.color='black';"
+                                   style="color: black; z-index: 1; position: relative;">START</a>
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--End Carousel Item-->
+
+        <div class="carousel-item">
+            <div class="col " id="threejs-screen">
+                
+            </div>    
+        </div>
+
+
+    </div>
+
+    <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+    </a>
+
+    <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+    </a>
+</div>
+
+
+
+
+

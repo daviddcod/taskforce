@@ -1,0 +1,20 @@
+<h1>Select Your Plan</h1>
+
+<form method="post" action="{% url 'plan_selection:select_plan' %}">
+    {% csrf_token %}
+  <div>
+    <input type="radio" id="visitor" name="plan" value="visitor">
+    <label for="visitor">Visitor (Free) - View blogs, create tasks, missions, and projects (not savable)</label>
+  </div>
+  <div>
+    <input type="radio" id="traverser" name="plan" value="traverser">
+    <label for="traverser">Traverser (€3/month) - All visitor privileges, comment on blogs, chat, full task/project functionality, and task player access</label>
+  </div>
+  <div>
+    <input type="radio" id="administrator" name="plan" value="administrator">
+    <label for="administrator">Administrator (€1,000,000/month) - Full access rights, modify everything</label>
+  </div>
+  
+  <button type="submit">Submit</button>
+</form>
+

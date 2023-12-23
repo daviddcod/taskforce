@@ -1,0 +1,10 @@
+
+  <h1>Select a Plan</h1>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}  <!-- Renders the form fields here -->
+    <button type="submit">Submit</button>
+  </form>
+
+
+

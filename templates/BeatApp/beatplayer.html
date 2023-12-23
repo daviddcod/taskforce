@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Adva WDM</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'beathome.css' %}">
+    <script src="https://threejs.org/examples/js/controls/OrbitControls.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.147.0/three.min.js"></script>
+    <script src="{% static 'jumbotron.js' %}"></script>
+
+    
+    <nav class="navbar navbar-expand-lg navbar-dark bg">
+        <div class="container">-
+            <a class="navbar-brand" href="{% url 'welcome' %}">Zavidario</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'beathome' %}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'taskplayer' %}">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'taskplayer' %}">Services</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'taskplayer' %}">Contact</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'bloghome' %}">Blog</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+</head>
+
+<body>
+    <style>
+        body {
+            background-color: black;
+            /* background-image: url("{% static 'images/implosion.gif' %}"); */
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: 20%;
+            background-image: cross-fade();
+        }
+
+        .textfx:hover {
+            padding-inline: 10px;
+            background-color: rgb(255, 174, 0);
+            font-weight: bold;
+            border: 5px solid rgb(255, 174, 0);
+            border-radius: 10px;
+            color: rgb(0, 0, 0);
+            font-size: 30px;
+            box-shadow: 0 0 70px rgba(255, 174, 0, 0.5);
+        }
+
+        .jbg {
+            height: 0px;
+            width: 1920px;
+            background-image: url("{% static 'images/mars.jpg' %}");
+        }
+
+        .b-garage{
+            background-image: url("{% static 'images/garage.jpg' %}");
+        }
+
+        .img {
+            min-width: 100%;
+            min-height: 100%;
+        }
+
+        .profile{
+            opacity: 0;
+        }
+
+        img {
+            height: 200px;
+            width: 200px;
+            border-radius: 500px;
+            transform: rotate(45deg);
+            box-shadow: 0 0 00px rgba(255, 230, 0, 0.5);
+            transition: transform 2s cubic-bezier(0.25, 0.1, 0.25, 1);
+        }
+        
+    </style>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-sm">
+
+                <p>utskushi</p>
+
+                <audio controls>
+                    <source src="{% static 'Audio/utskushi.mp3' %}" type="audio/mpeg">
+                </audio>
+                  
+            </div>
+    
+            <div class="col-sm">
+
+                <p>
+                    REI-1
+                </p>
+                              
+                <audio controls >
+                    <source src="{% static 'Audio/REI-1.wav' %}" type="audio/mpeg">
+                </audio>
+                  
+            </div>
+    
+            <div class="col-sm">
+
+                <p>
+                    THREAD.wav
+                </p>
+                              
+                <audio controls >
+                    <source src="{% static 'Audio/2023/THREAD.wav' %}" type="audio/wav">
+                </audio>
+                  
+            </div>
+    
+        </div>
+
+        <div class="row">
+            <div class="col-sm">
+
+                <p>
+                    inLove.wav
+                </p>
+
+                <audio controls>
+                    <source src="{% static 'Audio/2023/inLove.wav' %}" type="audio/wav">
+                </audio>
+                  
+            </div>
+    
+            <div class="col-sm">
+
+                <p>
+                    prof_2
+                </p>
+                              
+                <audio controls >
+                    <source src="{% static 'Audio/2023/prof_2.wav' %}" type="audio/wav">
+                </audio>
+                  
+            </div>
+    
+            <div class="col-sm">
+
+                <p>
+                    111
+                </p>
+                              
+                <audio controls >
+                    <source src="{% static 'Audio/2023/Dreddyon - 111 [149 BPM]_Master.wav' %}" type="audio/wav">
+                </audio>
+                
+                  
+            </div>
+    
+        </div>
+
+
+        <div class="row">
+            <div class="col-sm">
+
+                <p>
+                    Rocket
+                </p>
+    
+                <audio controls>
+                    <source src="{% static 'Audio/2022/dredduon - Rocket [78 BPM] D minor_Master.wav' %}" type="audio/wav">
+                </audio>
+
+            </div>
+
+            <div class="col-sm">
+                <p>
+                    Deus Zavidario Diozard
+                </p>
+
+                <audio controls>
+                    <source src="{% static 'Audio/2023/Deus Zavidarios Diozard.wav' %}" type="audio/wav">
+                </audio>
+
+            </div>
+            <div class="col-sm">
+                
+                <p>
+                    Exterminati oO Djosei_Master.wav
+                </p>
+
+                <audio controls>
+                    <source src="{% static 'Audio/2023/Exterminati oO Djosei_Master.wav' %}" type="audio/wav">
+                </audio>
+                  
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm">
+                <div class="col-3 musicplayer m-5">
+                    <h4 class="center">
+                        FLOW
+                    </h4>
+
+                    <div class="col-sm-12 center mb-5">
+                        <img src="{% static 'images/davids.gif' %}" alt="David's GIF">
+                    </div>
+
+                    <p class="center">
+                        Zavidario
+                    </p>
+                    
+                    <div class="col-sm-12 center audiotag">
+                        <audio controls >
+                            <source src="{% static 'Audio/2022/Dreddyhon - FLOW [153 BPM]_Master.wav' %}" type="audio/wav">
+                        </audio>
+                    </div>
+                </div>
+            </div>
+
+
+        <div class="col-sm">
+
+            </div>
+            <div class="col-sm">
+                <div class="col-3 musicplayer m-5">
+                    <h4 class="center">
+                        Farah
+                    </h4>
+
+                    <div class="col-sm-12 center mb-5">
+                        <img src="{% static 'images/implosion.gif' %}" alt="David's GIF">
+                    </div>
+
+                    <p class="center">
+                        Zavidario
+                    </p>
+                    
+                    <div class="col-sm-12 center audiotag">
+                        <audio controls >
+                            <source src="{% static 'Audio/2022/Dreddyon - Farah [145 BPM]_Master.wav' %}" type="audio/wav">
+                        </audio>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm">
+                
+            </div>
+        </div>
+
+        <div class="col-sm">
+
+        </div>
+
+        <div class="col-sm">
+            <div class="col-3 musicplayer m-5">
+                <h4 class="center">
+                    Farah
+                </h4>
+
+                <div class="col-sm-12 center mb-5">
+                    <img src="{% static 'images/implosion.gif' %}" alt="David's GIF">
+                </div>
+
+                <p class="center">
+                    Zavidario - Hoe hard gaan we. harder dan in Cameroon.
+                </p>
+                
+                <div class="col-sm-12 center audiotag">
+                    <audio controls >
+                        <source src="{% static 'Audio/2022/Dreddyon - Farah [145 BPM]_Master.wav' %}" type="audio/wav">
+                    </audio>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm">
+            <div class="col-3 musicplayer m-5">
+                <h4 class="center">
+                    Dutch Oxigenr
+                </h4>
+
+                <div class="col-sm-12 center mb-5">
+                    <img src="{% static 'images/implosion.gif' %}" alt="David's GIF">
+                </div>
+
+                <p class="center">
+                    Zavidario - Hoe hard gaan we. harder dan in Cameroon.
+                </p>
+                
+                <div class="col-sm-12 center audiotag">
+                    <audio controls >
+                        <source src="{% static 'Audio/2023/sourcelockkey.mp3' %}" type="audio/wav">
+                    </audio>
+                </div>
+            </div>
+        </div>
+    </div>
+
+        <div class="row">
+            <div class="col-12">
+                <a href="https://www.youtube.com/watch?v=bpIHpZN7WJM&list=RDbpIHpZN7WJM&start_radio=1&ab_channel=S2P%5BThaiLyrics%5D%3Ainfinity0">
+                    jazz
+                </a>
+            </div>
+
+            >
+            <div class="col-12">
+                <a href="https://www.youtube.com/watch?v=bpIHpZN7WJM&list=RDbpIHpZN7WJM&start_radio=1&ab_channel=S2P%5BThaiLyrics%5D%3Ainfinity0">
+                    all these people ere are stackin.\/ ? /\
+                </a>
+            </div>
+
+            <a href="https://youtu.be/q43wzP6A1CM?si=N7O0EEGOIeV9adJx">Classical</a>
+        </div>
+
+
+        
+    </div>
+
+    
+</body>
+
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard</title>
+    <!-- Include Bootstrap for responsive design -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <!-- Custom CSS for styling -->
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            color: #212529;
+        }
+        .dashboard-header {
+            background-color: #ffc107;
+            color: #212529;
+            padding: 20px;
+            text-align: center;
+        }
+        .dashboard-section {
+            margin: 20px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+        }
+        .dashboard-section h2 {
+            color: #ffc107;
+        }
+        .card {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: box-shadow 0.3s ease;
+        }
+        .card:hover {
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        /* Additional CSS for responsiveness and interactive elements */
+    </style>
+</head>
+<body>
+    <div class="dashboard-header">
+        <h1>Welcome, {{ user.username }}</h1>
+        <p>Level: {{ user_profile.level }} | Experience: {{ user_profile.experience }}</p>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 dashboard-section">
+                <h2>Your Tasks</h2>
+                {% for task in tasks %}
+                    <div class="card">
+                        <h5>{{ task.title }}</h5>
+                        <p>{{ task.description }}</p>
+                        <!-- Add more task details -->
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div class="col-md-4 dashboard-section">
+                <h2>Your Blogs</h2>
+                {% for blog in blogs %}
+                    <div class="card">
+                        <h5>{{ blog.title }}</h5>
+                        <p>{{ blog.summary }}</p>
+                        <!-- Add more blog details -->
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div class="col-md-4 dashboard-section">
+                <h2>Your Music Playlists</h2>
+                {% for playlist in music_playlists %}
+                    <div class="card">
+                        <h5>{{ playlist.name }}</h5>
+                        <!-- Add more playlist details -->
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>

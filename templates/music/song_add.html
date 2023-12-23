@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Song</title>
+    <style>
+        #drop-area {
+            border: 2px dashed #ccc;
+            border-radius: 20px;
+            width: 300px;
+            margin: 10px auto;
+            padding: 20px;
+            text-align: center;
+        }
+        #drop-area.highlight {
+            border-color: purple;
+        }
+        .hidden {
+            display: none; /* Hide the elements */
+        }
+    </style>
+</head>
+<body>
+    <form id="upload-form" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}  <!-- Render the fields from the form -->
+        <div id="drop-area">
+            <p>Drag and drop a song here or <label for="id_audio_file">click to select a file</label></p>
+        </div>
+        <button type="submit">Upload</button>
+    </form>
+    
+    <script>
+        let dropArea = document.getElementById('drop-area');
+        let fileInput = document.getElementById('id_audio_file'); // The file input field from Django form
+        let titleInput = document.getElementById('id_title'); // The title field from Django form
+        let durationInput = document.getElementById('id_duration'); // The duration field from Django form
+
+        // Style adjustments for the file input field to keep it hidden
+        fileInput.classList.add('hidden');
+        titleInput.parentElement.classList.add('hidden');
+        durationInput.parentElement.classList.add('hidden');
+
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            dropArea.addEventListener(eventName, preventDefaults, false);
+            document.body.addEventListener(eventName, preventDefaults, false);
+        });
+
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropArea.addEventListener(eventName, highlight, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropArea.addEventListener(eventName, unhighlight, false);
+        });
+
+        function highlight(e) {
+            dropArea.classList.add('highlight');
+        }
+
+        function unhighlight(e) {
+            dropArea.classList.remove('highlight');
+        }
+
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+
+        dropArea.addEventListener('drop', handleDrop, false);
+
+        function handleDrop(e) {
+            let dt = e.dataTransfer;
+            fileInput.files = dt.files;
+            handleFiles(fileInput.files);
+        }
+
+        function handleFiles(files) {
+            if(files.length > 0) {
+                let file = files[0];
+                titleInput.value = file.name.split('.')[0]; // Set title as file name without extension
+                
+                let audio = document.createElement('audio');
+                audio.src = URL.createObjectURL(file);
+                audio.addEventListener('loadedmetadata', function() {
+                    // Ensure duration is rounded and assigned properly
+                    if (!isNaN(audio.duration)) {
+                        durationInput.value = Math.round(audio.duration); // Set duration in seconds
+                    }
+                });
+            }
+        }
+
+        fileInput.addEventListener('change', function() {
+            handleFiles(this.files);
+        });
+    </script>
+</body>
+</html>

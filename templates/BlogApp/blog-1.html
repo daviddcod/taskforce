@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="nl">
+
+<head>
+    <title>Blog Home</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'beathome.css' %}">
+    <script src="{% static 'jumbotron.js' %}"></script>
+
+    <style>
+        body {
+            background-image: url("{% static 'images/mars.jpg' %}");
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
+        }
+
+        .textfx:hover {
+            padding-inline: 10px;
+            background-color: rgb(255, 174, 0);
+            font-weight: bold;
+            border: 5px solid rgb(255, 174, 0);
+            border-radius: 10px;
+            color: rgb(0, 0, 0);
+            font-size: 30px;
+            box-shadow: 0 0 70px rgba(255, 174, 0, 0.5);
+        }
+
+        .textfx2 {
+            padding-inline: 10px;
+            background-color: rgb(255, 174, 0);
+            font-weight: bold;
+            border: 5px solid rgb(255, 174, 0);
+            border-radius: 10px;
+            color: rgb(255, 170, 0);
+            font-size: 30px;
+            box-shadow: 0 0 70px rgba(255, 174, 0, 0.5);
+        }
+
+        .textfx2:hover {
+            padding-inline: 10px;
+            background-color: rgb(0, 0, 0);
+            font-weight: bold;
+            border: 5px solid rgb(0, 0, 0);
+            border-radius: 10px;
+            color: rgb(255, 174, 0);
+            font-size: 30px;
+            box-shadow: 0 0 70px rgba(255, 174, 0, 0.5);
+        }
+
+        .title-display {
+            color: rgb(59, 15, 255);
+        }
+
+        .title-display2 {
+            color: rgb(255, 174, 0);
+        }
+
+        .cbg {
+            background-image: url("{% static 'images/intro.jpg' %}");
+        }
+
+        .team-blue:hover {
+            color: blue;
+        }
+
+        .hero-section {
+            height: 400px;
+            padding: 20px;
+            margin-top: 20px;
+            margin-bottom: 80px;
+            border-radius: 20px;
+            border: 7px;
+            background-image: url("{% static 'images/wdmmorpg.jpg' %}");
+            filter: blur(100%);
+            background-size: 100% 300%;
+            background-position: 20% 40%;
+            border-color: rgb(0, 0, 0);
+            opacity: 100%;
+            box-shadow: 0 0 70px rgb(255, 174, 0.5);
+            transition: all 0.5s ease-in-out 0s;
+        }
+
+        .hero-section:hover {
+            height: 400px;
+            padding: 20px;
+            margin-bottom: 80px;
+            border-radius: 20px;
+            border: 7px;
+            background-image: url("{% static 'images/bp_print_4.jpg' %}");
+            filter: grayscale(0%);
+            background-size: 110% 310%;
+            background-position: 20% 40%;
+            border-color: rgb(0, 0, 0);
+            opacity: 100%;
+            box-shadow: 0 0 70px rgba(0, 0, 0, 0.5);
+            transition: all 0.5s ease-in-out 0s;
+        }
+
+        text-color {
+            color: orange;
+        }
+
+        h2 {
+            opacity: 100%;
+        }
+
+        .hero-link {
+            height: 200px;
+        }
+
+        .paragraph {
+            background-color: black;
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 10px;
+            color: white;
+        }
+		
+		p{
+			padding: 20px;
+			margin-bottom: 2px;
+		}
+
+        img {
+            height: 200px;
+            width: 200px;
+            border-radius: 200px;
+            transform: rotate(37deg);
+            box-shadow: 0 0 00px rgba(255, 230, 0, 0.5);
+            transition: transform 2s cubic-bezier(0.25, 0.1, 0.25, 1);
+        }
+
+        img:hover{
+            transform: rotate(360deg);
+            transition: transform 2s cubic-bezier(0.25, 0.1, 0.25, 1);
+            box-shadow: 0 0 70px rgba(255, 0, 0, 0.5);
+        }
+
+        .musicplayer{   
+            background-color: blue;
+            background-image: url("{% static 'images/z2.jpg' %}");
+            background-size: 500px;
+            padding: 20px;
+            border-radius: 24px;
+            box-shadow: 0 0 70px rgba(255, 230, 0, 0.5);
+            background-position: center;
+            background-repeat: no-repeat;
+            transition: all 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
+        }
+
+        .musicplayer:hover{
+            background-size: 1000px;
+            background-position: center;            
+            box-shadow: 0 0 0px rgba(255, 106, 0, 0.5);
+            border: 0px solid rgb(25, 0, 255);
+
+            transition: all 1s cubic-bezier(0.25, 0.1, 0.25, 1);
+            width: 200%;
+        }
+
+        .zoom {
+            size: 200px;
+        }
+
+    </style>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'welcome' %}">SCAFFOLDED</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'beathome' %}">Music</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'taskplayer' %}">Plan</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'course' %}">Course</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'bloghome' %}">Blog</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'organization' %}">Contact</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'data' %}">Shop</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</head>
+
+<body>
+    <div class="container">
+
+        <div class="row">
+            <div class="col">
+            </div>
+        </div>
+
+        <div class="row">
+
+        </div>
+
+        <div class="row row-p">
+            <div class="col">
+                <h1 class="title-display textfx2"><a style="color: black;" class="title-display3 "
+                        href="{% url 'blog'%}"
+                        onmouseover="this.style.color='orange';"
+                        onmouseout="this.style.color='black';">AI-Powered Fiction</a></h1>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <div class="paragraph">
+                    <p>
+                        Daybreak was the Standard Timezone for IBM, CERN, NASA, JASAX, and ESA to operate and develop Nuclear
+                        Bombing Codes
+                    </p>
+
+                    <p>
+                        Thiery Baudet will lose the election in 2023-11-22 and gain in after WW3
+                    </p
+
+                    <div class="container center">
+
+                        <div class="row  center">
+                            
+                            <div class="col-3 musicplayer m-5">
+                                <h4 class="center">
+                                    UTSKUSHI.MP3
+                                </h4>
+
+                                <div class="col-sm-12 center mb-5">
+                                    <img src="{% static 'images/davids.gif' %}" alt="David's GIF">
+                                </div>
+    
+                                <p class="center">
+                                    by david deji aka 17k+
+                                </p>
+                                
+                                <div class="col-sm-12 center audiotag">
+                                    <audio controls >
+                                        <source src="{% static 'Audio/utskushi.mp3' %}" type="audio/wav">
+                                    </audio>
+                                </div>
+                            </div>
+
+                            <div class="col-3 musicplayer m-5">
+                                <h4 class="center">
+                                    THREAD.WAV
+                                </h4>
+
+                                <div class="col-sm-12 center mb-5">
+                                    <img class = 'zoom' src="{% static 'images/at.jpg' %}" alt="David's GIF">
+                                </div>
+    
+                                <p class="center">
+                                    by david deji aka 17k+
+                                </p>
+                                
+                                <div class="col-sm-12 center audiotag">
+                                    <audio controls >
+                                        <source src="{% static 'Audio/2023/THREAD.wav' %}" type="audio/wav">
+                                    </audio>
+                                </div>
+                            </div>
+
+                        </div>
+                
+
+    
+                    </div>
+
+
+
+                </div>
+            </div>
+			
+		<div class="row">
+            <div class="col">
+			
+									<h1 class="title-display textfx2"><a style="color: black;" class="title-display3 "
+									href="{% url 'data'%}"
+									onmouseover="this.style.color='orange';"
+									onmouseout="this.style.color='black';">
+						Prevailment
+									</a>
+										</h1>
+											<div class="paragraph">
+							
+                    <p>
+                        The era of domain Youtube is dying due to the popularity of Artificial Intelligence.
+						The Internet Generation that consumed by spending time on the platform now became the creators that uploads on its platform
+						creating an implosive effect.
+						
+						Tiktok is also slowly taking the majority away from youtube, that is why Microsoft's board of Digital asset Sales Directors speculated that the tollerance of add blockers will bring their company in red
+						upon prevailment of tolerance. Hence the option of striding against Add Blocksers, creating their own Website Modal that prevents users from operating the site
+						for an extended period of time
+                    </p>
+
+                    <p>
+                        The most hottest data now is loose:
+                        Unique batchfiles containing specified information / curriculum regarding querry builds that output chatgpt to JSON formattable code.
+                        This is the most valuable to the one making the most money.
+                        The majority of the people will get their hands on this after indulging ChatGPT with their working area.
+                        Querry Shop:
+                    </p>
+					
+				<audio controls >
+                    <source src="{% static 'Audio/2023/transition.wav' %}" type="audio/wav">
+                </audio>
+                </div>
+            </div>
+        </div>
+		
+				<div class="row">
+            <div class="col">
+			
+									<h1 class="title-display textfx2"><a style="color: black;" class="title-display3 "
+									href="{% url 'data'%}"
+									onmouseover="this.style.color='orange';"
+									onmouseout="this.style.color='black';">
+						Truth
+									</a>
+										</h1>
+											<div class="paragraph">
+											
+					<p>
+					Every programmer is unaware that they are playing with methods which consist of more than a billion parameters :')
+					</p>
+							
+                    <p>
+					The Spermatozoids System method of entering the eggs found within the Ovula's of woman are based on a Brute Force Method.
+					Man generate the fighters that will parse their way through their Bacteria.
+					
+                    </p>
+					
+					<p>
+						Cancer is essentially Recursive Bacteria:
+						a cancer cell operates like this:
+						<p>
+						For( int i = 0; i < ∞; i += ∞ ){
+						</p>
+						<p>
+							cel = new Bacteria(Estrogen)
+							<p>
+							body += cel
+							</p>
+						<p>
+						}
+						</p>
+						</p>
+						
+                    </p>
+					
+					<p>
+					if you are not getting arrested by the government for your coding skills you are nothing more than a small bug tester doing unimportant work.
+					Hamza got arrested beceause the movements of his finger muscles and memory capacity posed a threat to a nation.
+					therefore he has been crowned as the most smartest man alive, with the highest intelligence, strategic breaching capabilities with a lack of real life
+					defence.
+					<p>
+					he probably got caught beceause he didn't have enough real estate to issue his commanding skills
+					<p>
+					War has never ended, the commanding vassals have just been placed in disguise through complete hypnosis.
+					The one in power used to be the King, 
+					The ones in power now are CEO moguls.
+					<p>
+					if you own a IT company and have active payers, you own a Army with Proxy Soliders that are supporting the motive of whatever the company CEO desires
+					</p
+					</p
+					</p
+					</p
+					
+					
+
+                    <p>
+                        Data policies are the one thing every developer is not reading, Every programmer that stepped
+                        into the software engineering phase has entered the trap of previous IT Moguls that are disguised
+                        as Course Givers
+                        The standard course,
+                    </p>
+					
+				<audio controls >
+                    <source src="{% static 'Audio/2023/InLove.wav' %}" type="audio/wav">
+                </audio>
+                </div>
+            </div>
+        </div>
+       
+        <div class="row">
+            <div class="col">
+			
+									<h1 class="title-display textfx2"><a style="color: black;" class="title-display3 "
+									href="{% url 'data'%}"
+									onmouseover="this.style.color='orange';"
+									onmouseout="this.style.color='black';">
+						Entertainment
+									</a>
+										</h1>
+											<div class="paragraph">
+							
+                    <p>
+                        In order to be successful in business, one must give up the indulgences brought to humankind. When
+                        one mind overcomes past troubles the mind shall discover hidden truth
+                    </p>
+
+                    <p>
+                        Data policies are the one thing every developer is not reading, Every programmer that stepped
+                        into the software engineering phase has entered the trap of previous IT Moguls that are disguised
+                        as Course Givers
+                        The standard course,
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <h1 class="title-display textfx2"><a style="color: black;" class="title-display3 "
+                        href="{% url 'data'%}"
+                        onmouseover="this.style.color='orange';"
+                        onmouseout="this.style.color='black';">Verader</a></h1>
+                <div class="paragraph">
+					<p>
+						Wat hebben een landverrader en Thierry Baudet met elkaar te maken? In de sociëteit werd hij
+						rondgesleept onder een prijzende senator van mannelijke afkomst. In de politiek luistert hij niet.
+						Deze man beheerst het Latijn.
+					</p>
+
+					<p>
+						Met andere woorden zegt hij: Hoogbegaafd onderwijs in natuurkunde, scheikunde, 'ppm', en businessmarketing.
+					</p>
+
+					<p>
+						Hij heeft stakeholders die hopen op zijn toekomstverwachtingen. De socialemediastunt die op sociale media te zien is, is nep.
+					</p>
+
+					<p>
+						Niemand in Nederland heeft de autoriteit om in kringen van hoog bestuur te komen zonder het
+						correcte pad van de sociëteit te volgen. Hierdoor kan geconcludeerd worden dat de gemaskerde persoon die
+						Thierry Baudet heeft bekogeld, goed georganiseerd is.
+					</p>
+
+					<p>
+						Thierry Baudet stimuleert zijn volgers door gebruik te maken van onderhandse mediatechnieken,
+						vergelijkbaar met internetsterren zoals Olajide Olayinka Williams Olatunji, Logan Alexander Paul, Amin Mohamed
+						en Niko Omilana. Zij waren de pioniers van de methodieken die Thierry Baudet gebruikt
+						om minister-president van Nederland te worden.
+					</p>
+
+					<p>
+						Hij is goed op weg en zal zijn doel bereiken. In 2036 zal hij Afrika betreden om het verloren
+						Nederland te herstellen, via de open zee. Thierry Baudet als toekomstige koning, want de bloedlijn
+						der Nederlanden is vermoedelijk verloren gegaan met de Drie Dochters ter zijde van Koning
+						Willem-Alexander.
+					</p>
+
+					<p>
+						Hij zal geen winst vinden in India, Zuid-Afrika en Mallorca. Hij zal winst vinden in West-Afrika,
+						in de buurt van het Frans bezette slagveld van Dahomanië in de 18de eeuw.
+					</p>
+
+					<p>
+						Als machtigste man van Nederland in 2023 zal hij het geëvolueerde continent van de ECOWAS bezoeken
+						om landgoed, aardgoed, metalen en voornamelijk zonne-energie te ontnemen. Hij zal
+						ieder oer-Hollander vinden en transporteren in de Laatste Ark van Holland naar de regio van het voormalige
+						Shell-territorium, met het oorspronkelijke grondgebied van het voormalige Oyo-Imperium daarvoor. Boven de roos van Jezus.
+					</p>
+
+
+                    <p>
+                        Data policies are the one thing every developer is not reading, Every programmer that stepped
+                        into the software engineering phase has entered the trap of previous IT Moguls that are disguised
+                        as Course Givers The standard course,
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <h1 class="title-display textfx2"><a style="color: black;" class="title-display3 "
+                        href="{% url 'data'%}"
+                        onmouseover="this.style.color='orange';"
+                        onmouseout="this.style.color='black';">Shop</a></h1>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="row">
+
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>
