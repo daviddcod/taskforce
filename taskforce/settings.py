@@ -27,6 +27,7 @@ MOLLIE_API_KEY = 'test_9cpV9y2UtfS2KR4SDeUVp4Vkp2tBWg'
 
 INSTALLED_APPS = [
     'auth_app',
+    'auth_apdebigp',
     'wdmmorpg',
     'task_manager',
     'music',
