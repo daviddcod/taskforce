@@ -1,0 +1,8 @@
+build:
+  docker:
+    web: Dockerfile
+release:
+  command:
+    - python manage.py migrate
+run:
+  web: gunicorn taskforce.wsgi
