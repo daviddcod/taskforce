@@ -18,6 +18,7 @@ phases:
       - pip install django django-cors-headers
       - pip install mollie-api-python
       - pip install application
+      - pip install mutagen
 
 
   pre_build:
