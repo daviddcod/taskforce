@@ -109,7 +109,7 @@ WSGI_APPLICATION = 'taskforce.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-AUTH_USER_MODEL = 'auth_apdebigp.CustomUser'
+AUTH_USER_MODEL = 'auth_app.CustomUser'
 
 DATABASES = {
     'default': {
