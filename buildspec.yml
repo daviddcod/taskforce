@@ -17,6 +17,8 @@ phases:
       - pip install gunicorn
       - pip install django django-cors-headers
       - pip install mollie-api-python
+      - pip install application
+
 
   pre_build:
     commands:
