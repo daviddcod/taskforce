@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Blog Home</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'beathome.css' %}">
+    <script src="{% static 'jumbotron.js' %}"></script>
+
+    
+    <nav class="navbar navbar-expand-lg navbar-dark bg">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'welcome' %}">Hate your job and tolerate the hate</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'beathome' %}">Music</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'taskplayer' %}">Plan</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'course' %}">Course</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'bloghome' %}">Blog</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'organization' %}">Contact</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'data' %}">Shop</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</head>
+
+<body>
+    <style>
+        body {
+            background-image: url("{% static 'images/mars.jpg' %}");
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
+        }
+
+        .textfx:hover {
+            padding-inline: 10px;
+            background-color: rgb(255, 174, 0);
+            font-weight: bold;
+            border: 5px solid rgb(255, 174, 0);
+            border-radius: 10px;
+            color: rgb(0, 0, 0);
+            font-size: 30px;
+            box-shadow: 0 0 70px rgba(255, 174, 0, 0.5);
+        }
+
+        .textfx2{
+            padding-inline: 10px;
+            background-color: rgb(255, 174, 0);
+            font-weight: bold;
+            border: 5px solid rgb(255, 174, 0);
+            border-radius: 10px;
+            color: rgb(255, 170, 0);
+            font-size: 30px;
+            box-shadow: 0 0 70px rgba(255, 174, 0, 0.5);
+        }
+
+        .textfx2:hover {
+            padding-inline: 10px;
+            background-color: rgb(0, 0, 0);
+            font-weight: bold;
+            border: 5px solid rgb(0, 0, 0);
+            border-radius: 10px;
+            color: rgb(255, 174, 0);
+            font-size: 30px;
+            box-shadow: 0 0 70px rgba(255, 174, 0, 0.5);
+        }
+
+
+        .title-display {
+            color: rgb(59, 15, 255);
+        }
+
+        .title-display2 {
+            color: rgb(255, 174, 0);
+        }
+
+        .cbg{
+            background-image: url("{% static 'images/intro.jpg' %}");
+        }
+
+        .team-blue:hover {
+            color: blue;
+        }
+
+        .hero-section {
+            height: 400px;
+            padding: 20px;
+            margin-top: 20px;
+            margin-bottom: 80px;
+            border-radius: 20px;
+            border: 7px;
+            background-image: url("{% static 'images/wdmmorpg.jpg' %}");
+            filter: blur(100%);
+            background-size: 100% 300%;
+            background-position: 20% 40%;
+            border-color: rgb(0, 0, 0);
+            opacity: 100%;
+            box-shadow: 0 0 70px rgb(255, 174, 0.5);
+            transition: all 0.5s ease-in-out 0s;
+
+        }
+
+        .hero-section:hover {
+            height: 400px;
+            padding: 20px;
+            margin-bottom: 80px;
+            border-radius: 20px;
+            border: 7px;
+            background-image: url("{% static 'images/bp_print_4.jpg' %}");
+            filter: grayscale(0%);
+            background-size: 110% 310%;
+            background-position: 20% 40%;
+            border-color: rgb(0, 0, 0);
+            opacity: 100%;
+            box-shadow: 0 0 70px rgba(0, 0, 0, 0.5);
+            transition: all 0.5s ease-in-out 0s;
+        }
+
+        text-color {
+            color: orange;
+        }
+
+        h2 {
+            opacity: 100%;
+        }
+
+        .hero-link {
+            height: 200px;
+        }
+
+        .paragraph {
+            background-color: black;
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 10px;
+            color: white;
+        }
+
+    </style>
+
+
+   
+    <div class="container">
+
+        
+        <div class="row">
+            <div class="col">
+            </div>
+        </div>
+
+        <div class="row">
+
+
+            <div class="col">
+                <div class="hero-section hero-s">
+                </div>
+            </div>
+        </div>
+
+        <div class="row row-p">
+            <div class="col">
+                <h1 class="title-display textfx2"><a style="color: black;" class="title-display3 " href="{% url 'blog'%}" onmouseover="this.style.color='orange';" onmouseout="this.style.color='black';">
+                    Angry Rants+</a></h1>
+
+
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-3">
+                <div class="paragraph">
+                    <p>
+AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH
+i have tried to run away from html and css by doing it for 2 weeks to see if i can make it and then drop it forever
+but to be honest in order to get what i really want i have to live it, i have to sleep with html, wake up with html go to school with html, eat with html you legitematly have to do everything with html in order to get what you really want with it
+<p>
+    which is hella frustating, i thought that in this world, you have to do something for a short period of time, then obtain the benefit of it, but the reality is that if you take 2 weeks to build a building of lego, the lego's captivation will only be
+    that of a structure that has 2 weeks spend on it, you cant expect in your head a whole real size flat of lego , then speculate that it takes 2 weeks, and after 2 weeks you come to the realization that it would actually take 3 years of lego building
+</p>
+
+<p>
+    it took you one second to think of the thought, 2 weeks to realize the actual time needed, and three year to realize
+</p>
+
+<p>
+    It then takes 3 years for a dream of 1 second to come true, the satisfaction will be completely lost after completion
+</p>
+
+<P>
+    WHERE IS ONE MEANT TO ENJOY THEN? WELL WHILST CREATING IT YOU MUST ENJOY AND THEN AFTER YOU HAVE BUILT IT YOU LOSE THE ENJOYMENT
+</P>
+
+<p>
+    THE SOLUTION IS TO HATE YOUR JOB EVERYDAY SO THAT YOU HAVE ENOUGH TIME < ENERGY AND KARMA TO ENJOY IT UPON COMPLETION
+    THE PERSON THAT SAID THAT YOU NEED TO ENJOY YOUR WORK IS KILLING ME
+</p>
+
+<p>
+    YOU ACTUALLY NEED TO HATE YOUR JOB SO THAT YOU CAN ENJOY THE OUTCOME OF IT FOR GOD SAKES
+</p>
+                    </p>
+
+                    <p>
+                        90% of Humanity will have clustered up in their own homes planning each and every hour of their lives using planning applications
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-3">
+                <div class="paragraph">
+                    <p>
+                        the economy of Europe will enter a phase of drought where citizens aren't able to sustain themselves anymore
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-3">
+                <div class="paragraph">
+                    <p>
+                        The Company with the biggest code wins.
+                        It doesn't matter how clean and small your code is.
+                        Code that runs will trample speed
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-3">
+                <div class="paragraph">
+                    <p>
+                        WDMMORPG will be the most popular topic among Ai models in the year 2023
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-3">
+                <div class="paragraph">
+                    <p>
+                        Mixed Race has become the new Master Race
+                    </p>
+
+                    <p>
+                        Racism in countries with high immigration rate will affect future economies
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-3">
+                <div class="paragraph">
+                    <p>
+                        The Continent of Africa will Rule the world with their dominance on Natural Recources
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-3">
+                <div class="paragraph">
+                    <p>
+                        Nigeria will Develop an interest in Electronic Dance Music in the year 2026.
+                        in 2036 it has become the main stage for Disk Jockeys across the world.
+                        The countries Clubbing and Entertainment business wil skyrocket in that year.
+                    </p>
+
+                </div>
+            </div>
+
+            <div class="col-3">
+                <div class="paragraph">
+                    <p>
+                        WW3 will end up in Complete Genocide of the Muslim race.
+                        Nuclear Bombs will hit Jeruzalem, Qatar, Dubai, New York, California and London.
+                    </p>
+
+                    <p>
+                        True human blood will go extinct,
+                        Neglected theories will be proven to be right.
+                    </p>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <h1 class="title-display textfx2"><a style="color: black;" class="title-display3 " href="{% url 'blog'%}" onmouseover="this.style.color='orange';" onmouseout="this.style.color='black';">Technology</a></h1>
+                <div class="paragraph">
+                    <p>
+                        Don't ever feel intimidated by the presence of Huge companies like Google or Microsoft. NLP says that if 1 human can do it, you can do it too. 
+                    </p>
+                </div>
+            </div>
+
+            <div class="col">
+                <h1 class="title-display textfx2"><a style="color: black;" class="title-display3 " href="{% url 'blog'%}" onmouseover="this.style.color='orange';" onmouseout="this.style.color='black';">History</a></h1>
+                <div class="paragraph">
+                    <p>
+                        Open-Ai Just launched a new Model called ChatGpt-4 Turbo, succesfully crushing tons of ai startup businesses.
+                        I want to fear, but deep down i know i am okay. 
+                    </p>
+                </div>
+            </div>
+
+            <div class="col">
+                <h1 class="title-display textfx2"><a style="color: black;" class="title-display3 " href="{% url 'blog'%}" onmouseover="this.style.color='orange';" onmouseout="this.style.color='black';">Socials</a></h1>
+            
+                <div class="paragraph">
+                    <p>
+                        The CEO of WDMMORPG gave up his online presence in the year 2023, succesfully losing contact with all his peers in order to delve into the world of Technology
+                    </p>
+                </div>
+                
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <h1 class="title-display textfx2"><a style="color: black;" class="title-display3 " href="{% url 'data'%}" onmouseover="this.style.color='orange';" onmouseout="this.style.color='black';">Entertainment</a></h1>
+                    <div class="paragraph">
+                        <p>
+                            In order to be succesful in business, one must give up the indulges brought to human kind. When one mind overcomes past troubles the mind shall discover hidden truth
+                        </p>
+                    </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <h1 class="title-display textfx2"><a style="color: black;" class="title-display3 " href="{% url 'data'%}" onmouseover="this.style.color='orange';" onmouseout="this.style.color='black';">Shop</a></h1>
+            </div>
+        </div>
+
+
+
+    </div>
+
+    
+
+    <footer>
+        <div class="container">
+            <div class="row">
+
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>

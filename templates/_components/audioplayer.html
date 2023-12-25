@@ -1,0 +1,30 @@
+
+<audio id="audioPlayer" controls>
+    <source src="audio1.mp3" type="audio/mp3">
+    Your browser does not support the audio element.
+</audio>
+
+<script>
+    const audioPlayer = document.getElementById('audioPlayer');
+
+    // Array of audio sources
+    const audioSources = [
+        'utskushi.mp3',
+        'REI-1.wav',
+        'THREAD.wav',
+        // Add more audio sources as needed
+    ];
+
+    let currentAudioIndex = 0;
+
+    // Event listener to play the next audio when the current one ends
+    audioPlayer.addEventListener('ended', function() {
+        currentAudioIndex = (currentAudioIndex + 1) % audioSources.length;
+        audioPlayer.src = audioSources[currentAudioIndex];
+        audioPlayer.play();
+    });
+
+    // Set the initial audio source
+    audioPlayer.src = audioSources[currentAudioIndex];
+</script>
+

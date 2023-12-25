@@ -1,0 +1,158 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.147.0/three.min.js"></script>
+    <script type="module" src="{% static 'js/blog.js' %}"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+    <link rel='stylesheet' href='C:\Users\atlas\Desktop\WDMMORPG\Excel Python iAutoMouseDrags\web\WDM\env\WDMMORPG2\BlogApp\static/css\blog.css'>
+    <script src='C:\Users\atlas\Desktop\WDMMORPG\Excel Python iAutoMouseDrags\web\WDM\env\WDMMORPG2\BlogApp\static/js\blog.js'></script>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'welcome' %}">WDM</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'taskplayer' %}">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'taskplayer' %}">Services</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'taskplayer' %}">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+
+</head>
+<body>
+    <style>
+
+        body {
+            background-color: black;
+        }
+        a {
+            text-decoration: none;
+        }
+
+        text {
+            text-decoration: none;
+        }
+        .textfx {
+            padding-inline: 10px;
+            background-color: rgb(255, 174, 0);
+            font-weight: bold;
+            border: 5px solid rgb(255, 174, 0);
+            border-radius: 10px;
+            color: rgb(0, 0, 0);
+            font-size: 30px;
+            box-shadow: 0 0 70px rgba(255, 174, 0, 0.5);
+        }
+
+        .textfx2:hover {
+            padding-inline: 10px;
+            background-color: rgb(255, 174, 0);
+            font-weight: bold;
+            border: 5px solid rgb(255, 174, 0);
+            border-radius: 10px;
+            color: rgb(0, 0, 0);
+            font-size: 20px;
+            box-shadow: 0 0 70px rgba(255, 174, 0, 0.5);
+        }
+
+        .textfx2 {
+            padding-inline: 10px;
+            background-color: rgb(0, 255, 42);
+            font-weight: bold;
+            border: 5px solid rgb(0, 255, 42);
+            border-radius: 10px;
+            color: rgb(0, 0, 0);
+            font-size: 20px;
+            box-shadow: 0 0 70px rgba(255, 174, 0, 0.5);
+        }
+
+        .textfx3 {
+            padding-inline: 10px;
+            background-color: rgb(255, 174, 0);
+            font-weight: bold;
+            border: 5px solid rgb(255, 174, 0);
+            border-radius: 10px;
+            color: rgb(0, 0, 0);
+            font-size: 20px;
+            box-shadow: 0 0 70px rgba(255, 174, 0, 0.5);
+        }
+
+        .parag {
+            color: white;
+        }
+
+
+
+    </style>
+    <div class="row">
+
+        <div class="col " id="end-world">
+
+            <p class="textfx">
+                <h1 class="textfx2">Breaking News</h1>
+               
+                <text class="parag">the impending rule of artificial inteligence has started.
+                    those who remain true to their beliefs shall establish godship
+                </text>
+
+                <p>
+                    HEYO, you can blog here
+                </p>
+
+            </p>
+
+            <p class="textfx">
+                <h1 class="textfx2">World class CEO Assistance Tool</h1>
+               
+                <text class="parag">
+                    Introducing WDM, Executive Officers opting to save some time?
+                    Use WDMMORPG quick in order to Setup your Time Management Tools.
+                    Or Purchase yourself a subprocess tool for digital hand servers.
+                </text>
+            </p>    
+
+
+            <h1 class="textfx">SHOP</h1>
+            <h1 class="textfx">CMD.shortcuts</h1>
+            <h1 class="textfx">Python.code</h1>
+            <h1 class="textfx">AI-Setup</h1>
+                
+
+
+        </div>
+
+
+        <div class="col " id="home-beats">
+            <h2 class="textfx"><a class="textfx" href="{% url 'beats' %}">Home</a></h2>
+        </div>
+
+
+        <div class="col " id="nothing">
+
+
+                
+        </div>
+
+
+        
+        <div class="col " id="nothing">
+            <p class="textfx">David Deji Cyril Oluwadayo Dauda.</p>
+        </div>
+    </div>
+</body>
+</html>

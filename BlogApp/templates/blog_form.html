@@ -1,0 +1,7 @@
+<!-- blog/templates/blog/blog_form.html -->
+<h1>Create/Edit Blog</h1>
+<form method="post" action="{% if blog.pk %}{% url 'blog-edit' pk=blog.pk %}{% else %}{% url 'blog-create' %}{% endif %}">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Save</button>
+</form>

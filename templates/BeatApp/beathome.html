@@ -1,0 +1,132 @@
+    <!DOCTYPE html>
+<html>
+
+<head>
+    <title>Adva WDM</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'beathome.css' %}">
+    <script src="https://threejs.org/examples/js/controls/OrbitControls.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.147.0/three.min.js"></script>
+    <script src="{% static 'jumbotron.js' %}"></script>
+
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'welcome' %}">WDM - Music App</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'welcome' %}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'taskplayer' %}">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'taskplayer' %}">Services</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'taskplayer' %}">Contact</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'beathome' %}">Beats</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</head>
+
+<body>
+    <style>
+        body {
+            background-color: black;
+            /* background-image: url("{% static 'images/background.jpg' %}"); */
+        }
+
+        .textfx:hover {
+            padding-inline: 10px;
+            background-color: rgb(255, 174, 0);
+            font-weight: bold;
+            border: 5px solid rgb(255, 174, 0);
+            border-radius: 10px;
+            color: rgb(0, 0, 0);
+            font-size: 30px;
+            box-shadow: 0 0 70px rgba(255, 174, 0, 0.5);
+        }
+
+        .jbg {
+            height: 0px;
+            width: 1920px;
+            background-image: url("{% static 'images/mars.jpg' %}");
+        }
+
+        .b-garage{
+            background-image: url("{% static 'images/garage.jpg' %}");
+        }
+
+        .img {
+            min-width: 100%;
+            min-height: 100%;
+        }
+
+        .profile{
+            opacity: 0;
+        }
+    </style>
+
+    <div class="round escape">
+
+        <div class="row">
+
+            <div class="col-12 scene">
+                <div id="threejs-container">
+                    <script type="module" src="{% static 'js/threejs-script.js' %}"></script>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+
+
+    <div class="container">
+
+
+        <div class="row">
+            <div class="col-2 mt">
+                <h1 class="title-display"><a class="title-display textfx" href="{% url 'beats'%}">HOME</a></h1>
+
+                <h2 class="title-display"><a class="title-display textfx" href="{% url 'beatplayer'%}">Player</a></h2>
+
+                <h2 class="title-display"><a class="title-display textfx" href="{% url 'blog'%}">Uploader</a></h2>
+
+                <h2 class="title-display"><a class="title-display textfx" href="{% url 'blog'%}">Library</a></h2>
+
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-2">
+                <h2 class="title-display"><a class="title-display textfx" href="{% url 'bloghome'%}">Blogs</a></h2>
+            </div>
+        </div>
+
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-2 ">
+                    <h2 class="menu-item title-display"><a class="title-display textfx" href="{% url 'blog'%}">CHAT</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>

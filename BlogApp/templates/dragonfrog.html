@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Blog Home</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'beathome.css' %}">
+    <script src="{% static 'jumbotron.js' %}"></script>
+
+    
+    <nav class="navbar navbar-expand-lg navbar-dark bg">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'welcome' %}">SCAFFOLDED</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'beathome' %}">Music</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'taskplayer' %}">Plan</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'course' %}">Course</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'bloghome' %}">Blog</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'organization' %}">Contact</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'data' %}">Shop</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</head>
+
+<body>
+    <style>
+        body {
+            background-image: url("{% static 'images/mars.jpg' %}");
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
+        }
+
+        .textfx:hover {
+            padding-inline: 10px;
+            background-color: rgb(255, 174, 0);
+            font-weight: bold;
+            border: 5px solid rgb(255, 174, 0);
+            border-radius: 10px;
+            color: rgb(0, 0, 0);
+            font-size: 30px;
+            box-shadow: 0 0 70px rgba(255, 174, 0, 0.5);
+        }
+
+        .textfx2{
+            padding-inline: 10px;
+            background-color: rgb(255, 174, 0);
+            font-weight: bold;
+            border: 5px solid rgb(255, 174, 0);
+            border-radius: 10px;
+            color: rgb(255, 170, 0);
+            font-size: 30px;
+            box-shadow: 0 0 70px rgba(255, 174, 0, 0.5);
+        }
+
+        .textfx2:hover {
+            padding-inline: 10px;
+            background-color: rgb(0, 0, 0);
+            font-weight: bold;
+            border: 5px solid rgb(0, 0, 0);
+            border-radius: 10px;
+            color: rgb(255, 174, 0);
+            font-size: 30px;
+            box-shadow: 0 0 70px rgba(255, 174, 0, 0.5);
+        }
+
+
+        .title-display {
+            color: rgb(59, 15, 255);
+        }
+
+        .title-display2 {
+            color: rgb(255, 174, 0);
+        }
+
+        .cbg{
+            background-image: url("{% static 'images/intro.jpg' %}");
+        }
+
+        .team-blue:hover {
+            color: blue;
+        }
+
+        .hero-section {
+            height: 400px;
+            padding: 20px;
+            margin-top: 20px;
+            margin-bottom: 80px;
+            border-radius: 20px;
+            border: 7px;
+            background-image: url("{% static 'images/wdmmorpg.jpg' %}");
+            filter: blur(100%);
+            background-size: 100% 300%;
+            background-position: 20% 40%;
+            border-color: rgb(0, 0, 0);
+            opacity: 100%;
+            box-shadow: 0 0 70px rgb(255, 174, 0.5);
+            transition: all 0.5s ease-in-out 0s;
+
+        }
+
+        .hero-section:hover {
+            height: 400px;
+            padding: 20px;
+            margin-bottom: 80px;
+            border-radius: 20px;
+            border: 7px;
+            background-image: url("{% static 'images/bp_print_4.jpg' %}");
+            filter: grayscale(0%);
+            background-size: 110% 310%;
+            background-position: 20% 40%;
+            border-color: rgb(0, 0, 0);
+            opacity: 100%;
+            box-shadow: 0 0 70px rgba(0, 0, 0, 0.5);
+            transition: all 0.5s ease-in-out 0s;
+        }
+
+        text-color {
+            color: orange;
+        }
+
+        h2 {
+            opacity: 100%;
+        }
+
+        .hero-link {
+            height: 200px;
+        }
+
+        .paragraph {
+            background-color: black;
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 10px;
+            color: white;
+        }
+
+        .p2 {
+            background-color: rgb(198, 11, 11);
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 10px;
+            color: white;
+        }
+
+        .p3 {
+            background-color: rgb(11, 198, 76);
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 10px;
+            color: white;
+        }
+
+        .anchor {
+            background-color: rgb(47, 255, 0);
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 10px;
+            color: white;
+        }
+
+        .anchor:hover {
+            background-color: rgb(255, 115, 0);
+        }
+
+
+    </style>
+
+
+   
+    <div class="container">
+
+        
+        <div class="row">
+            <div class="col">
+            </div>
+        </div>
+
+        <div class="row">
+
+
+            <div class="col">
+                <div class="hero-section hero-s">
+                </div>
+            </div>
+        </div>
+
+        <div class="row row-p">
+            <div class="col-12 paragraph">
+                
+                <h1 class="title-display textfx2"><a style="color: black;" class="title-display3 " href="{% url 'blog'%}" onmouseover="this.style.color='orange';" onmouseout="this.style.color='black';">Succesor's History</a></h1>
+                    <p>
+                    Deze wereld vergeef me voor wat ik heb gedaan tegen jullie voorouderen.
+                    want de wereld is in vergissenis , en zij zijn in de perfecte staat.
+                    dingen zijn in control, de anderen praten. en den haag is waar ik ben.
+                    </p>
+
+                    <p>
+                    wat een mooie stad, en ik kom in vrede, dus vrees mij niet.
+                    ik heb kfc gegeten, en dat bedoelde ik niet , dat zijn hun. 
+                    </p>
+
+                    <p>
+                    het ziet er naaruit, dat ik ben gestopt met muziek maken.
+                    het ziet er naaruit, dat ik ben gestopt met mastruberen.
+                    het ziet er naariot, dat ik wiet heb gedaan.
+                    het ziet er naaruit, dat het oke met mij gaat.
+                    </p>
+
+                    <p>
+                    het ziet er naariut, dat ik weer bezig bent met werk
+                    </p>
+
+                    <p>
+                    het ziet eruit dat Authentication geimplementeerd wordt
+                    het ziet ernaaruit dat Identity geimplementeerd wordt
+                    het ziet ernaaruit dat De Database geimplementeerd wodt
+                    </p>
+            </div>
+        </div>
+
+
+
+        <div class="row paragraph">
+            <div class="col-12">
+                <h1 class="title-display textfx2"><a style="color: black;" class="title-display3 " href="{% url 'blog'%}" onmouseover="this.style.color='orange';" onmouseout="this.style.color='black';">Succesor's Quest Board</a></h1>
+            </div>
+
+            <div class="col-3">
+                <div class="paragraph">
+                    <p>
+                        Rijbewijs
+                    </p>
+
+                    <p>
+                        Planning Routine
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-3">
+                <div class="paragraph">
+                    <p>
+                        Opstaan en Slapengaan routine
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-3">
+                <div class="paragraph">
+                    <p>
+                        Coderings Routine
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-3">
+                <div class="paragraph">
+                    <p>
+                        WDMMORPG2 is mijn Kind
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-3">
+                <div class="paragraph">
+                    <p>
+                        Muziek Routine
+                    </p>
+
+                    <p>
+                        ADL Verzorgings Routine
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-3">
+                <div class="paragraph">
+                    <p>
+                        Familie Relatie Routine
+                        -Nederland- -Nigeria- -Kameroen-
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-3">
+                <div class="paragraph">
+                    <p>
+                        Mental Health / Character Creation
+                        Routine
+                        -NPC Vessel Switch-
+                        -Personality Selection-
+                        -Environmental Perception-
+                    </p>
+
+                </div>
+            </div>
+
+            <div class="col-3">
+                <div class="paragraph">
+                    <p class="p2">
+                        Social Relations
+                    </p>
+
+                    <p class="p2">
+                        Work Life
+                    </p>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row paragraph">
+            <div class="col-12">
+                <h1 class="title-display textfx2"><a style="color: black;" class="title-display3 " href="{% url 'blog'%}" onmouseover="this.style.color='orange';" onmouseout="this.style.color='black';">WDMMORPG3</a></h1>
+
+                <div class="col-12">
+                    <div class="row">
+                        <div class="col-sm">
+                            <p class="p3">
+                                Database
+                            </p>
+                    </div>
+
+                    <div class="col-sm">
+                        <p class="p3">
+                            Identity
+                        </p>
+                    </div>
+
+                    <div class="col-sm">
+                        <p class="p2">
+                            Authentication
+                        </p>
+                    </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col">
+                <h1 class="title-display textfx2"><a style="color: black;" class="title-display3 " href="{% url 'blog'%}" onmouseover="this.style.color='orange';" onmouseout="this.style.color='black';">Rewards</a></h1>
+                <div class="paragraph">
+                    <p>
+                        Virtual Reality Headset (s)
+                    </p>
+
+                    <p>
+                        Shoes (a)
+                    </p>
+
+                    <p>
+                        Mouse (b)
+                    </p>
+                </div>
+            </div>
+
+            <div class="col">
+                <h1 class="title-display textfx2"><a style="color: black;" class="title-display3 " href="{% url 'blog'%}" onmouseover="this.style.color='orange';" onmouseout="this.style.color='black';">NLP Anchors</a></h1>
+            
+                <div class="paragraph">
+                    <div class="col-sm">
+                        <p class="anchor">
+                            Social Interaction
+                        </p>
+                    </div>
+
+                    <div class="col-sm">
+                        <p class="anchor">
+                            Rizz Extraction
+                        </p>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <h1 class="title-display textfx2"><a style="color: black;" class="title-display3 " href="{% url 'data'%}" onmouseover="this.style.color='orange';" onmouseout="this.style.color='black';">Entertainment</a></h1>
+                    <div class="paragraph">
+                        <p>
+                            In order to be succesful in business, one must give up the indulges brought to human kind. When one mind overcomes past troubles the mind shall discover hidden truth
+                        </p>
+                    </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <h1 class="title-display textfx2"><a style="color: black;" class="title-display3 " href="{% url 'data'%}" onmouseover="this.style.color='orange';" onmouseout="this.style.color='black';">Shop</a></h1>
+            </div>
+        </div>
+
+
+
+    </div>
+
+    
+
+    <footer>
+        <div class="container">
+            <div class="row">
+
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>

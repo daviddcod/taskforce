@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>TaskForce.exe</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    {% load static %}
+    <link rel="stylesheet" href="{% static '/taskplayer/taskplayer.css' %}">
+
+    
+    <nav class="navbar navbar-expand-lg navbar-dark bg">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'welcome' %}">WDM - Planning App</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'taskplayer' %}">Contact</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'taskplayer' %}">About</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</head>
+
+<body>
+    <style>
+        body {
+            background-color: black;
+        }
+
+        .textfx:hover {
+            padding-inline: 10px;
+            background-color: rgb(0, 217, 255);
+            font-weight: bold;
+            border: 5px solid rgb(0, 217, 255);
+            border-radius: 10px;
+            color: rgb(0, 0, 0);
+            font-size: 30px;
+            box-shadow: 0 0 7000px rgba(0, 213, 255, 0.5);
+        }
+
+        .title-display {
+            color: rgb(0, 217, 255);
+        }
+
+    </style>
+
+    <div class="container bg-black">
+        <!-- Top Naviagtion -->
+        <div class="row">
+            <div class="col">
+                <!-- Your column content here -->
+                <!-- Frontend Mission Bar x Title Here -->
+                    <div class="row mg">
+                        <div class="col-12">
+                            <div class="barbox col-12 title-box0 bg-black center flex-column">
+                                
+                                <div class="health-status-visual-3 d-flex">
+        
+                                </div>
+
+                                <div class="mgb mind-status-visual-1 d-flex">
+
+                                </div>
+
+                                <div class="endurance-status-visual-1 d-flex">
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="row" >
+            <div class="col-12 round">
+                <div class="row tc mga">
+                    <div class="col-2 center">
+                        <text>Traverser: David</text>
+                    </div>
+                    <div class="col-8">
+                        
+                            <div class="row tc round bg-dark">
+                                <div class="col-2 center mt2">
+                                    <text>3</text>
+                                </div>
+                            
+                                <div class="col-8 level-status-visual-1 d-flex">
+        
+                                </div>
+
+                                <div class="col-2 center mt2">
+                                    <text>4</text>
+                                </div>
+                            </div>
+                        
+                    </div>
+                    <div class="col-2 center">
+                        <text>Money: 300</text>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+        <div class="row">
+            <div class="col-2 left-nav bg-black">
+                <!-- Left Side Navigation -->
+                <nav class="navbar navbar-dark bg-black flex-column m-0">
+                    <div class="navbar-nav">
+
+                    </div>
+                </nav>
+
+                <div class="row">
+                    <div class="col-2">
+                        <h2 class="title-display"><a class="title-display textfx" href="{% url 'data'%}">SHOP</a></h2>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-2">
+                        <h2 class="title-display"><a class="title-display textfx" href="{% url 'blog'%}">Data</a></h2>
+                    </div>
+                </div>
+
+                
+                <div class="row">
+                    <div class="col-2">
+                        <h2 class="title-display"><a class="title-display textfx" href="{% url 'data'%}">Tools</a></h2>
+                    </div>
+                </div>
+                <!-- Inserted Element -->
+            </div>
+
+            <div class="col-8 scrolpanel bt" style="border: 3px solid grey; border-radius: 20px;">
+                <!-- Project Blocks Here -->
+                <!-- Inserted Container -->
+                <div class="project-container">
+                    <!-- Container Content Here -->
+
+
+                    <!--Backend Project Block Calc here -->
+                    <div class="project-title-container">
+                        <div class="project-title-container-theme">
+                            <div class="row project-header">
+                                <div class="col-10 project-title">
+                                    <div class="row">
+                                        <div class="col-12 bg-b round">
+                                            <div class="title-box3 justify-content-left align-items-center d-flex">
+                                                <h1><b>WDM ProdOps</b></h1>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Priority Rank-->
+                                <div class="col-2 project-title d-flex justify-content-center align-items-center">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="title-box2 bg-black justify-content-center align-items-center d-flex">
+                                                <h1><b>S</b></h1>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        </div>
+                  </div>
+
+                    <!-- Project Bar Here -->
+                    <div class="row mg">
+                        <div class="col-10">
+                            <div class="title-box00 bg-dark justify-content-left align-items-center d-flex">
+                                <div class="status-visual d-flex">
+                                    <div class="progress col-10">
+                                        <div class="progress-bar" role="progressbar"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-2">
+                            <div class="title-box bg-black justify-content-center align-items-center d-flex">
+                                <div class="d-flex">
+                                    <h3><b>35%</b></h3>
+
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+
+                    <!-- Mission Title Here -->
+                    <div class="row mg">
+                        <div class="col-12 mg">
+                            <div class="title-box4 bg-black center">
+                                <h3><b>Missions</b></h3>    
+                            </div>
+                        </div>
+                    </div>
+
+            
+                    <!-- Frontend Mission Title Here -->
+                    <div class="row mg">
+                        <div class="col-10 title-box5 bg-black justify-content-left align-items-center d-flex">
+                            <h5><b>Frontend</b></h5>
+                        </div>
+
+                        <div class="col-2 title-box5 bg-black center">
+                                <h4><b>75%</b></h4>
+                        </div>
+                    </div>
+
+                    <!-- Frontend Mission Bar x Title Here -->
+                    <div class="row mg">
+                        <div class="col-12 mg">
+                            <div class="title-box4 bg-dark center">
+                                <div class="mission-status-visual-1 d-flex">
+                                    <div class="progress col-12">
+                                        <div class="progress-bar" role="progressbar"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            
+                    <!-- Frontend Mission Title Here -->
+                    <div class="row mg">
+                        <div class="col-10 mg title-box5 bg-black justify-content-left align-items-center d-flex">
+                            <h5><b>Backend</b></h5>
+                        </div>
+
+                        <div class="col-2 mg title-box5 bg-black center">
+                                <h4><b>75%</b></h4>
+                        </div>
+                    </div>
+
+                    <!-- Frontend Mission Bar x Title Here -->
+                    <div class="row mg">
+                        <div class="col-12 mg">
+                            <div class="title-box4 bg-dark justify-content-center align-items-center d-flex">
+                                <div class="mission-status-visual-2 d-flex">
+                                    <div class="progress col-12">
+                                        <div class="progress-bar" role="progressbar"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Backend Mission Bar x Title Here -->
+                    <div class="row mg">
+                        <div class="col-12 mg">
+
+                                    
+                            <!-- Mission Title Here -->
+                            <div class="row mg">
+                                <div class="col-12 mg">
+                                    <div class="title-box4 bg-black center">
+                                        <h3><b>Tasks</b></h3>    
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="task-box container bg-black">
+                                <div class="task-box-row row">
+
+                                    <div class="container single-task-container">
+                                        <!--taskbar-->
+                                        <div class="row single task-row ">
+
+                                            <!--Task Number Tile-->
+                                            <div class="mga bg-dark col-1 tasknumber center">
+                                                <h5><b>1</b></h5>    
+                                            </div>
+
+                                            <!--second tile of task bar-->
+                                            <div class="mga col-8 tasktitle center">
+                                                
+                                                <!--task status bar * task title-->
+                                                <div class="task-box1 bg-black center">
+                                                    <div class="task-status-visual-1 center">
+                                                        <!--Task Title Tile-->
+                                                        <div class="task-box1 tasktitle left">
+                                                            <h5><b>Mockup Select</b></h5>    
+                                                        </div>     
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                            <!--Task Attribute Tile-->
+                                            <div class="mga col-3 taskattribute">
+                                                <div class="col">
+                                                    <!--1 Task-->
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <div class="row bg-attribute-header-box bg-black" style="height: 20px;">
+
+                                                                <!--attribute amount-->
+                                                                <div class="col-2 attribute-header center">
+                                                                </div>
+
+                                                                <div class="col-2 attribute-header center">
+                                                                    <text class="small">35</text>
+                                                                </div>
+
+                                                                <!--attribute title-->
+                                                                <div class="col-8 attribute-header center">
+                                                                    <text class="small">Mind</text>                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-12 center">
+                                                            <div class="row center">
+                                                                <div class="col-3 center attribute-box">
+                                                                    <h5>3</h5>
+                                                                </div>
+                                                                <div class="col-2 center attribute-box">
+                                                                    <h5>/</h5>
+                                                                </div>
+                                                                <div class="col-3 center attribute-box">
+                                                                    <h5>9</h5>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+
+  
+                                    <div class="container single-task-container">
+                                        <!--taskbar-->
+                                        <div class="row single task-row ">
+
+                                            <!--Task Number Tile-->
+                                            <div class="mga bg-dark col-1 tasknumber center ">
+                                                <h5><b>2</b></h5>    
+                                            </div>
+
+                                            <!--second tile of task bar-->
+                                            <div class="mga col-8 tasktitle center">
+                                                
+                                                <!--task status bar * task title-->
+                                                <div class="task-box1 bg-black center">
+                                                    <div class="task-status-visual-2 center">
+                                                        <!--Task Title Tile-->
+                                                        <div class="task-box1 tasktitle left">
+                                                            <h5><b>Mockup Edit</b></h5>    
+                                                        </div>     
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                            <!--Task Attribute Tile-->
+                                            <div class="mga col-3 taskattribute">
+                                                <div class="col">
+                                                    <!--1 Task-->
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <div class="row bg-attribute-header-box bg-black" style="height: 20px;">
+
+                                                                <!--attribute amount-->
+                                                                <div class="col-2 attribute-header center">
+                                                                </div>
+
+                                                                <div class="col-2 attribute-header center">
+                                                                    <text class="small">35</text>
+                                                                </div>
+
+                                                                <!--attribute title-->
+                                                                <div class="col-8 attribute-header center">
+                                                                    <text class="small">Mind</text>                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-12 center">
+                                                            <div class="row center">
+                                                                <div class="col-3 center attribute-box">
+                                                                    <h5>3</h5>
+                                                                </div>
+                                                                <div class="col-2 center attribute-box">
+                                                                    <h5>/</h5>
+                                                                </div>
+                                                                <div class="col-3 center attribute-box">
+                                                                    <h5>9</h5>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                      
+                                    <div class="container single-task-container">
+                                        <!--taskbar-->
+                                        <div class="row single task-row ">
+
+                                            <!--Task Number Tile-->
+                                            <div class="mga bg-dark col-1 tasknumber center ">
+                                                <h5><b>3</b></h5>    
+                                            </div>
+
+                                            <!--second tile of task bar-->
+                                            <div class="mga col-8 tasktitle center">
+                                                
+                                                <!--task status bar * task title-->
+                                                <div class="task-box1 bg-black center">
+                                                    <div class="task-status-visual-3 center">
+                                                        <!--Task Title Tile-->
+                                                        <div class="task-box1 tasktitle left">
+                                                            <h5><b>Mockup Retrospect</b></h5>    
+                                                        </div>     
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                            <!--Task Attribute Tile-->
+                                            <div class="mga col-3 taskattribute">
+                                                <div class="col">
+                                                    <!--1 Task-->
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <div class="row bg-attribute-header-box bg-black" style="height: 20px;">
+
+                                                                <!--attribute amount-->
+                                                                <div class="col-2 attribute-header center">
+                                                                </div>
+
+                                                                <div class="col-2 attribute-header center">
+                                                                    <text class="small">35</text>
+                                                                </div>
+
+                                                                <!--attribute title-->
+                                                                <div class="col-8 attribute-header center">
+                                                                    <text class="small">Mind</text>                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-12 center">
+                                                            <div class="row center">
+                                                                <div class="col-3 center attribute-box">
+                                                                    <h5>3</h5>
+                                                                </div>
+                                                                <div class="col-2 center attribute-box">
+                                                                    <h5>/</h5>
+                                                                </div>
+                                                                <div class="col-3 center attribute-box">
+                                                                    <h5>9</h5>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                        
+                    </div>
+
+
+                  
+
+
+
+
+                </div>
+
+            </div>
+            <div class="col-2 right-nav bg-black">
+                <!-- Right side Navigation here -->
+                <nav class="navbar navbar-dark bg-black flex-column m-0">
+                    <div class="navbar-nav">
+                        <a class="nav-item nav-link active" href="#">Right Navigation</a>
+                        <!-- Add more navigation items here -->
+                    </div>
+                </nav>
+                <!-- Inserted Element -->
+
+            </div>
+        </div>
+           
+
+    </div>
+
+
+</body>
+
+</html>

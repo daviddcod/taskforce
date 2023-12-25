@@ -1,0 +1,9 @@
+* {
+    background-image: url('background.jpg');
+    color: rgb(0, 0, 0);
+}
+
+.threejs-container {
+    margin: 0px;
+    padding: 0px;
+}

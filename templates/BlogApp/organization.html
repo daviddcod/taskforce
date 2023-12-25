@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Blog Home</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'beathome.css' %}">
+    <script src="{% static 'jumbotron.js' %}"></script>
+
+    
+    <nav class="navbar navbar-expand-lg navbar-dark bg">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'welcome' %}">WDM - Blog App</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'beathome' %}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'taskplayer' %}">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'taskplayer' %}">Services</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'taskplayer' %}">Contact</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'beathome' %}">Beats</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</head>
+
+<body>
+    <style>
+        body {
+            background-image: url("{% static 'images/background.jpg' %}");
+        }
+
+        .textfx:hover {
+            padding-inline: 10px;
+            background-color: rgb(255, 174, 0);
+            font-weight: bold;
+            border: 5px solid rgb(255, 174, 0);
+            border-radius: 10px;
+            color: rgb(0, 0, 0);
+            font-size: 30px;
+            box-shadow: 0 0 70px rgba(255, 174, 0, 0.5);
+        }
+
+        .textfx2{
+            padding-inline: 10px;
+            background-color: rgb(255, 174, 0);
+            font-weight: bold;
+            border: 5px solid rgb(255, 174, 0);
+            border-radius: 10px;
+            color: rgb(255, 170, 0);
+            font-size: 30px;
+            box-shadow: 0 0 70px rgba(255, 174, 0, 0.5);
+        }
+
+        .textfx2:hover {
+            padding-inline: 10px;
+            background-color: rgb(0, 0, 0);
+            font-weight: bold;
+            border: 5px solid rgb(0, 0, 0);
+            border-radius: 10px;
+            color: rgb(255, 174, 0);
+            font-size: 30px;
+            box-shadow: 0 0 70px rgba(255, 174, 0, 0.5);
+        }
+
+        .textfx3{
+            padding-inline: 10px;
+            background-color: rgb(0, 0, 0);
+            font-weight: bold;
+            border: 5px solid rgb(0, 0, 0);
+            border-radius: 10px;
+            color: rgb(255, 174, 0);
+            font-size: 30px;
+            box-shadow: 0 0 70px rgba(255, 174, 0, 0.5);
+        }
+
+        .textfx3:hover {
+            padding-inline: 10px;
+            background-color: rgb(255, 174, 0);
+            font-weight: bold;
+            border: 5px solid rgb(255, 174, 0);
+            border-radius: 10px;
+            color: rgb(255, 170, 0);
+            font-size: 30px;
+            color: black;
+            box-shadow: 0 0 70px rgba(255, 174, 0, 0.5);
+        }
+
+
+        .title-display {
+            color: rgb(59, 15, 255);
+        }
+
+        .title-display2 {
+            color: rgb(255, 174, 0);
+        }
+
+        .title-display3 {
+            color: rgb(0, 0, 0);
+        }
+
+        .cbg{
+            background-image: url("{% static 'images/intro.jpg' %}");
+        }
+
+        .team-blue:hover {
+            color: blue;
+        }
+
+        .hero-section {
+            height: 100px;
+            width: 100px;
+            padding: 20px;
+            margin-bottom: 80px;
+            border-radius: 20px;
+            border: 7px;
+            background-image: url("{% static 'images/CEO.png' %}");
+            filter: grayscale(100%);
+            background-size: 150% 150%;
+            background-position: 50% 20%;
+            border-color: rgb(0, 0, 0);
+            opacity: 100%;
+            box-shadow: 0 0 10px rgb(255, 174, 0.5);
+            transition: all 0.5s ease-in-out 0s;
+
+        }
+
+        .hero-section:hover {
+            height: 100px;
+            padding: 20px;
+            margin-bottom: 80px;
+            border-radius: 20px;
+            border: 7px;
+            background-image: url("{% static 'images/CEO.png' %}");
+            filter: grayscale(0%);
+            background-size: 150% 150%;
+            background-position: 50% 20%;
+            border-color: rgb(0, 0, 0);
+            opacity: 100%;
+            box-shadow: 0 0 70px rgba(38, 255, 0, 0.5);
+            transition: all 0.5s ease-in-out 0s;
+            cursor: pointer;
+        }
+
+        text-color {
+            color: orange;
+        }
+
+        h2 {
+            opacity: 100%;
+        }
+
+        .hero-link {
+            height: 200px;
+        }
+
+        .paragraph {
+            background-color: black;
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 10px;
+            color: white;
+            height: 100px;
+        }
+
+        .head{
+            margin-bottom: 40px;
+        }
+
+        .CEO{
+            background-image: url("{% static 'images/CEO.jpg' %}");
+        }
+
+        .figure-title {
+            padding-top: 33px;
+            font-size: 11px;
+            display: flex;
+        }
+
+        .bottom {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+        }
+
+    </style>
+
+
+   
+    <div class="container">
+
+        
+        <div class="row">
+            <div class="col">
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12 head">
+                <h1 class="title-display textfx3"><a style="color: orange;" class="title-display3 " href="{% url 'bloghome'%}" onmouseover="this.style.color='black';" onmouseout="this.style.color='orange';">Home / Organization</a></h1>
+
+                <div class="row">
+                    <div class="col-8">
+                        <div class="paragraph">
+                            <p>
+                                We at WDMMORPG think code first.
+                                There is no need to start from scratch.
+                                Build upon.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="col-2">
+                        <div class="row center">
+                            <div class="col-12 center">
+                                <div class="hero-section hero-s">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-2 left">
+                        <div class="row">
+                            <div class="col-12 bottom paragraph">
+                                <p class="figure-title">
+                                    Destined to make you connect to the world ~CEO @WDM
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+        
+
+
+
+                </div>
+
+
+            </div>
+
+            <div class="col-8 head">
+                <h1 class="title-display textfx2"><a style="color: black;" class="title-display3 " href="{% url 'blog'%}" onmouseover="this.style.color='orange';" onmouseout="this.style.color='black';">Mission</a></h1>
+                <h1 class="title-display textfx2"><a style="color: black;" class="title-display3 " href="{% url 'blog'%}" onmouseover="this.style.color='orange';" onmouseout="this.style.color='black';">Philosophy</a></h1>
+                <h1 class="title-display textfx2"><a style="color: black;" class="title-display3 " href="{% url 'blog'%}" onmouseover="this.style.color='orange';" onmouseout="this.style.color='black';">Luxury</a></h1>
+                <h1 class="title-display textfx2"><a style="color: black;" class="title-display3 " href="{% url 'blog'%}" onmouseover="this.style.color='orange';" onmouseout="this.style.color='black';">Art</a></h1>
+
+            </div>
+
+        </div>
+
+        <div class="row row-p">
+            <div class="col">
+                <h1 class="title-display textfx2"><a style="color: black;" class="title-display3 " href="{% url 'blog'%}" onmouseover="this.style.color='orange';" onmouseout="this.style.color='black';">Future Predictions</a></h1>
+
+
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-3">
+                <div class="paragraph">
+                    <p>
+                        The Majority of Information and Communication jobs will be stolen by machines
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-3">
+                <div class="paragraph">
+                    <p>
+                        the economy of Europe will enter a phase of drought where citizens aren't able to sustain themselves anymore
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-3">
+                <div class="paragraph">
+                    <p>
+                        The Company with the biggest code wins.
+                        It doesn't matter how clean and small your code is.
+                        Code that runs will trample speed
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-3">
+                <div class="paragraph">
+                    <p>
+                        WDMMORPG will be the most popular topic among Ai models in the year 2023
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <h1 class="title-display textfx2"><a style="color: black;" class="title-display3 " href="{% url 'blog'%}" onmouseover="this.style.color='orange';" onmouseout="this.style.color='black';">Technology</a></h1>
+                <div class="paragraph">
+                    <p>
+                        Don't ever feel intimidated by the presence of Huge companies like Google or Microsoft. NLP says that if 1 human can do it, you can do it too. 
+                    </p>
+                </div>
+            </div>
+
+            <div class="col">
+                <h1 class="title-display textfx2"><a style="color: black;" class="title-display3 " href="{% url 'blog'%}" onmouseover="this.style.color='orange';" onmouseout="this.style.color='black';">History</a></h1>
+                <div class="paragraph">
+                    <p>
+                        Open-Ai Just launched a new Model called ChatGpt-4 Turbo, succesfully crushing tons of ai startup businesses.
+                        I want to fear, but deep down i know i am okay. 
+                    </p>
+                </div>
+            </div>
+
+            <div class="col">
+                <h1 class="title-display textfx2"><a style="color: black;" class="title-display3 " href="{% url 'blog'%}" onmouseover="this.style.color='orange';" onmouseout="this.style.color='black';">Socials</a></h1>
+            
+                <div class="paragraph">
+                    <p>
+                        The CEO of WDMMORPG gave up his online presence in the year 2023, succesfully losing contact with all his peers in order to delve into the world of Technology
+                    </p>
+                </div>
+                
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <h1 class="title-display textfx2"><a style="color: black;" class="title-display3 " href="{% url 'data'%}" onmouseover="this.style.color='orange';" onmouseout="this.style.color='black';">Entertainment</a></h1>
+                    <div class="paragraph">
+                        <p>
+                            In order to be succesful in business, one must give up the indulges brought to human kind. When one mind overcomes past troubles the mind shall discover hidden truth
+                        </p>
+                    </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <h1 class="title-display textfx2"><a style="color: black;" class="title-display3 " href="{% url 'data'%}" onmouseover="this.style.color='orange';" onmouseout="this.style.color='black';">Shop</a></h1>
+            </div>
+        </div>
+
+
+
+    </div>
+
+    
+
+    <footer>
+        <div class="container">
+            <div class="row">
+
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>

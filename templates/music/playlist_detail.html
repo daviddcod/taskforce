@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ playlist.title }}</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<body>
+    <h1>{{ playlist.title }}</h1>
+    <form id="addSongForm" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Add Track</button>
+    </form>
+    <div id="audio_player">
+        <audio id="player" controls></audio>
+        <button onclick="playPrevious()">Previous</button>
+        <button onclick="playNext()">Next</button>
+    </div>
+    <script>
+        let songs = [{% for song in playlist.songs.all %}"{{ song.audio_file.url }}"{% if not forloop.last %}, {% endif %}{% endfor %}];
+        let audioPlayer = document.getElementById('player');
+        let currentSong = 0;
+
+        if (songs.length > 0) {
+            audioPlayer.src = songs[currentSong]; // Load the first song by default
+        }
+
+        function playNext() {
+            currentSong = (currentSong + 1) % songs.length;
+            audioPlayer.src = songs[currentSong];
+            audioPlayer.play();
+        }
+
+        function playPrevious() {
+            currentSong = (currentSong - 1 + songs.length) % songs.length;
+            audioPlayer.src = songs[currentSong];
+            audioPlayer.play();
+        }
+
+        audioPlayer.addEventListener('ended', playNext); // Play next song when one ends
+
+        // AJAX for form submission
+        $("#addSongForm").submit(function(e) {
+            e.preventDefault(); // Prevent default form submission
+            var formData = new FormData(this);
+            $.ajax({
+                url: "{% url 'music:playlist_detail' playlist.pk %}",
+                type: 'POST',
+                data: formData,
+                success: function(data) {
+                    // Update songs array and continue playing
+                    songs.push(data.new_song_url);
+                },
+                cache: false,
+                contentType: false,
+                processData: false
+            });
+        });
+    </script>
+</body>
+</html>
