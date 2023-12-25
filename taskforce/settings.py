@@ -15,7 +15,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-@t3fm0tc3=4hwlzs%tyv+y0#w5y2_%(29-x$grlhb4h_++w7ow'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 
 
@@ -27,7 +27,6 @@ MOLLIE_API_KEY = 'test_9cpV9y2UtfS2KR4SDeUVp4Vkp2tBWg'
 
 INSTALLED_APPS = [
     'auth_app',
-    'auth_apdebigp',
     'wdmmorpg',
     'task_manager',
     'music',
