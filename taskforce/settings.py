@@ -81,6 +81,12 @@ MIDDLEWARE = [
 # ]
 
 
+ALLOWED_HOSTS = [
+    'last-env.eba-rp7uv7de.eu-north-1.elasticbeanstalk.com',
+    'localhost',
+    '127.0.0.1',
+]
+
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
