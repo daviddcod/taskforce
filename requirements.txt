@@ -67,3 +67,6 @@ urllib3==2.0.7
 virtualenv==20.15.1
 wcwidth==0.2.8
 widgetsnbextension==4.0.9
+gunicorn==20.1.0
+psycopg2-binary
+mutagen
