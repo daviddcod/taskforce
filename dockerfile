@@ -18,8 +18,10 @@ RUN apt-get update \
 COPY requirements.txt /usr/src/taskforce/requirements.txt
 RUN pip install --upgrade pip \
     && pip install -r requirements.txt
-    # Or install mutagen directly if it's not in requirements.txt
+RUN pip install django-cors-headers
 RUN pip install mutagen
+RUN pip install mollie
+RUN pip install mollie-api-python
 
 # Add the rest of the code
 COPY . /usr/src/taskforce
