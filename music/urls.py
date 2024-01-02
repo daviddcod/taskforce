@@ -17,5 +17,8 @@ urlpatterns = [
     path('playlists/', views.playlist_list, name='playlist_list'),
     path('playlist/add/', views.playlist_create, name='playlist_create'),
     path('playlist/<int:pk>/', views.playlist_detail, name='playlist_detail'),
+    path('api/songs/<int:playlist_id>/', views.get_songs, name='get_songs'),
+    path('api/song/<int:song_id>/', views.get_song, name='get_song'),
+
 
 ]

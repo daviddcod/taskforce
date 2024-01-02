@@ -31,8 +31,8 @@ urlpatterns = [
     path('wdm/', include(('wdmmorpg.urls', 'wdmmorpg'), namespace='wdm')),
     path('plan-selection/', include(('plan_selection.urls', 'plan-selection'), namespace='plan-selection')),
     path('payment_processor/', include('payment_processor.urls', namespace='payment_processor')),
+    path('wdmmorpg/', include('wdmmorpg.urls', namespace='wdmmorpg')),
 
-]
 
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+

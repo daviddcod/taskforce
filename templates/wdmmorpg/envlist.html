@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Environment List</h2>
+    <a href="{% url 'wdmmorpg:add_environment' %}" class="btn btn-primary mb-3">Add New Environment</a>
+    <table class="table table-hover">
+        <thead class="thead-light">
+            <tr>
+                <th>Name</th>
+                <th>Location</th>
+                <th>Description</th>
+                <th>Users</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for environment in environments %}
+            <tr>
+                <td>{{ environment.name }}</td>
+                <td>{{ environment.location }}</td>
+                <td>{{ environment.description }}</td>
+                <td>{{ environment.users }}</td>
+                <td>
+                    <a href="{% url 'wdmmorpg:update_environment' environment.id %}" class="btn btn-sm btn-info">Edit</a>
+                    <a href="{% url 'wdmmorpg:delete_environment' environment.id %}" class="btn btn-sm btn-danger">Delete</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5">No environments found.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
+
+{% block head %}
+<style>
+    .container {
+        max-width: 1000px;
+        margin: auto;
+        padding-top: 50px;
+    }
+    .btn-primary {
+        color: white;
+        background-color: #007bff;
+        border-color: #007bff;
+    }
+    .table-hover tbody tr:hover {
+        background-color: #f5f5f5;
+    }
+    .thead-light th {
+        background-color: #e9ecef;
+        color: #495057;
+    }
+</style>
+{% endblock %}

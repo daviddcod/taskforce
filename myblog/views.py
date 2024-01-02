@@ -14,7 +14,7 @@ def blog_detail(request, pk):
             comment = comment_form.save(commit=False)
             comment.blog = blog
             comment.save()
-            return redirect('blog_detail', pk=blog.pk)
+            return redirect('myblog:blog_detail', pk=blog.pk)
     else:
         comment_form = CommentForm()
     return render(request, 'myblog/blog_detail.html', {'blog': blog, 'comment_form': comment_form})
@@ -25,7 +25,8 @@ def blog_new(request):
         if form.is_valid():
             blog = form.save(commit=False)
             blog.save()
-            return redirect('blog_detail', pk=blog.pk)
+            return redirect('myblog:blog_detail', pk=blog.pk)
     else:
         form = BlogForm()
     return render(request, 'myblog/blog_edit.html', {'form': form})
+

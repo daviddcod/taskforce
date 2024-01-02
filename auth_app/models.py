@@ -1,7 +1,7 @@
 from django.db import models
-
+from django.db.models.signals import post_migrate
 # Create your models here.
-
+from django.dispatch import receiver
 from django.db import models
 from django.contrib.auth.models import AbstractUser, Group, Permission
 from django.utils.translation import gettext_lazy as _
@@ -42,3 +42,9 @@ class CustomUser(AbstractUser):
     def __str__(self):
         return self.username
         
+@receiver(post_migrate)
+def create_user_groups(sender, **kwargs):
+    for group_name in ['Visitor', 'Traverser', 'Administrator']:
+        Group.objects.get_or_create(name=group_name)
+
+    print("User groups created: Visitor, Traverser, Administrator")

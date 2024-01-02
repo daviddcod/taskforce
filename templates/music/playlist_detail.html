@@ -1,21 +1,160 @@
-<!DOCTYPE html>
-<html>
-<head>
+{% extends 'base.html' %}
+
+{% block extra_css %}
+{%load static%}
     <title>{{ playlist.title }}</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-</head>
-<body>
-    <h1>{{ playlist.title }}</h1>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        /* Dark Mode */
+        .dark-mode {
+            background-color: #121212;
+            color: rgb(0, 0, 0);
+        }
+
+        /* Light Mode */
+        .light-mode {
+            background-color: rgb(0, 0, 0);
+            color: black;
+        }
+
+        /* Yellow Mode */
+        .yellow-mode {
+            background-color: black;
+            color: #FFD700;
+        }
+
+        form{
+            color: black;
+        }
+
+        #audio_player {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .theme-switcher {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+        }
+
+        .theme-switcher button {
+            cursor: pointer;
+            padding: 10px;
+            margin: 0 5px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .icon-button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 24px;
+        }
+
+        #addSongForm {
+            max-width: 500px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #000000;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-field {
+            margin-bottom: 15px;
+            color: black;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #000000;
+        }
+
+        input[type="text"], input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box; /* So padding doesn't add to width */
+        }
+
+        button[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #28a745;
+            color: rgb(0, 0, 0);
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #218838;
+        }
+
+        .dark-mode .theme-button {
+            background-color: #1DB954; /* Example dark mode color */
+        }
+
+        .light-mode .theme-button {
+            background-color: #28a745; /* Example light mode color */
+        }
+
+        .yellow-mode .theme-button {
+            background-color: #FFD700; /* Example yellow mode color */
+        }
+
+        /* Maintain the hover effect */
+        .theme-button:hover {
+            filter: brightness(85%);
+        }
+
+    </style>
+{% endblock %}
+
+{% block content %}
+
     <form id="addSongForm" method="post">
         {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Add Track</button>
+        <div class="form-fields">
+            {% for field in form %}
+                <div class="form-field">
+                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    {{ field }}
+                    {% if field.help_text %}
+                        <small style="display: block; margin-top: 5px;">{{ field.help_text }}</small>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+        <button type="submit" class="theme-button">Add Track</button>
     </form>
     <div id="audio_player">
+        <button class="icon-button" onclick="playPrevious()"><i class="fas fa-step-backward"></i></button>
         <audio id="player" controls></audio>
-        <button onclick="playPrevious()">Previous</button>
-        <button onclick="playNext()">Next</button>
+        <button class="icon-button" onclick="playNext()"><i class="fas fa-step-forward"></i></button>
     </div>
+
     <script>
         let songs = [{% for song in playlist.songs.all %}"{{ song.audio_file.url }}"{% if not forloop.last %}, {% endif %}{% endfor %}];
         let audioPlayer = document.getElementById('player');
@@ -56,6 +195,91 @@
                 processData: false
             });
         });
+
+        // Theme switching functionality
+        function setDarkMode() {
+            document.body.className = 'dark-mode';
+        }
+
+        function setLightMode() {
+            document.body.className = 'light-mode';
+        }
+
+        function setYellowMode() {
+            document.body.className = 'yellow-mode';
+        }
+
+        function setDarkMode() {
+            document.body.className = 'dark-mode';
+            updateButtonTheme();
+        }
+
+        function setLightMode() {
+            document.body.className = 'light-mode';
+            updateButtonTheme();
+        }
+
+        function setYellowMode() {
+            document.body.className = 'yellow-mode';
+            updateButtonTheme();
+        }
+
+        function updateButtonTheme() {
+            const themeButton = document.querySelector('.theme-button');
+            if (themeButton) {
+                themeButton.className = 'theme-button'; // Reset classes
+                themeButton.classList.add(document.body.className);
+            }
+        }
+
+        // Call the updateButtonTheme function on page load to ensure button has the right theme color initially
+        document.addEventListener('DOMContentLoaded', function() {
+            updateButtonTheme();
+            // ... Choices.js initialization ...
+        });
+
+        $("#addSongForm").submit(function(e) {
+    e.preventDefault(); // Prevent default form submission
+    var formData = new FormData(this);
+    var selectedSongs = []; // Array to store all selected song URLs
+
+    // Assuming 'songs' is the name of your multiple select field
+    $('#yourSelectFieldID').val().forEach(function(song) {
+        selectedSongs.push(song); // Add each selected song to the array
+    });
+
+    // Append selected songs to formData
+    formData.append('selectedSongs', selectedSongs);
+
+    $.ajax({
+        url: "{% url 'music:playlist_detail' playlist.pk %}",
+        type: 'POST',
+        data: formData,
+        traditional: true, // This setting is used to ensure jQuery encodes the formData correctly
+        success: function(data) {
+            // Update songs array and continue playing
+            data.new_song_urls.forEach(function(url) {
+                songs.push(url);
+            });
+        },
+        cache: false,
+        contentType: false,
+        processData: false
+    });
+});
+
+
+        document.addEventListener('DOMContentLoaded', function() {
+        var selectElements = document.querySelectorAll('select');
+        selectElements.forEach(function(el) {
+            new Choices(el, {
+                searchEnabled: false,
+                itemSelectText: '',
+                shouldSort: false,
+            });
+        });
+    });
     </script>
-</body>
-</html>
+{% endblock %}
+
+

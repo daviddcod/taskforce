@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<!-- Custom CSS for Styling -->
+<style>
+    body, html {
+        margin: 0;
+        padding: 0;
+        font-family: 'Arial', sans-serif;
+        background-color: #f0f2f5;
+    }
+
+    .content {
+        padding: 20px;
+        background: white;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        border-radius: 5px;
+        margin: 50px auto;
+        max-width: 600px;
+    }
+
+    h2 {
+        color: #d9534f; /* Red color to indicate a dangerous action */
+        border-bottom: 1px solid #eee;
+        padding-bottom: 10px;
+    }
+
+    form {
+        margin-top: 20px;
+    }
+
+    .btn-danger {
+        background-color: #d9534f;
+        border-color: #d43f3a;
+        color: white;
+    }
+
+    .btn-light {
+        background-color: #f4f4f4;
+        color: #333;
+    }
+
+    .btn {
+        margin-top: 10px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="content">
+    <h2>Are you sure you want to delete "{{ task.title }}"?</h2>
+    <form method="post">
+        {% csrf_token %}
+        <a href="{% url 'task_list' %}" class="btn btn-light">Cancel</a>
+        <button type="submit" class="btn btn-danger">Confirm Delete</button>
+    </form>
+</div>
+{% endblock %}

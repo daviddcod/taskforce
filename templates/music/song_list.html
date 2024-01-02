@@ -1,18 +1,216 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Songs List</title>
+    <title>Music Player</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-image: url("{% static 'images/pattern.jpg' %}");
+            background-size: cover;
+            color: #fff;
+        }
+
+        .music-player-container {
+            background-color: rgba(0, 0, 139, 0.7); /* Deep blue background */
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        .player-controls {
+            padding: 20px;
+        }
+
+        .player-info h2,
+        .player-info h4 {
+            margin: 0;
+            padding: 5px;
+        }
+
+        .audio-controls {
+            font-size: 2em;
+        }
+
+        .control-button {
+            background: none;
+            border: none;
+            color: #ADD8E6; /* Light blue color */
+            cursor: pointer;
+            margin: 0 15px;
+        }
+
+        .control-button:active,
+        .control-button:focus {
+            outline: none;
+        }
+
+        .progress-bar-container {
+            position: relative;
+            height: 5px;
+            background: #333;
+        }
+
+        #progressBar {
+            height: 5px;
+            background: #ADD8E6; /* Light blue progress bar */
+            width: 0%;
+        }
+
+        .song-list .list-group-item {
+            cursor: pointer;
+            background-color: #00008B; /* Dark blue */
+            color: #fff;
+        }
+
+        .song-list .list-group-item:hover {
+            background-color: #5F9EA0; /* Cadet blue */
+        }
+
+        h1, a {
+            color: #ADD8E6; /* Light blue */
+        }
+    </style>
 </head>
 <body>
-    <h1>Songs</h1>
-    <a href="{% url 'music:add_song' %}">Add New Song</a>
-    <ul>
-        {% for song in songs %}
-        <li>
-            {{ song.title }} - <a href="{% url 'music:song_edit' song.pk %}">Edit</a> | 
-            <a href="{% url 'music:song_delete' song.pk %}">Delete</a>
-        </li>
-        {% endfor %}
-    </ul>
+    <div class="container">
+        <h1>Songs</h1>
+        <a href="{% url 'music:add_song' %}" class="btn btn-light mb-3">Add New Song</a>
+
+        <div class="music-player-container">
+            <!-- Player Controls -->
+            <div class="player-controls bg-dark rounded">
+                <div class="player-info text-center">
+                    <h2>Playlist Title</h2>
+                    <h4 id="currentSongTitle">Select a Song</h4>
+                </div>
+                <div class="audio-controls text-center">
+                    <button onclick="playPrevious()" class="control-button"><i class="fas fa-step-backward"></i></button>
+                    <button onclick="togglePlayPause()" class="control-button" id="playPauseBtn"><i class="fas fa-play"></i></button>
+                    <button onclick="playNext()" class="control-button"><i class="fas fa-step-forward"></i></button>
+                </div>
+                <div class="progress-bar-container">
+                    <div class="progress" id="songProgress">
+                        <div class="progress-bar" id="progressBar"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Combined Song List -->
+            <div class="song-list mt-4">
+                <ul class="list-group" id="songList">
+                    <!-- Song items will be added here by the script below -->
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let audioPlayer = new Audio();
+        let currentSong = 0;
+        let songs = []; // Will be populated by fetchSongs()
+
+        function fetchSongs() {
+            const url = '/music/api/songs/'; // Replace with your API endpoint
+            $.ajax({
+                url: url,
+                type: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    songs = data; // Assumes data is an array of song objects
+                    updateSongList(songs);
+                },
+                error: function() {
+                    console.error("Failed to fetch songs");
+                }
+            });
+        }
+
+        function updateSongList(songs) {
+            const songList = $('#songList');
+            songList.empty(); // Clear existing songs
+
+            songs.forEach((song, index) => {
+                const safeTitle = $("<div>").text(song.title).html(); // Sanitize title for security
+                const listItem = $(`
+                    <li class="list-group-item song-item" data-index="${index}">
+                        ${safeTitle}
+                    </li>
+                `);
+                songList.append(listItem);
+            });
+
+            $('.song-item').click(function() {
+                let index = $(this).data('index');
+                let song = songs[index];
+                playSong(song.audio_file_url, song.title);
+            });
+        }
+
+        function playSong(url, title) {
+            audioPlayer.src = url;
+            audioPlayer.play();
+            $('#currentSongTitle').text(title);
+            $('#playPauseBtn').html('<i class="fas fa-pause"></i>');
+        }
+
+   function togglePlayPause() {
+            if (audioPlayer.paused) {
+                audioPlayer.play();
+                $('#playPauseBtn').html('<i class="fas fa-pause"></i>');
+            } else {
+                audioPlayer.pause();
+                $('#playPauseBtn').html('<i class="fas fa-play"></i>');
+            }
+        }
+
+        function playNext() {
+            currentSong = (currentSong + 1) % songs.length;
+            playSong(songs[currentSong], $(".song-item").eq(currentSong).text());
+        }
+
+        function playPrevious() {
+            currentSong = (currentSong - 1 + songs.length) % songs.length;
+            playSong(songs[currentSong], $(".song-item").eq(currentSong).text());
+        }
+
+        // Update progress bar as the song plays
+        audioPlayer.addEventListener('timeupdate', function() {
+            let progress = (audioPlayer.currentTime / audioPlayer.duration) * 100;
+            $('#progressBar').css('width', progress + '%');
+        });
+
+        // Click on progress bar to seek
+        $('#songProgress').click(function(e) {
+            let offset = $(this).offset();
+            let left = (e.pageX - offset.left);
+            let totalWidth = $('#songProgress').width();
+            let percentage = (left / totalWidth);
+            let audioTime = percentage * audioPlayer.duration;
+            audioPlayer.currentTime = audioTime;
+        });
+
+        // Event listener for song list item click
+        $('.song-item').click(function() {
+            let songUrl = $(this).data('url');
+            let songTitle = $(this).text();
+            currentSong = songs.indexOf(songUrl); // Update current song index if it's in the list
+            playSong(songUrl, songTitle);
+        });
+
+        // Automatically play the next song when one ends
+        audioPlayer.addEventListener('ended', playNext);
+
+        $(document).ready(function() {
+        fetchSongs();
+    });
+
+        $(document).ready(function() {
+            fetchSongs(); // Fetch and display the songs
+        });
+    </script>
 </body>
 </html>

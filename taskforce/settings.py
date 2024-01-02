@@ -15,7 +15,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-@t3fm0tc3=4hwlzs%tyv+y0#w5y2_%(29-x$grlhb4h_++w7ow'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 
 
@@ -29,7 +29,8 @@ INSTALLED_APPS = [
     'auth_app',
     'wdmmorpg',
     'task_manager',
-    'music',
+    'widget_tweaks',
+            'music',
     'plan_selection',
     'HomeApp',
     'project_manager',
@@ -43,6 +44,7 @@ INSTALLED_APPS = [
     'data_analysis',
     'shop_manager',
     'payment_processor',
+        'rest_framework',
     'custom_software_dev',
     'lifestyle_consultancy',
     'user_groups_management',
@@ -67,6 +69,8 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
         'corsheaders.middleware.CorsMiddleware',
 ]
+
+CORS_ALLOW_ALL_ORIGINS = True
 
 
 # ALLOWED_HOSTS = ['','ff59-144-178-82-114.ngrok-free.app']
@@ -116,28 +120,42 @@ WSGI_APPLICATION = 'taskforce.wsgi.application'
 
 AUTH_USER_MODEL = 'auth_app.CustomUser'
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'wdmdatabase',
+#         'USER': 'atlas',
+#         'PASSWORD': 'Lightvessel100!',  # Updated password
+#         'HOST': 'wdm-db.cihp8rwuaz6j.eu-north-1.rds.amazonaws.com',
+#         'PORT': '5432',
+#     }
+# }
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'wdmdatabase',
-        'USER': 'atlas',
-        'PASSWORD': 'Lightvessel100!',  # Updated password
-        'HOST': 'wdm-db.cihp8rwuaz6j.eu-north-1.rds.amazonaws.com',
-        'PORT': '5432',
+        'NAME': 'wdmdb',  # Update with your local database name
+        'USER': 'postgres',
+        'PASSWORD': 'Lightvessel100!',  # Keep the password the same
+        'HOST': 'localhost',  # Pointing to the local machine
+        'PORT': '5432',  # Default PostgreSQL port
     }
 }
 
+
+
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/x.x/howto/static-files/
-AWS_ACCESS_KEY_ID = 'AKIAZPFM3ISB4EG5U5JY'
-AWS_SECRET_ACCESS_KEY = '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'
-AWS_STORAGE_BUCKET_NAME = 'mediawdm'
-AWS_S3_REGION_NAME = 'eu-north-1'
-AWS_S3_CUSTOM_DOMAIN = 'mediawdm.s3.amazonaws.com'
-AWS_LOCATION = 'static'
-STATIC_URL = 'https://mediawdm.s3.amazonaws.com//static'
-STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-MEDIA_URL = 'https://mediawdm.s3.amazonaws.com/media/'
+# AWS_ACCESS_KEY_ID = 'AKIAZPFM3ISB4EG5U5JY'
+# AWS_SECRET_ACCESS_KEY = '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'
+# AWS_STORAGE_BUCKET_NAME = 'mediawdm'
+# AWS_S3_REGION_NAME = 'eu-north-1'
+# AWS_S3_CUSTOM_DOMAIN = 'mediawdm.s3.amazonaws.com'
+# AWS_LOCATION = 'static'
+# STATIC_URL = 'https://mediawdm.s3.amazonaws.com//static'
+# STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+# MEDIA_URL = 'https://mediawdm.s3.amazonaws.com/media/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/x.x/ref/settings/#default-auto-field

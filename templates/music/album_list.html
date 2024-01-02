@@ -1,14 +1,24 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Album List</title>
-</head>
-<body>
-    <h1>Albums</h1>
-    <ul>
+{% extends 'base.html' %}
+
+{% block extra_css %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/album_list.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="album-container">
+    <h1 class="page-title">Albums</h1>
+    <div class="album-list">
         {% for album in albums %}
-        <li><a href="{% url 'music:album_detail' album.id %}">{{ album.title }} by {{ album.artist }}</a></li>
+        <div class="album-card">
+            <a href="{% url 'music:album_detail' album.id %}" class="album-link">
+                <div class="album-info">
+                    <span class="album-title">{{ album.title }}</span>
+                    <span class="album-artist">by {{ album.artist }}</span>
+                </div>
+            </a>
+        </div>
         {% endfor %}
-    </ul>
-</body>
-</html>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,146 @@
+:root {
+    /* Light mode variables */
+    --primary-color-light: #3498db;
+    --text-color-light: #34495e;
+    --background-color-light: #f4f4f4;
+    --comment-background-light: #ffffff;
+    --hover-color-light: #2980b9;
+
+    /* Dark mode variables */
+    --primary-color-dark: #2980b9;
+    --text-color-dark: #ecf0f1;
+    --background-color-dark: #2c3e50;
+    --comment-background-dark: #34495e;
+    --hover-color-dark: #3498db;
+
+    /* Shared variables */
+    --input-radius: 15px;
+}
+[data-theme="dark"] {
+    --primary-color: var(--primary-color-dark);
+    --text-color: var(--text-color-dark);
+    --background-color: var(--background-color-dark);
+    --comment-background: var(--comment-background-dark);
+    --hover-color: var(--hover-color-dark);
+}
+[data-theme="light"] {
+    --primary-color: var(--primary-color-light);
+    --text-color: var(--text-color-light);
+    --background-color: var(--background-color-light);
+    --comment-background: var(--comment-background-light);
+    --hover-color: var(--hover-color-light);
+}
+body {
+    font-family: 'Roboto', sans-serif;
+    line-height: 1.6;
+    margin: 20px;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    transition: background-color 0.3s, color 0.3s;
+}
+.container {
+    width: 80%;
+    margin: auto;
+    overflow: hidden;
+    animation: fadeIn 1s ease-in-out;
+}
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+h1, h2 {
+    color: var(--text-color);
+}
+p, label, input, textarea {
+    font-size: 1.1em;
+    margin-bottom: 10px;
+}
+.comment {
+    background-color: var(--comment-background);
+    padding: 20px;
+    margin-bottom: 10px;
+    border-radius: var(--input-radius);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transform: scale(1);
+    transition: transform 0.3s, background-color 0.3s;
+}
+.comment:hover {
+    transform: scale(1.02);
+}
+.comment-author {
+    font-weight: bold;
+    display: block;
+}
+.comment-meta {
+    font-size: 0.8em;
+    color: #666;
+}
+.back-link, .toggle-mode {
+    display: inline-block;
+    margin-top: 20px;
+    text-decoration: none;
+    color: white;
+    background: var(--primary-color);
+    padding: 10px 15px;
+    border-radius: var(--input-radius);
+    transition: background 0.3s;
+}
+.back-link:hover, .toggle-mode:hover {
+    background: var(--hover-color);
+}
+form {
+    background: var(--comment-background);
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: var(--input-radius);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+input[type="text"], textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: var(--input-radius);
+    transition: border-color 0.3s;
+}
+input[type="text"]:focus, textarea:focus {
+    border-color: var(--primary-color);
+}
+button {
+    background: var(--primary-color);
+    color: white;
+    border: 0;
+    padding: 10px 15px;
+    border-radius: var(--input-radius);
+    cursor: pointer;
+    transition: background 0.3s;
+}
+button:hover {
+    background: var(--hover-color);
+}
+
+.create-button {
+    display: block;
+    width: max-content;
+    margin: 10px auto 30px;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.create-button:hover {
+    background-color: #45a049;
+}
+
+a {
+    text-decoration: none;
+}
+
+.create-button:hover {
+    background-color: #45a049;
+    text-decoration: none;
+
+}

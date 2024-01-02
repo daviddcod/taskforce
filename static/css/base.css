@@ -1,0 +1,21 @@
+
+/* Footer styles */
+footer {
+    background-color: #6f9fd2;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+}
+
+.espada {
+    background: transparent;
+    background-color: transparent;
+    color: white;
+    .embody {
+        background-image: url("{% static 'images/patern.jpg' %}");
+        border-radius: 24px;
+    }
+}

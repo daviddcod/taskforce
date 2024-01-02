@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% load widget_tweaks %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <!-- Dynamic heading based on the form's purpose -->
+            <h2 class="text-center mb-4">{{ form.instance.pk|yesno:"Edit Rank,Add New Rank" }}</h2>
+
+            <!-- Stylish form with improved UX -->
+            <form method="post" class="needs-validation" novalidate>
+                {% csrf_token %}
+                <div class="form-group">
+                    <!-- Loop through each form field -->
+                    {% for field in form %}
+                        <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+                        <div class="input-group mb-3">
+                            {{ field|add_class:"form-control" }}  <!-- Add Bootstrap class -->
+                            {% if field.help_text %}
+                                <div class="form-text">{{ field.help_text }}</div>
+                            {% endif %}
+                            {% for error in field.errors %}
+                                <div class="invalid-feedback">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                    <!-- Submit and Cancel buttons -->
+                    <button type="submit" class="btn btn-primary me-md-2">Submit</button>
+                    <a href="{% url 'wdmmorpg:rank_list' %}" class="btn btn-secondary">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // JavaScript for client-side form validation
+    (function() {
+        'use strict'
+        window.addEventListener('load', function() {
+            // Fetch all forms we want to apply custom Bootstrap validation styles to
+            var forms = document.getElementsByClassName('needs-validation');
+            // Loop over them and prevent submission
+            Array.prototype.filter.call(forms, function(form) {
+                form.addEventListener('submit', function(event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+        }, false);
+    })();
+</script>
+{% endblock %}

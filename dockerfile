@@ -20,8 +20,8 @@ RUN pip install --upgrade pip \
     && pip install -r requirements.txt
 RUN pip install django-cors-headers
 RUN pip install mutagen
-RUN pip install mollie
 RUN pip install mollie-api-python
+RUN pip install pillow
 
 # Add the rest of the code
 COPY . /usr/src/taskforce

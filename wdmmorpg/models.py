@@ -94,7 +94,11 @@ class Task(models.Model):
     due_date = models.DateField(null=True, blank=True)  # Added this line
     status = models.CharField(max_length=100, null=True, blank=True)  # Added this line
     is_active = models.BooleanField(default=True)
+    is_completed = models.BooleanField(default=False)
     # Rest of your fields...
+    
+    def __str__(self):
+        return self.title
 
 
     def calculate_experience(self):

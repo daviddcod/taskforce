@@ -10,6 +10,20 @@ from .models import Song
 from mutagen.mp3 import MP3
 from mutagen.wave import WAVE
 
+# views.py
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from .models import Playlist
+from .serializers import SongSerializer
+
+class PlaylistSongs(APIView):
+    def get(self, request, playlist_id):
+        playlist = Playlist.objects.get(id=playlist_id)
+        songs = playlist.songs.all()
+        serializer = SongSerializer(songs, many=True)
+        return Response(serializer.data)
+
+
 def batch_upload(request):
     if request.method == 'POST':
         for f in request.FILES.getlist('files'):
@@ -197,3 +211,30 @@ def delete_song_ajax(request):
         updated_song_urls = [song.audio_file.url for song in playlist.songs.all()]
         return JsonResponse({'deleted': True, 'updated_song_urls': updated_song_urls})
     return JsonResponse({'deleted': False})
+
+# views.py
+
+from django.http import JsonResponse
+from .models import Song  # Update with your actual model
+
+def get_songs(request, playlist_id):
+    try:
+        playlist = Playlist.objects.get(id=playlist_id)  # Retrieve the specific playlist
+        songs = playlist.songs.all().values('title', 'audio_file','id')  # Use 'title' instead of 'name'
+        songs_data = list(songs)  # Convert QuerySet to a list of dictionaries
+        return JsonResponse(songs_data, safe=False)  # Return response
+    except Playlist.DoesNotExist:
+        return JsonResponse({'error': 'Playlist not found'}, status=404)  # Handle the case where the playlist does not exist
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)  # Handle other possible exceptions
+
+def get_song(request, song_id):
+    try:
+        songs = Song.objects.all()
+        songs = songs.all().values('title', 'audio_file','id')  # Use 'title' instead of 'name'
+        songs_data = list(songs)  # Convert QuerySet to a list of dictionaries
+        return JsonResponse(songs_data, safe=False)  # Return response
+    except Playlist.DoesNotExist:
+        return JsonResponse({'error': 'Playlist not found'}, status=404)  # Handle the case where the playlist does not exist
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)  # Handle other possible exceptions

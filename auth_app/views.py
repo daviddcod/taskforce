@@ -8,20 +8,27 @@ from .models import CustomUser
 from django.views.decorators.csrf import ensure_csrf_cookie
 
 
-@ensure_csrf_cookie
+from django.contrib.auth import login
+from django.shortcuts import render, redirect
+from .forms import CustomUserCreationForm  # Make sure to import the correct form
+from django.views.decorators.csrf import ensure_csrf_cookie
+
+@ensure_csrf_cookie  # Keep this decorator if you need CSRF token set for AJAX requests
 def register(request):
     if request.method == 'POST':
-        form = RegistrationForm(request.POST)
+        form = CustomUserCreationForm(request.POST)  # Use the new CustomUserCreationForm
         if form.is_valid():
-            user = form.save()
+            user = form.save()  # This will also create UserProfile with default values
             login(request, user)  # Optionally log the user in immediately
 
-            # Redirect to the 'select_plan' view in the 'plan_selection' app
-            return redirect('plan_selection:list_plans')
+            # Choose the appropriate redirect based on your application's flow
+            return redirect('home_app:welcome')  # Adjust the redirect as needed
     else:
-        form = RegistrationForm()
+        form = CustomUserCreationForm()  # Use the new CustomUserCreationForm
 
-    return render(request, 'register.html', {'form': form})
+    # Adjust the path to your registration template as needed
+    return render(request, 'wdmmorpg/register.html', {'form': form})
+
 
 @ensure_csrf_cookie
 def user_login(request):
@@ -33,18 +40,17 @@ def user_login(request):
             user = authenticate(username=username, password=password)
             if user:
                 login(request, user)
-                # Use reverse to get the URL for 'home.html'
-                home_url = reverse('home')  # 'home' should be the name of your URL pattern
-                return redirect(home_url)
+                # Use reverse to get the URL for 'user_home.html'
+                return redirect('home_app:welcome')
     else:
         form = LoginForm()
     return render(request, 'login.html', {'form': form})
 
 def user_logout(request):
     logout(request)
-    return redirect('home')
+    return redirect('home_app:welcome')
 
-@login_required(login_url='register')
+@login_required()
 def home(request):
     return render(request, 'home.html')
 

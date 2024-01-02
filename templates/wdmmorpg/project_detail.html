@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="project-detail">
+    <h1>Project: {{ project.title }}</h1>
+    <p>{{ project.description }}</p>
+    <!-- Project information here -->
+
+    {% if mission %}
+    <div class="mission-detail">
+        <h3>Mission Details</h3>
+        <p>Title: {{ mission.title }}</p>
+        <p>Description: {{ mission.description }}</p>
+        <p>Priority: {{ mission.priority.name }}</p>  <!-- Assuming PriorityScale has a 'name' field -->
+        <p>Experience: {{ experience }}</p>
+
+        <h4>Tasks</h4>
+        {% for task in mission.tasks.all %}
+        <ul>
+            <li><a href="{% url 'wdm:task_detail' task.id %}"><h5>{{ task.title }}</h5></a></li>
+            <li>Brief: {{ task.description }}</li>
+            <li>Status: {{ task.status }}</li>
+            <!-- More task details -->
+
+            <li>
+                <form action="{% url 'wdm:complete_task' task.id %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit">Complete Task</button>
+                </form>
+            </li>
+
+            <li>
+                <form action="{% url 'wdm:task_delete' task.id %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit">Remove Task</button>
+                </form>
+            </li>
+
+            <li><a href="{% url 'wdm:task_update' task.id %}">Update Task</a></li>
+        </ul>
+        {% endfor %}
+
+    </div>
+    {% else %}
+    <p>No mission details are available for this project.</p>
+    {% endif %}
+</div>
+{% endblock %}

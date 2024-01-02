@@ -1,41 +1,104 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Add Song</title>
-    <style>
-        #drop-area {
-            border: 2px dashed #ccc;
-            border-radius: 20px;
-            width: 300px;
-            margin: 10px auto;
+{% extends "base.html" %}
+
+{% block extra_css %}
+<style>
+        .sad {
+            font-family: 'Arial', sans-serif;
+            background-color: transparent;
+            margin: 10px;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        form {
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             padding: 20px;
+            border-radius: 8px;
+        }
+
+        #drop-area {
+            border: 2px dashed #4a90e2;
+            border-radius: 10px;
+            width: 85%;
+            margin: 10px 0;
+            padding: 30px;
             text-align: center;
+            transition: all 0.2s ease-in-out;
+            position: relative;
+            overflow: hidden;
         }
+
         #drop-area.highlight {
-            border-color: purple;
+            background-color: #e8f0fe;
+            border-color: #4a90e2;
         }
+
+        #drop-area p {
+            margin: 0;
+            font-size: 16px;
+            color: #333;
+        }
+
+        #drop-area label {
+            cursor: pointer;
+            color: #4a90e2;
+            text-decoration: underline;
+        }
+
         .hidden {
-            display: none; /* Hide the elements */
+            display: none;
+        }
+
+        button {
+            background-color: #4a90e2;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            text-transform: uppercase;
+            margin-top: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        button:hover {
+            background-color: #357ab8;
+        }
+
+        .file-preview {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 12px;
+            color: #999;
         }
     </style>
-</head>
-<body>
+
+{% endblock %}
+
+{% block content %}
+<div class="sad">
     <form id="upload-form" method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        {{ form.as_p }}  <!-- Render the fields from the form -->
+        {{ form.as_p }}
         <div id="drop-area">
             <p>Drag and drop a song here or <label for="id_audio_file">click to select a file</label></p>
+            <span class="file-preview"></span>
         </div>
         <button type="submit">Upload</button>
     </form>
-    
+</div>
     <script>
         let dropArea = document.getElementById('drop-area');
-        let fileInput = document.getElementById('id_audio_file'); // The file input field from Django form
-        let titleInput = document.getElementById('id_title'); // The title field from Django form
-        let durationInput = document.getElementById('id_duration'); // The duration field from Django form
+        let fileInput = document.getElementById('id_audio_file');
+        let titleInput = document.getElementById('id_title');
+        let durationInput = document.getElementById('id_duration');
+        let filePreview = document.querySelector('.file-preview');
 
-        // Style adjustments for the file input field to keep it hidden
         fileInput.classList.add('hidden');
         titleInput.parentElement.classList.add('hidden');
         durationInput.parentElement.classList.add('hidden');
@@ -75,16 +138,16 @@
         }
 
         function handleFiles(files) {
-            if(files.length > 0) {
+            if (files.length > 0) {
                 let file = files[0];
-                titleInput.value = file.name.split('.')[0]; // Set title as file name without extension
+                titleInput.value = file.name.split('.')[0];
                 
+                filePreview.textContent = `Selected: ${file.name}`;
                 let audio = document.createElement('audio');
                 audio.src = URL.createObjectURL(file);
                 audio.addEventListener('loadedmetadata', function() {
-                    // Ensure duration is rounded and assigned properly
                     if (!isNaN(audio.duration)) {
-                        durationInput.value = Math.round(audio.duration); // Set duration in seconds
+                        durationInput.value = Math.round(audio.duration);
                     }
                 });
             }
@@ -94,5 +157,5 @@
             handleFiles(this.files);
         });
     </script>
-</body>
-</html>
+{% endblock %}
+

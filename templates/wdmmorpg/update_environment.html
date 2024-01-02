@@ -1,0 +1,34 @@
+<!-- update_environment.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Update Environment</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-success">Update Environment</button>
+        <a href="{% url 'wdmmorpg:envlist' %}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+{% endblock %}
+
+{% block head %}
+<style>
+    .container {
+        max-width: 600px;
+        margin: auto;
+        padding-top: 50px;
+    }
+    .btn-success {
+        color: white;
+        background-color: #28a745;
+        border-color: #28a745;
+    }
+    .btn-secondary {
+        color: white;
+        background-color: #6c757d;
+        border-color: #6c757d;
+    }
+</style>
+{% endblock %}

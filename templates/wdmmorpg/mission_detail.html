@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Mission Detail</h2>
+    <p>Title: {{ mission.title }}</p>
+    <p>Description: {{ mission.description }}</p>
+    <p>Priority: {{ mission.priority }}</p>
+    <!-- Displaying Tasks related to the mission -->
+    <h3>Tasks</h3>
+    {% if mission.tasks.all %}
+        <ul>
+            {% for task in mission.tasks.all %}
+                <li>
+                    <strong>Task Name:</strong> {{ task.title }}
+                    <br>
+                    <strong>Description:</strong> {{ task.description }}
+                    <br>
+                    <strong>Status:</strong> {{ task.status }}
+                    <!-- Add more fields as necessary -->
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No tasks associated with this mission.</p>
+    {% endif %}
+
+    <a href="{% url 'wdmmorpg:update_mission' mission.id %}" class="btn btn-primary">Edit</a>
+    <form action="{% url 'wdmmorpg:delete_mission' mission.id %}" method="post">
+        {% csrf_token %}
+        <input type="submit" value="Delete Mission">
+    </form>
+    <a href="{% url 'wdmmorpg:mission_list' %}" class="btn btn-secondary">Back to List</a>
+</div>
+{% endblock %}

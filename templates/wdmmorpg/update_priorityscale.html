@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!-- Main container for the edit priority scale form -->
+<div class="container mt-4">
+    <h2>Edit Priority Scale</h2>
+    <!-- Form to submit priority scale updates -->
+    <form method="post" class="form-edit-priority">
+        {% csrf_token %}
+        <!-- Form fields generated dynamically -->
+        <fieldset>
+            <legend>Priority Scale Details</legend>
+            <div class="form-group">
+                {{ form.as_p }}
+            </div>
+        </fieldset>
+        <!-- Action buttons for the form -->
+        <div class="form-actions">
+            <button type="submit" class="btn btn-warning">Update</button>
+            <a href="{% url 'wdmmorpg:priorityscale_list' %}" class="btn btn-secondary">Back to List</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

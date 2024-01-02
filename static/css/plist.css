@@ -1,0 +1,185 @@
+embody {
+    background-image: url("{% static 'images/patern.jpg' %}");
+}
+
+.textfx:hover {
+    padding-inline: 10px;
+    background-color: rgb(255, 174, 0);
+    font-weight: bold;
+    border: 5px solid rgb(255, 174, 0);
+    border-radius: 10px;
+    color: rgb(0, 0, 0);
+    font-size: 30px;
+    box-shadow: 0 0 70px rgba(255, 174, 0, 0.5);
+}
+
+.textfx2{
+    padding-inline: 10px;
+    background-color: rgb(255, 174, 0);
+    font-weight: bold;
+    border: 5px solid rgb(255, 174, 0);
+    border-radius: 10px;
+    color: rgb(255, 170, 0);
+    font-size: 30px;
+    box-shadow: 0 0 70px rgba(255, 174, 0, 0.5);
+}
+
+.textfx2:hover {
+    padding-inline: 10px;
+    background-color: rgb(0, 0, 0);
+    font-weight: bold;
+    border: 5px solid rgb(0, 0, 0);
+    border-radius: 10px;
+    color: rgb(255, 174, 0);
+    font-size: 30px;
+    box-shadow: 0 0 70px rgba(255, 174, 0, 0.5);
+}
+
+
+.title-display {
+    color: rgb(59, 15, 255);
+}
+
+.title-display2 {
+    color: rgb(255, 174, 0);
+}
+
+.cbg{
+    background-image: url("{% static 'images/intro.jpg' %}");
+}
+
+.team-blue:hover {
+    color: blue;
+}
+
+.hero-section {
+    height: 300px;
+    padding: 20px;
+    margin-bottom: 80px;
+    border-radius: 20px;
+    border: 7px;
+    background-image: url("{% static 'images/bp_print_4.jpg' %}");
+    filter: grayscale(100%);
+    background-size: 100% 300%;
+    background-position: 20% 40%;
+    border-color: rgb(0, 0, 0);
+    opacity: 100%;
+    box-shadow: 0 0 70px rgb(255, 174, 0.5);
+    transition: all 0.5s ease-in-out 0s;
+
+}
+
+.hero-section:hover {
+    height: 310px;
+    padding: 20px;
+    margin-bottom: 80px;
+    border-radius: 20px;
+    border: 7px;
+    background-image: url("{% static 'images/bp_print_4.jpg' %}");
+    filter: grayscale(0%);
+    background-size: 110% 310%;
+    background-position: 20% 40%;
+    border-color: rgb(0, 0, 0);
+    opacity: 100%;
+    box-shadow: 0 0 70px rgba(0, 0, 0, 0.5);
+    transition: all 0.5s ease-in-out 0s;
+}
+
+text-color {
+    color: orange;
+}
+
+h2 {
+    opacity: 100%;
+}
+
+.hero-link {
+    height: 200px;
+}
+
+.paragraph {
+    background-color: black;
+    border-radius: 20px;
+    padding: 20px;
+    margin-bottom: 10px;
+    color: white;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #f7f7f7;
+}
+
+.playlist-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background: transparent;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.title {
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.create-button {
+    display: block;
+    width: max-content;
+    margin: 10px auto 30px;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.create-button:hover {
+    background-color: #45a049;
+}
+
+a {
+    text-decoration: none;
+}
+
+.create-button:hover {
+    background-color: #45a049;
+    text-decoration: none;
+
+}
+
+.playlist-list {
+    list-style: none;
+    padding: 0;
+}
+
+.playlist-item {
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.playlist-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 5px 15px rgba(0,0,0,0.1);
+    text-decoration: none;
+}
+
+.playlist-link {
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+}
+
+@media (max-width: 768px) {
+    .playlist-container {
+        margin: 10px;
+    }
+}

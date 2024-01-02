@@ -1,15 +1,22 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Playlists</title>
-</head>
-<body>
-    <h1>Playlists</h1>
-    <a href="{% url 'music:playlist_create' %}">Create New Playlist</a>
-    <ul>
+{% extends 'base.html' %}
+
+{% block extra_css %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/plist.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="playlist-container">
+    <h1 class="title">Playlists</h1>
+    <a href="{% url 'music:playlist_create' %}" class="create-button">Create New Playlist</a>
+    <div class="playlist-list">
         {% for playlist in playlists %}
-        <li><a href="{% url 'music:playlist_detail' playlist.pk %}">{{ playlist.title }}</a></li>
+        <div class="playlist-item">
+            <a href="{% url 'music:playlist_detail' playlist.pk %}" class="playlist-link">{{ playlist.title }}</a>
+        </div>
         {% endfor %}
-    </ul>
-</body>
-</html>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,93 @@
+/* Reset some basic elements */
+body, h1, h2, h3, p, ul {
+    margin: 0;
+    padding: 0;
+}
+
+/* Container */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Top Navigation */
+.top-nav {
+    background: #333;
+    color: #fff;
+}
+
+.top-nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.top-nav li {
+    padding: 20px;
+}
+
+.top-nav a {
+    color: white;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.top-nav a:hover {
+    color: #ddd;
+}
+
+/* Side Navigation */
+.side-nav {
+    width: 250px;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    background: #f4f4f4;
+    padding-top: 60px;
+}
+
+.side-nav ul {
+    list-style: none;
+}
+
+.side-nav li {
+    padding: 20px;
+    border-bottom: 1px solid #ddd;
+}
+
+.side-nav a {
+    text-decoration: none;
+    color: #333;
+    transition: color 0.3s ease;
+}
+
+.side-nav a:hover {
+    color: #007bff;
+}
+
+/* Main Content */
+.content {
+    margin-left: 250px; /* same as side-nav width */
+    padding: 20px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .side-nav {
+        width: 100%;
+        height: auto;
+        position: relative;
+    }
+    .content {
+        margin: 0;
+    }
+    .top-nav ul {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .top-nav li {
+        width: 100%;
+        text-align: left;
+    }
+}

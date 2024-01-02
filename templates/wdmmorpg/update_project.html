@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="project-detail">
+    <h1>Update Project: {{ project.title }}</h1>
+    <p>Edit the details and associate missions with this project.</p>
+
+    <!-- Form for updating project details and associating missions -->
+    <form method="post" action="{% url 'wdm:update_project' project.id %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+
+        <fieldset>
+            <legend>Select Missions to Associate with this Project:</legend>
+            {% for mission in all_missions %}
+            <div>
+                <!-- Checkbox for each mission -->
+                <input type="checkbox" id="mission_{{ mission.id }}" name="missions" value="{{ mission.id }}"
+                       {% if mission in project.missions.all %} checked {% endif %}>
+                <label for="mission_{{ mission.id }}">{{ mission.title }}</label>
+            </div>
+            {% endfor %}
+        </fieldset>
+
+        <button type="submit">Update Project</button>
+    </form>
+</div>
+{% endblock %}

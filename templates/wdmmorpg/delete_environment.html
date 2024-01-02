@@ -1,0 +1,13 @@
+<!-- delete_environment.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Are you sure you want to delete "{{ environment.name }}"?</h2>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Confirm Delete</button>
+        <a href="{% url 'wdmmorpg:envlist' %}" class="btn btn-light">Cancel</a>
+    </form>
+</div>
+{% endblock %}

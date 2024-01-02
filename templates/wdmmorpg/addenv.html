@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Add New Environment</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-success">Create Environment</button>
+        <a href="{% url 'wdmmorpg:envlist' %}" class="btn btn-secondary">Back to List</a>
+    </form>
+</div>
+{% endblock %}
+
+{% block head %}
+<style>
+    .container {
+        max-width: 600px;
+        margin: auto;
+        padding-top: 50px;
+    }
+    h2 {
+        color: #333;
+    }
+    .btn-success {
+        color: white;
+        background-color: #28a745;
+        border-color: #28a745;
+    }
+    .btn-secondary {
+        color: white;
+        background-color: #6c757d;
+        border-color: #6c757d;
+    }
+</style>
+{% endblock %}

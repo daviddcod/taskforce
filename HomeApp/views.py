@@ -7,8 +7,31 @@ from django.views.decorators.csrf import csrf_exempt
 def beats(request):
     return render(request, 'HomeApp/beats.html' )
 
+from django.shortcuts import render
+from wdmmorpg.models import Task
+from music.models import Playlist
+from myblog.models import Blog
+
 def welcome(request):
-    return render(request, 'HomeApp/welcome.html' )
+    # Fetch the first instances for the carousel
+    task = Task.objects.first()
+    playlist = Playlist.objects.first()
+    blog = Blog.objects.first()
+
+    # Fetch all instances for the sections
+    tasks = Task.objects.all()
+    playlists = Playlist.objects.all()
+    blogs = Blog.objects.all()
+
+    context = {
+        'task': task,
+        'playlist': playlist,
+        'blog': blog,
+        'tasks': tasks,
+        'playlists': playlists,
+        'blogs': blogs,
+    }
+    return render(request, 'HomeApp/welcome.html', context)
 
 def home(request):
     cookies_accepted = request.session.get('cookie_consent', False)

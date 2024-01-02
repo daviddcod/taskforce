@@ -1,483 +1,233 @@
-<!DOCTYPE html>
-<html>
+{% extends 'base.html' %}
 
-<head>
-    <title>Blog Home</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'beathome.css' %}">
-    <script src="{% static 'jumbotron.js' %}"></script>
+{% block extra_css %}
+<style>
+    /* Base Styles */
+    body {
+        font-family: 'Poppins', sans-serif;
+        line-height: 1.6;
+        color: #333;
+        background-color: #f8f9fa;
+    }
 
-    
-    <nav class="navbar navbar-expand-lg navbar-dark bg">
-        <div class="container">
-            <a class="navbar-brand" href="{% url 'welcome' %}">WDM</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'beathome' %}">Music</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'taskplayer' %}">Plan</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'course' %}">Course</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'bloghome' %}">Blog</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'organization' %}">Contact</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'data' %}">Shop</a>
-                    </li>
-                </ul>
+    /* Parallax Effect Styles */
+    .parallax-window {
+        min-height: 400px;
+        background: transparent;
+    }
+
+    /* Carousel Improvements */
+    .carousel-item {
+        height: 85vh;
+        min-height: 300px;
+        background: no-repeat center center scroll;
+        background-size: cover;
+        transition: transform 0.5s ease-in-out;
+    }
+
+    .carousel-item:hover {
+        transform: scale(1.05);
+    }
+
+    .overlay-image {
+        position: absolute;
+        bottom: 0;
+        background: linear-gradient(to top, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0));
+        color: #fff;
+        width: 100%;
+        padding: 40px;
+        transition: background 0.5s ease-in-out;
+    }
+
+    .hero-title {
+        font-size: 4rem;
+        font-weight: 700;
+        color: #fff;
+        text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Button Enhancements */
+    .btn {
+        border: 0;
+        border-radius: 5px;
+        padding: 10px 20px;
+        font-size: 16px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+
+    .btn:hover {
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Section Styling Adjusted */
+    section {
+        padding: 80px 0;  /* Increased vertical padding for more space */
+    }
+
+    /* Card Margin Adjustment */
+    .card {
+        margin-bottom: 30px;  /* Adds space below each card */
+    }
+
+    /* Carousel Bottom Margin */
+    .carousel {
+        margin-bottom: 50px;  /* Adds space below the carousel */
+    }
+
+    .title-display, .title-display2 {
+        font-size: 2.5rem;
+        color: #0056b3;
+        margin-bottom: 30px;
+        text-align: center;
+    }
+
+    /* Card Enhancements */
+    .card {
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease-in-out;
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+    }
+
+    .card-body {
+        padding: 20px;
+    }
+
+    .card-title {
+        font-size: 1.5rem;
+        color: #0056b3;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .hero-title {
+            font-size: 2rem;
+        }
+
+        .title-display, .title-display2 {
+            font-size: 2rem;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Carousel Hero Section -->
+{% load static %}
+
+<div id="carouselExampleIndicators" class="carousel slide mb-5" data-ride="carousel">
+    <ol class="carousel-indicators">
+        <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+        <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+        <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+    </ol>
+    <div class="carousel-inner">
+        <!-- Slide 1 for Task -->
+        <div class="carousel-item active" style="background-image: url('{% static 'images/blacktile.jpg' %}')">
+            <div class="overlay-image">
+                <h2 class="hero-title">{{ task.title }}</h2>
+                <p>{{ task.description }}</p>
             </div>
         </div>
-    </nav>
-</head>
-
-<body>
-    <style>
-        body {
-            background-image: url("{% static 'images/mars.jpg' %}");
-            background-repeat: no-repeat;
-            background-position: center;
-            background-size: cover;
-        }
-
-        .textfx:hover {
-            padding-inline: 10px;
-            background-color: rgb(255, 174, 0);
-            font-weight: bold;
-            border: 5px solid rgb(255, 174, 0);
-            border-radius: 10px;
-            color: rgb(0, 0, 0);
-            font-size: 30px;
-            box-shadow: 0 0 70px rgba(255, 174, 0, 0.5);
-        }
-
-        .textfx2{
-            padding-inline: 10px;
-            background-color: rgb(255, 174, 0);
-            font-weight: bold;
-            border: 5px solid rgb(255, 174, 0);
-            border-radius: 10px;
-            color: rgb(255, 170, 0);
-            font-size: 30px;
-            box-shadow: 0 0 70px rgba(255, 174, 0, 0.5);
-        }
-
-        .textfx2:hover {
-            padding-inline: 10px;
-            background-color: rgb(0, 0, 0);
-            font-weight: bold;
-            border: 5px solid rgb(0, 0, 0);
-            border-radius: 10px;
-            color: rgb(255, 174, 0);
-            font-size: 30px;
-            box-shadow: 0 0 70px rgba(255, 174, 0, 0.5);
-        }
-
-
-        .title-display {
-            color: rgb(59, 15, 255);
-        }
-
-        .title-display2 {
-            color: rgb(255, 174, 0);
-        }
-
-        .cbg{
-            background-image: url("{% static 'images/intro.jpg' %}");
-        }
-
-        .team-blue:hover {
-            color: blue;
-        }
-
-        .hero-section {
-            height: 400px;
-            padding: 20px;
-            margin-top: 20px;
-            margin-bottom: 80px;
-            border-radius: 20px;
-            border: 7px;
-            background-image: url("{% static 'images/wdmmorpg.jpg' %}");
-            filter: blur(100%);
-            background-size: 100% 300%;
-            background-position: 20% 40%;
-            border-color: rgb(0, 0, 0);
-            opacity: 100%;
-            box-shadow: 0 0 70px rgb(255, 174, 0.5);
-            transition: all 0.5s ease-in-out 0s;
-
-        }
-
-        .hero-section:hover {
-            height: 400px;
-            padding: 20px;
-            margin-bottom: 80px;
-            border-radius: 20px;
-            border: 7px;
-            background-image: url("{% static 'images/bp_print_4.jpg' %}");
-            filter: grayscale(0%);
-            background-size: 110% 310%;
-            background-position: 20% 40%;
-            border-color: rgb(0, 0, 0);
-            opacity: 100%;
-            box-shadow: 0 0 70px rgba(0, 0, 0, 0.5);
-            transition: all 0.5s ease-in-out 0s;
-        }
-
-        text-color {
-            color: orange;
-        }
-
-        h2 {
-            opacity: 100%;
-        }
-
-        .hero-link {
-            height: 200px;
-        }
-
-        .paragraph {
-            background-color: black;
-            border-radius: 20px;
-            padding: 20px;
-            margin-bottom: 10px;
-            color: white;
-        }
-
-        .content-block {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            background-color: black;
-            border-radius: 24px;
-            height: 400px;
-            box-shadow: 0 0 70px rgba(255, 113, 113, 0.5);
-            margin-bottom: 50px;
-            padding: 12px;
-        }
-
-        .content-block-2 {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            background-color: black;
-            border-radius: 24px;
-            height: 500px;
-            box-shadow: 0 0 70px rgba(255, 113, 113, 0.5);
-            margin-bottom: 50px;
-            padding: 12px;
-        }
-
-        .carrousel {
-            background-color: transparent;
-            border-radius: 24px;
-            height: 448px;
-            box-shadow: 0 0 70px rgba(255, 113, 113, 0.5);
-            margin-bottom: 50px;
-        }
-
-        .content-title-block{
-            background-color: aqua;
-            border-radius: 24px;
-            height: 180px;
-            margin: 12px;
-        }
-
-        .content-header {
-            color: rgba(255, 113, 113, 0.5);
-        }
-
-        .content-title-space {
-            padding: 12px;
-        }
-
-        .content-item{
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: blue;
-            margin: 24px;
-            height: 250px;
-            border-radius: 24px;
-        }
-
-        .content-item-2{
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: blue;
-            margin: 24px;
-            height: 350px;
-            border-radius: 24px;
-        }
-
-        .content-item-element{
-            padding: 12px;
-            border-radius: 12px;
-            margin-bottom: 12px;
-            margin-top: 12px;
-            background-color: aliceblue;
-            height: 45px;
-        }
-
-        .content-item-element-2{
-            padding: 12px;
-            border-radius: 12px;
-            margin-bottom: 12px;
-            margin-top: 12px;
-            background-color: rgb(62, 83, 102);
-            height: 150px;
-        }
-
-        .content-item-section{
-            background-color: orange;
-            height: 300px;
-            border-radius: 24px;
-            margin: 12px;
-        }
-
-        .content-item-section-2 {
-            background-color: orange;
-            height: 150spx;
-            border-radius: 24px;
-            margin: 12px;
-        }
-
-        .csms {
-            background-color: black;
-            height: 125spx;
-            border-radius: 24px;
-            margin: 12px;
-        }
-
-        .carrousel-image{
-            width: 100%;
-            height: auto;
-            object-fit: cover;
-        }
-
-        .ima{
-            height: 200px;
-        }
-
-        .eigen {
-            background-image: url("{% static 'images/wdmmorpg.jpg' %}");
-        }
-
-
-    </style>
-
-
-   
-    <div class="container">
-        
-        <div class="content-row">
-
-            <div class="col-12 carrousel">
-                <div class="col-sm ima">
-                    {% include "carrousel.html" %}
-                </div>
+        <!-- Slide 2 for Playlist -->
+        <div class="carousel-item" style="background-image: url('{% static 'images/darkdune.jpg' %}')">
+            <div class="overlay-image">
+                <h2 class="hero-title">{{ playlist.title }}</h2>
+                <!-- Additional details can go here -->
             </div>
-
-
-            <div class="col-12 content-block h-400">
-                <div class="content-title-space">
-                    <h5>
-                        COURSES
-                    </h5>
-                </div>
-                <div class="col content-title-block">
-                    <div class="row">
-                        <!--blue block template start-->
-                        <div class="col-sm content-item">
-                            <div class="container">
-                                <div class="col-sm content-item-element center">
-                                    NLP
-                                </div>
-
-                                <div class="col-sm content-item-element">
-
-                                </div>
-
-                                <div class="col-sm content-item-element">
-                                    
-                                </div>
-
-                                <div class="col-sm content-item-element center">
-
-                                </div>
-                                
-                            </div>
-                        </div>
-                        <!--blue block template end-->
-
-                        <!--blue block template start-->
-                        <div class="col-sm content-item">
-                            <div class="container">
-                                <div class="col-sm content-item-element center">
-                                    PLANNING
-                                </div>
-
-                                <div class="col-sm content-item-element">
-                                    geboren 11/28/2000
-                                    nationaliteit nederlanden
-                                    geboorteplaats: S' GravenHage
-                                    postcode: 2572SX
-
-                                    verblijfplaats:
-                                    Van Blommesteynweg 36
-
-                                    Stempas = niet bij zich
-
-                                    Reden voor verblijf Haagse Hoge School:
-                                            Preparatie Ingeschreven Minor Programma February
-                                            Studentnummer: 20140673
-                                            Naam: David Deji
-                                    
-                                    I so terribly want to be alone
-
-                                </div>
-
-                                <div class="col-sm content-item-element">
-                                    
-                                </div>
-
-                                <div class="col-sm content-item-element">
-                                    
-                                </div>
-                                
-                            </div>
-                        </div>
-                        <!--blue block template end-->
-                        
-                        <!--blue block template start-->
-                        <div class="col-sm content-item">
-                            <div class="container">
-                                <div class="col-sm content-item-element center">
-                                    CODING
-                                </div>
-
-                                <div class="col-sm content-item-element">
-                                    
-                                </div>
-
-                                <div class="col-sm content-item-element">
-
-                                </div>
-
-                                <div class="col-sm content-item-element center">
-                                    <text class="title-display textfx2">
-                                        <a href="{% url 'taskplayer'%}" class="title-display"
-                                           onmouseover="this.style.color='orange';"
-                                           onmouseout="this.style.color='black';"
-                                           style="color: black; z-index: 1; position: relative;">START</a>
-                                    </text>
-                                </div>
-                                
-                            </div>
-                        </div>
-                        <!--blue block template end-->
-                    </div>
-                </div>
-            </div>        
-
-            <div class="col-12 content-block-2 h-450">
-                <div class="content-title-space h-350">
-                    <h5 class="content-header"> SHOP </h5>
-                </div>
-                <div class="col content-title-block">
-                    <div class="row">
-                        <div class="col-sm-7 content-item-2">
-
-                            <div class="col-sm-7 content-item-section">
-
-                            </div>
-
-                            <div class="col-sm content-item-section">
-
-                            </div>
-
-                        </div>
-
-                        <div class="col-sm content-item-2">
-
-                            <div class="col-sm content-item-section">
-
-                            </div>
-
-                        </div>
-
-                    </div>
-                </div>
-            </div> 
-
-
-            <div class="col-12 content-block-2">
-                <div class="content-title-space ">
-                    <h5 class="content-header"> ORANGE </h5>
-                </div>
-                <div class="col content-title-block">
-                    <div class="row">
-                        <div class="col-sm-6 content-item-2">
-
-                            <div class="container">
-                                <div class="col-sm content-item-element-2">
-
-                                </div>
-
-                                <div class="col-sm content-item-element-2">
-
-                                </div>
-                            </div>
-
-                        </div>
-
-                        <div class="col-sm content-item-2">
-                            
-                            <div class="container">
-                                <div class="col-sm content-item-element-2">
-                                    <p onmouseover="this.style.color='black';" onmouseout="this.style.color='orange';">Learn model creation / Export Knowledge to WebAi / Generate WebAi Gui</p>
-                                </div>
-
-                                <div class="col-sm content-item-element-2">
-                                    <p onmouseover="this.style.color='black';" onmouseout="this.style.color='orange';">WebAi is Pseudo-Ai application that easily crafts Django Apps, Django Views and Django Models linked to the orm Database</p>
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-                </div>
-            </div> 
-
         </div>
-
-
+        <!-- Slide 3 for Blog -->
+        <div class="carousel-item" style="background-image: url('{% static 'images/matrix.jpg' %}')">
+            <div class="overlay-image">
+                <h2 class="hero-title">{{ blog.title }}</h2>
+                <p>{{ blog.content }}</p>
+                <p>yo</p>
+            </div>
+        </div>
     </div>
+</div>
 
-    
+<!-- Main container -->
+<div class="container mt-5">
+    <!-- Parallax Section -->
+    <div class="parallax-window mb-5" data-parallax="scroll" data-image-src="{% static 'images/parallax1.jpg' %}"></div>
 
-    <footer>
-        <div class="container">
-            <div class="row">
-
+    <!-- Blog Section (Second Level) -->
+    <section class="mb-5">
+        <h2 class="mb-4 title-display2">Latest Blogs</h2>
+        <div class="row">
+            <!-- Loop through Blogs -->
+            {% for blog in blogs %}
+            <div class="col-md-4 mb-3">
+                <div class="card">
+                    <img class="card-img-top" src="{% static 'images/blog.jpg' %}" alt="Blog image">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ blog.title }}</h5>
+                        <p class="card-text">{{ blog.content|truncatewords:20 }}</p>
+                        <a href="{% url 'myblog:blog_detail' blog.id %}" class="btn btn-primary">Read More</a>
+                    </div>
+                </div>
             </div>
+            {% endfor %}
         </div>
-    </footer>
-</body>
+    </section>
 
-</html>
+    <!-- Task Section (Intermixed in Homepage) -->
+    <section class="mb-5">
+        <h2 class="mb-4 title-display">Current Tasks</h2>
+        <div class="row">
+            <!-- Loop through Tasks -->
+            {% for task in tasks %}
+            <div class="col-md-4 mb-3">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ task.title }}</h5>
+                        <p class="card-text">{{ task.description|truncatewords:20 }}</p>
+                        <a href="{% url 'wdmmorpg:task_detail' task.id %}" class="btn btn-secondary">Details</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <!-- Music Section (Third Level) -->
+    <section class="mb-5">
+        <h2 class="mb-4 title-display2">Featured Playlists</h2>
+        <div class="row">
+            <!-- Loop through Music Playlists -->
+            {% for playlist in playlists %}
+            <div class="col-md-4 mb-3">
+                <div class="card">
+                    <img class="card-img-top" src="{% static 'images/music.jpg' %}" alt="Playlist image">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ playlist.title }}</h5>
+                        <p class="card-text">Created on {{ playlist.created_at|date:"M d, Y" }}</p>
+                        <a href="{% url 'music:playlist_detail' playlist.id %}" class="btn btn-dark">View Playlist</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/parallax.js/1.5.0/parallax.min.js"></script>
+<script>
+    $(document).ready(function(){
+        // Initialize Parallax
+        $('.parallax-window').parallax({});
+
+        // Initialize Carousel
+        $('.carousel').carousel({
+            interval: 5000 //changes the speed
+        })
+    });
+</script>
+{% endblock %}

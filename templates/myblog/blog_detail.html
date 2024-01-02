@@ -1,30 +1,58 @@
-<!-- myblog/templates/myblog/blog_detail.html -->
 
-<!DOCTYPE html>
-<html>
-<head>
-    <title>{{ blog.title }}</title>
-</head>
-<body>
-    <h1>{{ blog.title }}</h1>
-    <p>{{ blog.content }}</p>
-    <p>Published on: {{ blog.pub_date }}</p>
+{% extends 'base.html' %}
 
-    <h2>Comments</h2>
-    {% for comment in blog.comments.all %}
-        <p><strong>{{ comment.author }}</strong> - {{ comment.created_date }}<br>
-        {{ comment.text }}</p>
-    {% empty %}
-        <p>No comments yet.</p>
-    {% endfor %}
+{% block extra_css %}
+{%load static%}
+<link rel="stylesheet" href="{% static 'css/blog.css' %}">
+{% endblock %}
 
-    <h2>Add a comment</h2>
-    <form method="post">
-        {% csrf_token %}
-        {{ comment_form.as_p }}
-        <button type="submit">Add Comment</button>
-    </form>
 
-    <a href="{% url 'blog_list' %}">Back to Blog List</a>
-</body>
-</html>
+{% block content %}
+    <div class="container">
+        <a href="{% url 'myblog:blog_list' %}" class="back-link">Back to Blog List</a>
+
+        <h1>{{ blog.title }}</h1>
+        <p>{{ blog.content }}</p>
+        <p>Published on: {{ blog.pub_date }}</p>
+
+        <section>
+            <h2>Comments</h2>
+            {% for comment in blog.comments.all %}
+                <div class="comment">
+                    <span class="comment-author">{{ comment.author }}</span>
+                    <span class="comment-meta">- {{ comment.created_date }}</span>
+                    <p>{{ comment.text }}</p>
+                </div>
+            {% empty %}
+                <p>No comments yet.</p>
+            {% endfor %}
+        </section>
+
+        <section>
+            <h2>Add a comment</h2>
+            <form method="post">
+                {% csrf_token %}
+                {{ comment_form.as_p }}
+                <button type="submit">Add Comment</button>
+            </form>
+        </section>
+
+    </div>
+
+    <script>
+        const toggleModeButton = document.querySelector('.toggle-mode');
+        toggleModeButton.addEventListener('click', () => {
+            const currentTheme = document.body.getAttribute('data-theme');
+            document.body.setAttribute('data-theme', currentTheme === 'light' ? 'dark' : 'light');
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelector('form').addEventListener('submit', () => {
+                return confirm('Are you sure you want to submit your comment?');
+            });
+        });
+    </script>
+    
+    {% endblock %}
+
+    

@@ -74,7 +74,7 @@ class UserProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile
         fields = ['user', 'level', 'experience', 'prestige', 'health', 'endurance', 'mind']
-
+        exclude = ['user'] 
     def clean_level(self):
         level = self.cleaned_data['level']
         if level < 0 or level > MAX_LEVEL:
@@ -111,6 +111,16 @@ class TaskForm(forms.ModelForm):
 
 # MissionForm
 class MissionForm(forms.ModelForm):
+    title = forms.CharField(max_length=100, widget=forms.TextInput(attrs={'class': 'form-control'}))
+    description = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control'}))
+    priority = forms.ModelChoiceField(queryset=PriorityScale.objects.all(), widget=forms.Select(attrs={'class': 'form-control'}))
+
+    tasks = forms.ModelMultipleChoiceField(
+        queryset=Task.objects.all(),
+        widget=forms.CheckboxSelectMultiple,
+        required=False  # Adjust as needed
+    )
+
     class Meta:
         model = Mission
         fields = ['title', 'description', 'priority', 'tasks']
@@ -263,30 +273,36 @@ from .models import UserProfile
 User = get_user_model()
 
 class CustomUserCreationForm(UserCreationForm):
-    # Add additional fields here
-    level = forms.IntegerField()
-    experience = forms.IntegerField()
-    prestige = forms.IntegerField()
-    health = forms.IntegerField()
-    endurance = forms.IntegerField()
-    mind = forms.IntegerField()
-    
     class Meta(UserCreationForm.Meta):
         model = User
-        fields = UserCreationForm.Meta.fields + ('email',)  # Add additional fields if needed
+        fields = ('username', 'email', 'password1', 'password2')  # Only show these fields initially
+        help_texts = {
+            'username': 'A unique username for your profile.',
+            'email': 'We\'ll never share your email with anyone else.',
+            # Add more help texts for other fields as needed
+        }
 
     def save(self, commit=True):
         user = super().save(commit=False)
         if commit:
             user.save()
-            # Now save the UserProfile fields
+            # Set default values for the extra fields
             UserProfile.objects.create(
                 user=user,
-                level=self.cleaned_data['level'],
-                experience=self.cleaned_data['experience'],
-                prestige=self.cleaned_data['prestige'],
-                health=self.cleaned_data['health'],
-                endurance=self.cleaned_data['endurance'],
-                mind=self.cleaned_data['mind'],
+                level=1,  # Default level
+                experience=0,  # Default experience
+                prestige=1,  # Default prestige
+                health=200,  # Default health
+                endurance=100,  # Default endurance
+                mind=75,  # Default mind
             )
         return user
+
+
+from django import forms
+from .models import Task
+
+class TaskForm(forms.ModelForm):
+    class Meta:
+        model = Task
+        fields = ['title', 'description', 'priority', 'environment', 'due_date', 'status', 'is_active']
