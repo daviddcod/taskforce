@@ -56,6 +56,9 @@ class UserProfile(models.Model):
         self.level += 1
         self.experience -= self.calculate_exp_for_next_level()
 
+    def __str__(self):
+        return self.user.username
+
 # Rank and Priority Scale
 from django.conf import settings
 class Rank(models.Model):
@@ -84,7 +87,6 @@ class Environment(models.Model):
     location = models.CharField(max_length=100, null=True)  # Make it nullable temporarily
     users = models.ManyToManyField(UserProfile)  # Changed to use UserProfile
     # Rest of the model fields...
-
 
     def __str__(self):
         return self.name
@@ -130,6 +132,9 @@ class Mission(models.Model):
 
     def calculate_experience(self):
         return sum([task.calculate_experience() for task in self.tasks.all()]) * 1.2
+    
+    def __str__(self):
+        return self.title
 
 from django.conf import settings
 class Project(models.Model):

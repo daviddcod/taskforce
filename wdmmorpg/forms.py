@@ -178,9 +178,17 @@ class MissionForm(forms.ModelForm):
             self.fields['tasks'].queryset = Task.objects.none()
 # ProjectForm
 class ProjectForm(forms.ModelForm):
+    missions = forms.ModelMultipleChoiceField(
+        queryset=Mission.objects.all(),  # Adjust this to your actual queryset
+        widget=forms.CheckboxSelectMultiple,
+        required=False  # Adjust based on whether a selection is required
+    )
+            
     class Meta:
         model = Project
         fields = ['title', 'description', 'start_date', 'end_date', 'status', 'missions']
+
+
 
     def clean(self):
         cleaned_data = super().clean()
@@ -219,6 +227,12 @@ class InventoryItemForm(forms.ModelForm):
 
 # EnvironmentForm
 class EnvironmentForm(forms.ModelForm):
+    users = forms.ModelMultipleChoiceField(
+        queryset=UserProfile.objects.all(),  # Adjust the queryset as needed
+        widget=forms.CheckboxSelectMultiple,
+        required=False  # Set to True if it's a mandatory field
+    )
+
     class Meta:
         model = Environment
         fields = ['name', 'location', 'description', 'users']

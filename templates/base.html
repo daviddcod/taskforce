@@ -70,7 +70,12 @@
                 <!-- Right nav items -->
                 <ul class="navbar-nav ml-auto">
                     {% if user.is_authenticated %}
-                        <!-- Show only if the user is logged in -->
+                        <!-- Show profile icon and user name only if the user is logged in -->
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'wdm:user_profile' %}" style="color: white;">
+                                <img src="{% static 'images/patern.jpsg' %}" alt="Profile" class="profile-icon"> {{ user.username }}
+                            </a>
+                        </li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'auth_app:logout' %}" style="color: white;">Logout</a></li>
                     {% else %}
                         <!-- Show only if the user is not logged in -->
@@ -78,6 +83,7 @@
                         <li class="nav-item"><a class="nav-link" href="{% url 'wdm:register_user' %}" style="color: white;">Register</a></li>
                     {% endif %}
                 </ul>
+
                 
             </div>
         </div>

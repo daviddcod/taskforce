@@ -1,5 +1,37 @@
-<form method="post">{% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Create Project</button>
-  </form>
-  
+{% extends 'base.html' %}
+
+{% block content %}
+<!-- Form starts here -->
+<form method="post" class="my-form">
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+
+    <!-- Render other fields as paragraphs -->
+    {% for field in form %}
+        {% if field.name != 'missions' %}
+            <div class="form-group">
+                {{ field.label_tag }}
+                {{ field }}
+                {{ field.errors }}
+            </div>
+        {% endif %}
+    {% endfor %}
+
+    <!-- Render missions as checkboxes with titles -->
+    <fieldset class="form-group">
+        <legend>Missions (Select multiple)</legend>
+        <div class="missions-container">
+            {% for checkbox in form.missions %}
+                <div class="mission-item">
+                    <label class="mission-label">
+                        {{ checkbox.tag }} {{ checkbox.choice_label }}
+                    </label>
+                </div>
+            {% endfor %}
+        </div>
+    </fieldset>
+
+    <button type="submit" class="btn btn-primary">Create Project</button>
+</form>
+<!-- Form ends here -->
+{% endblock %}

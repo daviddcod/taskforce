@@ -116,8 +116,11 @@ def task_list(request):
 
 @login_required
 def task_detail(request, pk):
-    task = Task.objects.filter(user=request.user.userprofile, id=pk)
+    print("pk:", pk)  # Add this line for debugging
+    print(request.user.userprofile)
+    task = Task.objects.get(id=pk)  # Use get instead of filter to ensure only one task is returned
     return render(request, 'wdmmorpg/task_detail.html', {'task': task})
+
 
 from .forms import TaskForm
 from django.shortcuts import redirect
@@ -135,9 +138,14 @@ def task_create(request):
         form = TaskForm()
     return render(request, 'wdmmorpg/task_form.html', {'form': form})
 
+from django.http import HttpResponseNotFound
 @login_required
 def task_update(request, pk):
-    task = Task.objects.filter(user=request.user.userprofile, id=pk)
+    task = Task.objects.filter(user=request.user.userprofile, id=pk).first()
+    if task is None:
+        # Handle the case where the task doesn't exist or doesn't belong to the user
+        return HttpResponseNotFound("Task not found")
+
     if request.method == 'POST':
         form = TaskForm(request.POST, instance=task)
         if form.is_valid():
@@ -146,6 +154,7 @@ def task_update(request, pk):
     else:
         form = TaskForm(instance=task)
     return render(request, 'wdmmorpg/task_form.html', {'form': form})
+
 
 from django.shortcuts import redirect
 
@@ -371,13 +380,13 @@ from django.contrib.auth.decorators import login_required
 @login_required
 def create_project(request):
     if request.method == 'POST':
-        form = ProjectForm(request.POST, user=request.user)  # Pass the user to the form
+        form = ProjectForm(request.POST)  # Pass the user to the form
         form.set_user(request.user)
 
         if form.is_valid():
             # Create a new project instance without saving it to the DB yet
             new_project = form.save(commit=False)
-            new_project.user = request.user  # Assign the current user's profile to the project
+            new_project.user = request.user.userprofile  # Assign the current user's profile to the project
             new_project.save()  # Save the project to the DB
             form.save_m2m()  # If the form has many-to-many fields, this is required
             return redirect('wdm:project_list')  # Redirect to the list view
@@ -473,7 +482,7 @@ def complete_task(request, task_id):
         # There's no need to manually remove it from the project's tasks as it's handled by the task's is_completed attribute.
 
         # Redirect to the task detail or another appropriate page
-        return redirect('wdm:task_detail', pk)
+        return redirect('wdm:task_list', pk)
 
     # If the task is already completed, redirect to the task list or appropriate page
     return redirect('wdm:task_list')
@@ -490,3 +499,9 @@ def add_missions_to_project(request, project_id):
         project.save()
         return redirect('wdm:project_detail', project_id=project_id)
     return redirect('wdm:project_list')  # Redirect to a list of projects or an appropriate view
+
+@login_required
+def user_profile(request):
+    # Fetch the UserProfile for the currently logged-in user
+    profile = get_object_or_404(UserProfile, user=request.user)
+    return render(request, 'wdmmorpg/user_profile.html', {'profile': profile})

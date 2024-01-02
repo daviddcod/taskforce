@@ -1,0 +1,25 @@
+{% extends "base.html" %}  {# Extends the base layout #}
+{% load static %}  {# Load the static tag library #}
+
+{% block extra_css %}
+    {# If there's any additional CSS specific to the profile page, include it here #}
+{% endblock %}
+
+{% block content %}
+    {# The main user profile content replaces the corresponding block in the base template #}
+    <div class="embody">
+        <!-- User Profile Content Begins -->
+        <h1>Welcome, {{ profile.user.username }}!</h1>
+        <p><strong>Role:</strong> {{ profile.get_role }}</p>
+        <p><strong>Selected Plan:</strong> {{ profile.selected_plan }}</p>
+        <p><strong>Level:</strong> {{ profile.level }}</p>
+        <p><strong>Experience:</strong> {{ profile.experience }}</p>
+        <p><strong>Next Level Experience Requirement:</strong> {{ profile.calculate_exp_for_next_level }}</p>
+        <p><strong>Prestige:</strong> {{ profile.prestige }}</p>
+        <p><strong>Health:</strong> {{ profile.health }}</p>
+        <p><strong>Endurance:</strong> {{ profile.endurance }}</p>
+        <p><strong>Mind:</strong> {{ profile.mind }}</p>
+        <!-- Add buttons or links for additional functionalities here -->
+        <!-- User Profile Content Ends -->
+    </div>
+{% endblock %}

@@ -5,7 +5,28 @@
     <h2>Add New Environment</h2>
     <form method="post">
         {% csrf_token %}
-        {{ form.as_p }}
+        {{ form.non_field_errors }}
+        {% for field in form %}
+            {% if field.name != 'users' %}
+                <p>
+                    {{ field.errors }}
+                    {{ field.label_tag }} {{ field }}
+                </p>
+            {% endif %}
+        {% endfor %}
+
+        <!-- Render users as checkboxes -->
+        <fieldset>
+            <legend>Users</legend>
+            {% for checkbox in form.users %}
+                <div>
+                    <label>
+                        {{ checkbox.tag }} {{ checkbox.choice_label }}
+                    </label>
+                </div>
+            {% endfor %}
+        </fieldset>
+
         <button type="submit" class="btn btn-success">Create Environment</button>
         <a href="{% url 'wdmmorpg:envlist' %}" class="btn btn-secondary">Back to List</a>
     </form>
