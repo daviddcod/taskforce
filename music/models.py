@@ -25,3 +25,16 @@ class Playlist(models.Model):
 
     def __str__(self):
         return self.title
+# models.py
+
+from django.db import models
+
+class Track(models.Model):
+    title = models.CharField(max_length=100)
+    artist = models.CharField(max_length=100)
+    album_art = models.ImageField(upload_to='album_art/')
+    audio_file = models.FileField(upload_to='tracks/')
+    likes = models.IntegerField(default=0)
+
+    def __str__(self):
+        return f"{self.title} by {self.artist}"

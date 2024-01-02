@@ -99,7 +99,7 @@ class UserProfileForm(forms.ModelForm):
 class TaskForm(forms.ModelForm):
     class Meta:
         model = Task
-        fields = ['title', 'description', 'priority', 'environment']
+        fields = ['title', 'description', 'priority', 'environment', 'is_completed']
 
     def clean_due_date(self):
         due_date = self.cleaned_data['due_date']
@@ -110,15 +110,32 @@ class TaskForm(forms.ModelForm):
     # Additional custom validations
 
 # MissionForm
-class MissionForm(forms.ModelForm):
-    title = forms.CharField(max_length=100, widget=forms.TextInput(attrs={'class': 'form-control'}))
-    description = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control'}))
-    priority = forms.ModelChoiceField(queryset=PriorityScale.objects.all(), widget=forms.Select(attrs={'class': 'form-control'}))
 
+from django import forms
+from django.core.exceptions import ValidationError
+from django.db import transaction
+from .models import Mission, PriorityScale, Task
+
+class MissionForm(forms.ModelForm):
+    title = forms.CharField(
+        label='Title',
+        max_length=100,
+        widget=forms.TextInput(attrs={'class': 'form-control'})
+    )
+    description = forms.CharField(
+        label='Description',
+        widget=forms.Textarea(attrs={'class': 'form-control'})
+    )
+    priority = forms.ModelChoiceField(
+        label='Priority',
+        queryset=PriorityScale.objects.all(),
+        widget=forms.Select(attrs={'class': 'form-control'})
+    )
     tasks = forms.ModelMultipleChoiceField(
-        queryset=Task.objects.all(),
+        label='Tasks',
+        queryset=Task.objects.none(),
         widget=forms.CheckboxSelectMultiple,
-        required=False  # Adjust as needed
+        required=False
     )
 
     class Meta:
@@ -133,6 +150,11 @@ class MissionForm(forms.ModelForm):
             raise ValidationError('End date must be after start date.')
         return cleaned_data
 
+
+    def set_user(self, user):
+        tasks_queryset = Task.objects.filter(user=user).order_by('your_field_to_order_by')
+        self.fields['tasks'].queryset = tasks_queryset
+        
     @transaction.atomic
     def save(self, commit=True):
         mission = super().save(commit=False)
@@ -141,8 +163,19 @@ class MissionForm(forms.ModelForm):
             self.save_m2m()
         return mission
 
-    # Additional custom validations
-
+    def set_user(self, user):
+        self.fields['tasks'].queryset = Task.objects.filter(user=user.userprofile)
+        
+    def __init__(self, *args, **kwargs):
+        mission = kwargs.get('instance')
+        self.user = kwargs.pop('user', None)
+        super(MissionForm, self).__init__(*args, **kwargs)
+        if mission and hasattr(mission, 'user'):
+            self.set_user(mission.user)
+        elif self.user:
+            self.set_user(self.user)
+        else:
+            self.fields['tasks'].queryset = Task.objects.none()
 # ProjectForm
 class ProjectForm(forms.ModelForm):
     class Meta:
@@ -157,6 +190,9 @@ class ProjectForm(forms.ModelForm):
             raise ValidationError('End date must be after start date.')
         return cleaned_data
 
+    def set_user(self, user):
+        self.fields['missions'].queryset = Mission.objects.filter(user=user.userprofile)
+        
     @transaction.atomic
     def save(self, commit=True):
         project = super().save(commit=False)

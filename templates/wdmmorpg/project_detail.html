@@ -22,12 +22,19 @@
             <li>Status: {{ task.status }}</li>
             <!-- More task details -->
 
+            {% if task.is_completed %}
+            <li>
+                <p>Completed on: {{ task.completed_on }}</p>
+                <p>Experience gained: {{ task.experience_gained }}</p>
+            </li>
+            {% else %}
             <li>
                 <form action="{% url 'wdm:complete_task' task.id %}" method="post">
                     {% csrf_token %}
                     <button type="submit">Complete Task</button>
                 </form>
             </li>
+            {% endif %}
 
             <li>
                 <form action="{% url 'wdm:task_delete' task.id %}" method="post">
