@@ -1,0 +1,180 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>WDMMORPG</title>
+    {% block extra_css %}{% endblock %}
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://bootswatch.com/4/darkly/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            color: transparent;
+            left: 0;
+            z-index: 100; /* Behind the navbar */
+            padding: 48px 0 0; /* Height of navbar */
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+        }
+
+        .sidebar-sticky {
+            position: -webkit-sticky;
+            position: sticky;
+            top: 48px; /* Height of navbar */
+            height: calc(100vh - 48px);
+            padding-top: .5rem;
+            overflow-x: hidden;
+            overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+        <a class="navbar-brand" href="{% url 'home_app:welcome' %}">WDMMORPG</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <!-- Authentication Links -->
+                {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'auth_app:logout' %}">Logout</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'auth_app:login' %}">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'wdm:register_user' %}">Register</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+                <div class="sidebar-sticky">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="{% url 'home_app:welcome' %}">
+                                Dashboard <span class="sr-only">(current)</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'music:playlist_detail' pk=1 %}">
+                                Music
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'music:add_song' %}">
+                                Add Song
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'music:album_list' %}">
+                                Albums
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'myblog:blog_list' %}">
+                                Blog
+                            </a>
+                        </li>
+                        <!-- Add other sidebar items here -->
+            <!-- Collect the nav links for toggling -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <!-- Left nav items (for larger screens, this will be hidden on smaller screens) -->
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item"><a class="nav-link" href="{% url 'music:playlist_detail' pk=1 %}" style="color: white;">Music</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'music:add_song' %}" style="color: white;">Add Song</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'music:album_list' %}" style="color: white;">Albums</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'myblog:blog_list' %}" style="color: white;">Blog</a></li>
+
+                            <!-- Append new dropdown for Urgency -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLinkUrgency" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: white;">
+                            Urgency
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLinkUrgency">
+                            <a class="dropdown-item" href="{% url 'wdm:rank_list' %}">Rank</a>
+                            <a class="dropdown-item" href="{% url 'wdm:priorityscale_list' %}">Priority</a>
+                            <!-- Update the above URLs with the correct paths for your Rank and PriorityScale list views -->
+                        </div>
+                    </li>
+                </ul>
+
+                        <!-- Collect the nav links for toggling -->
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <!-- Left nav items (for larger screens, this will be hidden on smaller screens) -->
+            <ul class="navbar-nav mr-auto">
+                <!-- Other nav items -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: white;">
+                        Tasks
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropdown-item" href="{% url 'wdmmorpg:task_list' %}">Task List</a>
+                        <a class="dropdown-item" href="{% url 'wdmmorpg:mission_list' %}">Mission List</a>
+                        <a class="dropdown-item" href="{% url 'wdmmorpg:project_list' %}">Project List</a>
+                        <a class="dropdown-item" href="{% url 'wdmmorpg:envlist' %}">Env List</a>
+
+                        <!-- Add more task-related links here if necessary -->
+                    </div>
+                </li>
+                <!-- Continue with other nav items -->
+                <li class="nav-item"><a class="nav-link" href="{% url 'wdm:objective_overview' %}" style="color: white;">Objectives</a></li>
+
+            </ul>
+
+                <!-- Right nav items -->
+                <ul class="navbar-nav ml-auto">
+                    {% if user.is_authenticated %}
+                        <!-- Show profile icon and user name only if the user is logged in -->
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'wdm:user_profile' %}" style="color: white;">
+                                <img src="{% static 'images/patern.jpsg' %}" alt="Profile" class="profile-icon"> {{ user.username }}
+                            </a>
+                        </li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'auth_app:logout' %}" style="color: white;">Logout</a></li>
+                    {% else %}
+                        <!-- Show only if the user is not logged in -->
+                        <li class="nav-item"><a class="nav-link" href="{% url 'auth_app:login' %}" style="color: white;">Login</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'wdm:register_user' %}" style="color: white;">Register</a></li>
+                    {% endif %}
+                </ul>
+
+                    </ul>
+                </div>
+            </nav>
+
+            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+                {% block content %}
+                <!-- Dynamic content goes here -->
+                {% endblock %}
+            </main>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/parallax.js/1.5.0/parallax.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            // Your custom scripts for additional animations or effects
+        });
+    </script>
+
+    <footer>
+        &copy; 2023 WDMMORPG. All rights reserved.
+    </footer>
+</body>
+</html>

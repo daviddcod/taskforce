@@ -31,7 +31,7 @@ class UserProfile(models.Model):
             return 'undefined'
 
     def add_experience(self, exp):
-        self.experience += exp
+        self.experience = max(0, self.experience + exp)  # Ensure experience is never negative
         self.check_level_up()
         self.save()
 
@@ -51,14 +51,20 @@ class UserProfile(models.Model):
             return 200 * self.level
         else:
             return 500 * self.level
+        
 
     def level_up(self):
         self.level += 1
         self.experience -= self.calculate_exp_for_next_level()
+        self.experience = max(0, self.experience)  # Ensure experience is never negative
+
+    def calculate_experience_percentage(self):
+        max_exp = self.calculate_exp_for_next_level()
+        exp_percentage = (self.experience / max_exp) * 100
+        return exp_percentage
 
     def __str__(self):
         return self.user.username
-
 # Rank and Priority Scale
 from django.conf import settings
 class Rank(models.Model):

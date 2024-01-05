@@ -32,6 +32,8 @@ urlpatterns = [
     path('plan-selection/', include(('plan_selection.urls', 'plan-selection'), namespace='plan-selection')),
     path('payment_processor/', include('payment_processor.urls', namespace='payment_processor')),
     path('wdmmorpg/', include('wdmmorpg.urls', namespace='wdmmorpg')),
+    path('chat/', include('chat.urls', namespace='chat')),
+
 
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

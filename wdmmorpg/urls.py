@@ -44,6 +44,9 @@ urlpatterns = [
     path('project/update/<int:project_id>/', views.update_project, name='update_project'),
 
     path('profile/', views.user_profile, name='user_profile'),
-]
 
+    path('objectives/', views.objective_overview, name='objective_overview'),
+
+    path('objectives/project/<int:project_id>/', views.objective_overview, name='objective_overview_project'),
+]
 

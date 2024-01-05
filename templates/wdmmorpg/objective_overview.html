@@ -1,0 +1,202 @@
+{% extends 'base.html' %}
+
+{% block extra_css %}
+
+<style>
+    :root {
+        /* Color Scheme with enhanced contrast and modern hues */
+        --primary-color: #ffffff; /* darker shade for better readability */
+        --secondary-color: #2a9d8f; /* softer and more engaging */
+        --background-color: #f4f1de; /* lighter and more neutral for a wider appeal */
+        --text-color: #333333; /* stronger contrast for better legibility */
+        --accent-color: #e76f51; /* vibrant color for call-to-action buttons and links */
+
+        /* Typography with a modern, clean font */
+        --font-family: 'Nunito', sans-serif; /* A more rounded, friendly font */
+
+        /* Spacing system for consistent margins and paddings */
+        --space-xs: 8px;
+        --space-sm: 16px;
+        --space-md: 24px;
+        --space-lg: 32px;
+        --space-xl: 40px;
+
+        /* Box Shadows for depth and focus */
+        --box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1);
+        --hover-box-shadow: 0 6px 12px 0 rgba(0, 0, 0, 0.2);
+    }
+
+    /* Global Styles */
+    body {
+        font-family: var(--font-family);
+        background-color: var(--background-color);
+        color: var(--text-color);
+        margin: 0;
+        padding: var(--space-md);
+        transition: background-color 0.3s; /* Smooth transition for theme changes */
+    }
+
+    /* Navigation Styles */
+    .main-navigation ul {
+        display: flex;
+        list-style: none;
+        padding-left: 0;
+        margin-bottom: var(--space-lg); /* More space below the nav for separation */
+    }
+
+    .main-navigation a {
+        text-decoration: none;
+        color: var(--secondary-color);
+        padding: var(--space-sm);
+        display: block;
+        transition: border-radius, color 0.3s, background-color 0.3s;
+        text-decoration: none;
+    }
+
+    .main-navigation a:hover, .main-navigation a:focus {
+        background-color: var(--primary-color);
+        color: rgb(93, 25, 25); /* Ensures readability on hover/focus */
+        outline: none; /* Removes the default focus outline and replaces it with a color change */
+        border-radius: 12px;
+        text-decoration: none;
+    }
+
+    /* Grid Layout */
+    .grid-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* More responsive grid items */
+        gap: var(--space-md);
+        padding: var(--space-md);
+    }
+
+    .grid-item {
+        background: rgb(78, 75, 75);
+        padding: var(--space-md);
+        box-shadow: var(--box-shadow);
+        transition: transform 0.3s, box-shadow 0.3s; /* Smooth transitions for hover */
+        border-radius: 24px;
+    }
+
+    .grid-item:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--hover-box-shadow); /* Deeper shadow on hover for a 'lifting' effect */
+    }
+
+    /* Typography */
+    h1, h2 {
+        color: var(--primary-color);
+        margin-top: 0; /* Removes default browser margin */
+    }
+
+    /* Responsive Navigation: Collapse on smaller screens */
+    @media screen and (max-width: 768px) {
+        .main-navigation ul {
+            flex-direction: column;
+            align-items: center; /* Centers links on mobile */
+        }
+
+        .main-navigation a {
+            width: 100%; /* Full-width links for easier touch */
+            text-align: center; /* Centers text in mobile nav links */
+        }
+    }
+
+    /* Print Styles */
+    @media print {
+        body {
+            color: black; /* Ensures everything is legible when printed */
+            background: white;
+        }
+
+        .main-navigation, .grid-item:hover {
+            display: none; /* Removes interactive elements not necessary for print */
+        }
+
+        .center {
+            display: flex;
+
+            justify-content: center;
+            align-items: center;
+        }
+    }
+</style>
+
+{% endblock %}
+
+{% block content %}
+
+
+<nav class="main-navigation center">
+    <ul class="nav justify-content-center">
+        <li><a href="#tasks">Tasks</a></li>
+        <li><a href="#missions">Missions</a></li>
+        <li><a href="#projects">Projects</a></li>
+    </ul>
+</nav>
+
+<main class="grid-container">
+
+    <section id="projects" class="grid-item">
+        <h2>Projects</h2>
+        <div>
+            {% for project in projects %}
+            <p><strong>{{ project.title }}</strong>: {{ project.description }}</p>
+            <a href="{% url 'wdm:objective_overview_project' project.id %}" class="filter-project-btn">Filter Missions and Tasks by this Project</a>
+        {% empty %}
+            <p>No projects available.</p>
+        {% endfor %}
+        </div>
+    </section>
+
+
+    <section id="missions" class="grid-item">
+        <h2>Missions</h2>
+        {% for mission in missions %}
+            <p><strong>{{ mission.title }}</strong>: {{ mission.description }}</p>
+        {% empty %}
+            <p>No missions available.</p>
+        {% endfor %}
+    </section>
+    
+
+    <section id="tasks" class="grid-item">
+        {% if selected_mission %}
+            <h2>Tasks for {{ selected_mission.title }}</h2>
+        {% else %}
+            <h2>All Tasks</h2>
+        {% endif %}
+        <div>
+            {% for task in tasks %}
+                <p><strong>{{ task.title }}</strong>: {{ task.description }}</p>
+                <form action="{% url 'wdm:complete_task' task.id %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit">Complete Task</button>
+                </form>
+            {% empty %}
+                <p>No tasks available.</p>
+            {% endfor %}
+        </div>
+    </section>
+
+</main>
+
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Inside your <script> tag or an external .js file
+function filterTasksByMission(missionId) {
+    // Make an AJAX call to your server
+    fetch(`/objectives/mission/${missionId}/`)
+        .then(response => response.text())
+        .then(html => {
+            // Replace the task section with the response
+            document.getElementById('tasks').innerHTML = html;
+        })
+        .catch(error => console.error('Error:', error));
+}
+
+
+</script>
+{% endblock %}

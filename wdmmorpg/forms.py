@@ -150,9 +150,11 @@ class MissionForm(forms.ModelForm):
             raise ValidationError('End date must be after start date.')
         return cleaned_data
 
-
-    def set_user(self, user):
-        tasks_queryset = Task.objects.filter(user=user).order_by('your_field_to_order_by')
+    def set_userprofile(self, user, mission_pk=None):
+        if mission_pk:
+            tasks_queryset = Task.objects.filter(user=user)
+        else:
+            tasks_queryset = Task.objects.filter(user=user)
         self.fields['tasks'].queryset = tasks_queryset
         
     @transaction.atomic
@@ -163,19 +165,17 @@ class MissionForm(forms.ModelForm):
             self.save_m2m()
         return mission
 
-    def set_user(self, user):
-        self.fields['tasks'].queryset = Task.objects.filter(user=user.userprofile)
-        
     def __init__(self, *args, **kwargs):
         mission = kwargs.get('instance')
         self.user = kwargs.pop('user', None)
         super(MissionForm, self).__init__(*args, **kwargs)
-        if mission and hasattr(mission, 'user'):
-            self.set_user(mission.user)
+        if mission:
+            # Set tasks queryset for existing mission
+            self.set_userprofile(mission.user, mission.id)
         elif self.user:
-            self.set_user(self.user)
-        else:
-            self.fields['tasks'].queryset = Task.objects.none()
+            # Set tasks queryset for new mission
+            self.set_userprofile(self.user)
+
 # ProjectForm
 class ProjectForm(forms.ModelForm):
     missions = forms.ModelMultipleChoiceField(

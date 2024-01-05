@@ -1,25 +1,117 @@
-{% extends "base.html" %}  {# Extends the base layout #}
-{% load static %}  {# Load the static tag library #}
+{% extends "base.html" %}
+{% load static %}
 
 {% block extra_css %}
-    {# If there's any additional CSS specific to the profile page, include it here #}
+<link rel="stylesheet" href="{% static 'css/profile.css' %}">
+<style>
+/* Dark Souls inspired progress bar styles */
+.progress-bar-container.level {
+    background-color: #1c1c1c; /* Dark background */
+    border: 2px solid #4e4e4e; /* Slightly lighter border for a subtle contrast */
+    border-radius: 12px; /* Less pronounced rounded corners */
+    position: relative;
+    padding: 2px; /* Tighter padding for a more compact look */
+    box-shadow: inset 0 0 10px #000; /* Inner shadow for depth */
+}
+
+.progress-bar {
+    background-color: #606c38; /* Muted green for the filled part, reminiscent of Dark Souls' estus flasks */
+    height: 20px;
+    border-radius: 10px; /* Slightly rounded corners within the bar */
+    box-shadow: 0 2px 4px #000; /* Shadow for a 3D effect */
+    position: relative;
+    overflow: hidden;
+}
+
+.progress-text {
+    color: #e3e3e3; /* Light text for contrast */
+    text-shadow: 1px 1px 2px #000; /* Text shadow for legibility */
+    position: absolute;
+    white-space: nowrap;
+}
+
+.progress-text.left {
+    left: 15px; /* Adjusted positioning */
+    top: 2px;
+}
+
+.progress-text.right {
+    right: 15px; /* Adjusted positioning */
+    top: 2px;
+}
+
+/* New classes for aligning items */
+.left {
+    float: left;
+}
+
+.center {
+    display: inline-block;
+    text-align: center;
+}
+
+.right {
+    float: right;
+    padding: 0px;
+    margin: 0px;
+}
+
+/* Other styles remain unchanged */
+</style>
 {% endblock %}
 
+
 {% block content %}
-    {# The main user profile content replaces the corresponding block in the base template #}
-    <div class="embody">
-        <!-- User Profile Content Begins -->
-        <h1>Welcome, {{ profile.user.username }}!</h1>
-        <p><strong>Role:</strong> {{ profile.get_role }}</p>
-        <p><strong>Selected Plan:</strong> {{ profile.selected_plan }}</p>
-        <p><strong>Level:</strong> {{ profile.level }}</p>
-        <p><strong>Experience:</strong> {{ profile.experience }}</p>
-        <p><strong>Next Level Experience Requirement:</strong> {{ profile.calculate_exp_for_next_level }}</p>
-        <p><strong>Prestige:</strong> {{ profile.prestige }}</p>
-        <p><strong>Health:</strong> {{ profile.health }}</p>
-        <p><strong>Endurance:</strong> {{ profile.endurance }}</p>
-        <p><strong>Mind:</strong> {{ profile.mind }}</p>
-        <!-- Add buttons or links for additional functionalities here -->
-        <!-- User Profile Content Ends -->
+<div class="embody">
+    <h1>Welcome, {{ profile.user.username }}!</h1>
+
+    <div class="progress-bar-container level">
+        
+        <div class="progress-bar" style="width: {{ experience_percentage }}%; background-color: #ffc107;">
+            <span> {{ profile.level }}</span>
+        </div>
+        
+        <div class="progress-text right">
+            <span> {{ next_level }}</span>
+        </div>
     </div>
+
+
+    <div class="progress-bar-container health">
+        <div class="progress-bar" style="width: {{ profile.health_percentage }}%;">
+            <span class="progress-text">Health</span>
+        </div>
+    </div>
+    
+    <div class="progress-bar-container stamina">
+        <div class="progress-bar" style="width: {{ profile.endurance_percentage }}%;">
+            <span class="progress-text">Stamina</span>
+        </div>
+    </div>
+    
+    <div class="progress-bar-container mind">
+        <div class="progress-bar" style="width: {{ profile.mind_percentage }}%;">
+            <span class="progress-text">Mind</span>
+        </div>
+    </div>
+</div>
+
+
+{# The main user profile content replaces the corresponding block in the base template #}
+<div class="const">
+    <!-- User Profile Content Begins -->
+    <h1>user stats</h1>
+    <p><strong>Role:</strong> {{ profile.get_role }}</p>
+    <p><strong>Selected Plan:</strong> {{ profile.selected_plan }}</p>
+    <p><strong>Level:</strong> {{ profile.level }}</p>
+    <p><strong>Experience:</strong> {{ profile.experience }}</p>
+    <p><strong>Next Level Experience Requirement:</strong> {{ profile.calculate_exp_for_next_level }}</p>
+    <p><strong>Prestige:</strong> {{ profile.prestige }}</p>
+    <p><strong>Health:</strong> {{ profile.health }}</p>
+    <p><strong>Endurance:</strong> {{ profile.endurance }}</p>
+    <p><strong>Mind:</strong> {{ profile.mind }}</p>
+    <!-- Add buttons or links for additional functionalities here -->
+    <!-- User Profile Content Ends -->
+</div>
+
 {% endblock %}

@@ -324,8 +324,9 @@ from .models import Mission
 @login_required
 def create_mission(request):
     if request.method == 'POST':
-        form = MissionForm(request.POST)  # Create the form without the 'user' argument
-        form.set_user(request.user)
+        form = MissionForm(request.POST, user=request.user.userprofile)  # Pass the user and POST data to the form
+        form.set_userprofile(request.user.userprofile)  # Updated method name to match MissionForm
+
         if form.is_valid():
             mission = form.save(commit=False)
             mission.user = request.user.userprofile  # Assign the current user to the mission
@@ -334,7 +335,7 @@ def create_mission(request):
             return redirect('wdm:mission_list')  # Redirect to the list view after creating
     else:
         form = MissionForm()  # Create the form without the 'user' argument
-        form.set_user(request.user)
+        form.set_userprofile(request.user.userprofile)  # Updated method name to match MissionForm
 
     # Call set_user method here to set the queryset for tasks
 
@@ -350,17 +351,38 @@ def mission_detail(request, pk):
     }
     return render(request, 'wdmmorpg/mission_detail.html', context)
 
+from django.db import transaction
 @login_required
 def update_mission(request, pk):
     mission = get_object_or_404(Mission, pk=pk, user=request.user.userprofile)
+
     if request.method == 'POST':
-        form = MissionForm(request.POST, instance=mission, user=request.user)  # Pass the user to the form
+        form = MissionForm(request.POST, instance=mission, user=request.user)  # Pass the user and POST data to the form
+        form.set_userprofile(request.user.userprofile, pk)  # Updated method name to match MissionForm
+
         if form.is_valid():
-            form.save()
-            return redirect('wdm:mission_detail', pk=mission.pk)
+            with transaction.atomic():  # Use a transaction to ensure atomicity
+                mission = form.save(commit=False)
+                mission.user = request.user.userprofile
+                mission.save()
+                form.save_m2m()
+
+                # Clear existing tasks and add the selected ones
+                existing_tasks = set(mission.tasks.all())
+                selected_tasks = set(form.cleaned_data['tasks'])
+                # Remove tasks no longer selected
+                for task in existing_tasks - selected_tasks:
+                    mission.tasks.remove(task)
+                # Add new tasks
+                for task in selected_tasks - existing_tasks:
+                    mission.tasks.add(task)
+
+            return redirect('wdm:mission_list')
     else:
-        form = MissionForm(instance=mission, user=request.user)  # Pass the user to the form
+        form = MissionForm(instance=mission, user=request.user)  # Pass the user to the form for GET request
+        form.set_userprofile(request.user.userprofile, pk)
     return render(request, 'wdmmorpg/mission_form.html', {'form': form})
+
 from django.views.decorators.http import require_POST
 
 @require_POST  # Ensures this view can only be accessed via POST request
@@ -482,10 +504,10 @@ def complete_task(request, task_id):
         # There's no need to manually remove it from the project's tasks as it's handled by the task's is_completed attribute.
 
         # Redirect to the task detail or another appropriate page
-        return redirect('wdm:task_list', pk)
+        return redirect('wdm:objective_overview')
 
     # If the task is already completed, redirect to the task list or appropriate page
-    return redirect('wdm:task_list')
+    return redirect('wdm:objective_overview')
 
 
 @login_required
@@ -501,7 +523,43 @@ def add_missions_to_project(request, project_id):
     return redirect('wdm:project_list')  # Redirect to a list of projects or an appropriate view
 
 @login_required
+@login_required
 def user_profile(request):
     # Fetch the UserProfile for the currently logged-in user
     profile = get_object_or_404(UserProfile, user=request.user)
-    return render(request, 'wdmmorpg/user_profile.html', {'profile': profile})
+    experience_percentage = profile.calculate_experience_percentage()
+    next_level = profile.level + 1
+    return render(request, 'wdmmorpg/user_profile.html', {'profile': profile, 'experience_percentage': experience_percentage, 'next_level': next_level})
+
+# wdmmorpg/views.py
+
+from django.shortcuts import render
+from .models import UserProfile, Rank, PriorityScale, Task, Mission, Project, Environment
+
+from django.shortcuts import get_object_or_404
+
+def objective_overview(request, project_id=None):
+    user_profile = request.user.userprofile
+    projects = Project.objects.filter(user=user_profile)
+    missions = Mission.objects.filter(user=user_profile)
+    tasks = Task.objects.filter(user=user_profile)
+
+    selected_project = None
+
+    # Filter missions by the selected project and automatically filter tasks based on those missions
+    if project_id:
+        selected_project = get_object_or_404(Project, id=project_id, user=user_profile)
+        missions = missions.filter(project=selected_project)
+        tasks = tasks.filter(mission__in=missions)  # Filter tasks based on the filtered missions
+
+    context = {
+        'projects': projects,
+        'missions': missions,
+        'tasks': tasks,
+        'selected_project': selected_project,
+        # ... other context variables ...
+    }
+
+    return render(request, 'wdmmorpg/objective_overview.html', context)
+
+

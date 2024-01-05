@@ -1,0 +1,19 @@
+<!-- templates/chat/index.html -->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ChatApp</title>
+</head>
+<body>
+    <h1>Welcome to ChatApp!</h1>
+<!-- templates/chat/index.html -->
+
+<form action="{% url 'chat:room' room_name='default' %}" method="get">
+    <label for="room_name">Enter a chat room name:</label>
+    <input id="room_name" type="text" name="room_name">
+    <button type="submit">Join</button>
+</form>
+
+</body>
+</html>

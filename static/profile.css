@@ -1,0 +1,79 @@
+.embody {
+    max-width: 600px;
+    margin: auto;
+    text-align: center;
+    font-family: 'Arial', sans-serif;
+}
+
+
+
+.progress-bar-container {
+    width: 100%;
+    background-color: #e0e0e0;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 20px;
+    border-radius: 5px;
+    text-align: center;
+    line-height: 20px;
+    transition: width 0.5s;
+    position: relative;
+}
+
+.progress-text {
+    position: absolute;
+    width: 100%;
+    color: white;
+    z-index: 1;
+}
+
+.progress-bar-container.level {
+    background-color: #fff3cd; /* light yellow background */
+    position: relative;
+    padding: 0 10px; /* Padding to ensure the text doesn't hug the borders too tightly */
+}
+
+.progress-bar {
+    background-color: #ffc107; /* brighter yellow for the filled part */
+    height: 20px;
+    line-height: 20px;
+    position: relative;
+    overflow: hidden; /* Ensures content doesn't spill out */
+}
+
+.progress-text {
+    color: #333;
+    position: absolute;
+    white-space: nowrap; /* Prevents the text from wrapping into a new line */
+}
+
+.progress-text.left {
+    left: 10px; /* Position from the left */
+    top: 0;
+}
+
+.progress-text.right {
+    right: 10px; /* Position from the right */
+    top: 0;
+}
+
+
+.level .progress-bar { background-color: #f0ad4e; }
+.health .progress-bar { background-color: #d9534f; }
+.stamina .progress-bar { background-color: #5cb85c; }
+.mind .progress-bar { background-color: #5bc0de; }
+
+@media (max-width: 768px) {
+    .embody {
+        width: 95%;
+    }
+    .progress-bar {
+        border-radius: 3px;
+        height: 15px;
+        line-height: 15px;
+    }
+}

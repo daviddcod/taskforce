@@ -31,6 +31,8 @@ INSTALLED_APPS = [
     'task_manager',
     'widget_tweaks',
             'music',
+            'chat',
+            'channels',
     'plan_selection',
     'HomeApp',
     'project_manager',
@@ -58,6 +60,22 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 ]
+
+ASGI_APPLICATION = 'taskforce.asgi.application'
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('127.0.0.1', 6379)],  # Default Redis port is 6379
+        },
+    },
+}
+
+
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
