@@ -183,10 +183,16 @@ class ProjectForm(forms.ModelForm):
         widget=forms.CheckboxSelectMultiple,
         required=False  # Adjust based on whether a selection is required
     )
+
+    priority = forms.ModelChoiceField(
+    label='Priority',
+    queryset=PriorityScale.objects.all(),
+    widget=forms.Select(attrs={'class': 'form-control'})
+    )
             
     class Meta:
         model = Project
-        fields = ['title', 'description', 'start_date', 'end_date', 'status', 'missions']
+        fields = ['title', 'description', 'priority','start_date', 'end_date', 'status', 'missions']
 
 
 
@@ -227,15 +233,15 @@ class InventoryItemForm(forms.ModelForm):
 
 # EnvironmentForm
 class EnvironmentForm(forms.ModelForm):
-    users = forms.ModelMultipleChoiceField(
-        queryset=UserProfile.objects.all(),  # Adjust the queryset as needed
-        widget=forms.CheckboxSelectMultiple,
-        required=False  # Set to True if it's a mandatory field
-    )
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user', None)
+        super(EnvironmentForm, self).__init__(*args, **kwargs)
+        if user:
+            self.fields['user'].queryset = UserProfile.objects.filter(user=user)
 
     class Meta:
         model = Environment
-        fields = ['name', 'location', 'description', 'users']
+        fields = ['name', 'location', 'description', 'user']
 
     # Custom validations for Environment
 
@@ -276,6 +282,12 @@ class PriorityScaleForm(forms.ModelForm):
     class Meta:
         model = PriorityScale
         fields = ['title', 'rank']
+
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user', None)
+        super(PriorityScaleForm, self).__init__(*args, **kwargs)
+        if user:
+            self.fields['rank'].queryset = Rank.objects.filter(user=user)
 
     # Custom validations for PriorityScale
 
@@ -351,8 +363,15 @@ class CustomUserCreationForm(UserCreationForm):
 
 from django import forms
 from .models import Task
-
 class TaskForm(forms.ModelForm):
     class Meta:
         model = Task
         fields = ['title', 'description', 'priority', 'environment', 'due_date', 'status', 'is_active']
+
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user', None)
+        super(TaskForm, self).__init__(*args, **kwargs)
+        if user:
+            self.fields['priority'].queryset = PriorityScale.objects.filter(user=user)
+            self.fields['environment'].queryset = Environment.objects.filter(user=user)
+

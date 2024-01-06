@@ -1,81 +1,71 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Create Playlist</title>
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 20px;
-        }
-        .container {
-            background-color: white;
-            max-width: 800px;
-            margin: auto;
-            padding: 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        h1 {
-            color: #333;
-        }
-        form {
-            margin-top: 20px;
-        }
-        .song-input {
-            display: flex;
-            margin-bottom: 10px;
-        }
-        .song-input input[type="text"] {
-            flex: 1;
-            padding: 10px;
-            margin-right: 10px;
-            border: 1px solid #ddd;
-        }
-        .song-input button {
-            padding: 10px 20px;
-            background-color: #5cb85c;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-        .submit-btn {
-            background-color: #007bff;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            cursor: pointer;
-        }
-        .submit-btn:hover {
-            background-color: #0056b3;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>Create New Playlist</h1>
-        <form method="post">
-            {% csrf_token %}
-            <div id="songList">
-                <div class="song-input">
-                    <input type="text" name="song1" placeholder="Add song title and artist">
-                    <button type="button" onclick="addSong()">Add Another Song</button>
+{% extends 'base.html' %}
+
+{% block extra_css %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/plist.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="playlist-container">
+    <h1 class="title">Create New Playlist</h1>
+    <form method="post" id="playlistForm">
+        {% csrf_token %}
+        <!-- Render each form field except the song dropdown -->
+        {% for field in form %}
+            {% if field.name != 'songs' %}  <!-- Assuming 'songs' is the name of the dropdown field -->
+                <div class="form-field">
+                    {{ field.label_tag }}
+                    {{ field }}
+                    {% if field.help_text %}
+                        <p class="help">{{ field.help_text }}</p>
+                    {% endif %}
+                    {% for error in field.errors %}
+                        <p class="error">{{ error }}</p>
+                    {% endfor %}
                 </div>
-            </div>
-            {{ form.as_p }}
-            <button type="submit" class="submit-btn">Create Playlist</button>
-        </form>
-    </div>
-    <script>
-        let songCount = 1;
-        function addSong() {
-            songCount++;
-            const songList = document.getElementById('songList');
-            const newInput = document.createElement('div');
-            newInput.classList.add('song-input');
-            newInput.innerHTML = `<input type="text" name="song${songCount}" placeholder="Add song title and artist">`;
-            songList.appendChild(newInput);
+            {% endif %}
+        {% endfor %}
+
+        <div class="checkbox-list" id="songChecklist">
+            <!-- Dynamic checkboxes will be populated here by JavaScript -->
+        </div>
+        <button type="submit" class="submit-btn">Create Playlist</button>
+    </form>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        function fetchSongsAndPopulateChecklist() {
+            fetch('/music/api/songs/')
+                .then(response => response.json())
+                .then(songs => {
+                    const checklistDiv = document.getElementById('songChecklist');
+
+                    songs.forEach(song => {
+                        const label = document.createElement('label');
+                        label.htmlFor = `song${song.id}`;
+                        label.textContent = `${song.title} by ${song.artist}`;
+
+                        const checkbox = document.createElement('input');
+                        checkbox.type = 'checkbox';
+                        checkbox.name = 'songs';  // Match this with your Django form field name
+                        checkbox.value = song.id;
+                        checkbox.id = `song${song.id}`;
+
+                        const div = document.createElement('div');
+                        div.classList.add('checkbox-item');
+                        div.appendChild(checkbox);
+                        div.appendChild(label);
+
+                        checklistDiv.appendChild(div);
+                    });
+                })
+                .catch(error => console.error('Error fetching songs:', error));
         }
-    </script>
-</body>
-</html>
+
+        fetchSongsAndPopulateChecklist();
+    });
+</script>
+
+{% endblock %}

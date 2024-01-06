@@ -128,14 +128,14 @@ from django.shortcuts import redirect
 @login_required
 def task_create(request):
     if request.method == 'POST':
-        form = TaskForm(request.POST)
+        form = TaskForm(request.POST, user= request.user.userprofile)
         if form.is_valid():
             task = form.save(commit=False)
             task.user = request.user.userprofile
             task.save()
             return redirect('wdmmorpg:task_list')
     else:
-        form = TaskForm()
+        form = TaskForm(user=request.user.userprofile)
     return render(request, 'wdmmorpg/task_form.html', {'form': form})
 
 from django.http import HttpResponseNotFound
@@ -168,12 +168,12 @@ from .forms import EnvironmentForm
 @login_required
 def add_environment(request):
     if request.method == 'POST':
-        form = EnvironmentForm(request.POST)
+        form = EnvironmentForm(request.POST, user=request.user)
         if form.is_valid():
             form.save()
             return redirect('wdm:envlist')  # Redirect to the list of environments after creation
     else:
-        form = EnvironmentForm()
+        form = EnvironmentForm(user=request.user)
     return render(request, 'wdmmorpg/addenv.html', {'form': form})
 
 @login_required
@@ -220,12 +220,14 @@ from .models import PriorityScale
 @login_required
 def create_priorityscale(request):
     if request.method == "POST":
-        form = PriorityScaleForm(request.POST)
+        form = PriorityScaleForm(request.POST, user=request.user.userprofile)
         if form.is_valid():
-            form.save()
+            priorityscale = form.save(commit=False)
+            priorityscale.user = request.user.userprofile
+            priorityscale.save()
             return redirect('wdm:priorityscale_list')
     else:
-        form = PriorityScaleForm()
+        form = PriorityScaleForm(user=request.user.userprofile)
     return render(request, 'wdmmorpg/priorityscale_form.html', {'form': form})
 
 # Read
@@ -264,7 +266,9 @@ def create_rank(request):
     if request.method == 'POST':
         form = RankForm(request.POST)
         if form.is_valid():
-            form.save()
+            rank = form.save(commit=False)
+            rank.user = request.user.userprofile
+            rank.save()
             return redirect('wdm:rank_list')
     else:
         form = RankForm()
@@ -523,7 +527,6 @@ def add_missions_to_project(request, project_id):
     return redirect('wdm:project_list')  # Redirect to a list of projects or an appropriate view
 
 @login_required
-@login_required
 def user_profile(request):
     # Fetch the UserProfile for the currently logged-in user
     profile = get_object_or_404(UserProfile, user=request.user)
@@ -537,16 +540,29 @@ from django.shortcuts import render
 from .models import UserProfile, Rank, PriorityScale, Task, Mission, Project, Environment
 
 from django.shortcuts import get_object_or_404
+from django.shortcuts import render, get_object_or_404
+from .models import UserProfile, Project, Mission, Task, Rank, PriorityScale
 
 def objective_overview(request, project_id=None):
     user_profile = request.user.userprofile
     projects = Project.objects.filter(user=user_profile)
     missions = Mission.objects.filter(user=user_profile)
     tasks = Task.objects.filter(user=user_profile)
+    ranks = Rank.objects.filter(user=user_profile)
+    priority_scales = PriorityScale.objects.filter(user=user_profile)
+
+    # If no user-specific ranks or priority scales, use defaults
+    if not ranks.exists():
+        ranks = Rank.objects.filter(user__isnull=True)
+    if not priority_scales.exists():
+        priority_scales = PriorityScale.objects.filter(user__isnull=True)
+
+    # Use user's priority scales if they exist, otherwise use default
+    priority_scales = PriorityScale.objects.filter(user=user_profile)
+    if not priority_scales.exists():
+        priority_scales = PriorityScale.objects.filter(user__isnull=True)  # Assuming a default set
 
     selected_project = None
-
-    # Filter missions by the selected project and automatically filter tasks based on those missions
     if project_id:
         selected_project = get_object_or_404(Project, id=project_id, user=user_profile)
         missions = missions.filter(project=selected_project)
@@ -557,8 +573,15 @@ def objective_overview(request, project_id=None):
         'missions': missions,
         'tasks': tasks,
         'selected_project': selected_project,
-        # ... other context variables ...
+        'ranks': ranks,
+        'priority_scales': priority_scales,
     }
+
+    print('Projects:', projects)
+    print('Missions:', missions)
+    print('Tasks:', tasks)
+    print('Ranks:', ranks)
+    print('Priority Scales:', priority_scales)
 
     return render(request, 'wdmmorpg/objective_overview.html', context)
 

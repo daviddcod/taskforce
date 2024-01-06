@@ -145,6 +145,10 @@ def song_list(request):
     songs = Song.objects.all()
     return render(request, 'music/song_list.html', {'songs': songs})
 
+def song_list_all(request):
+    songs = Song.objects.all().values('id', 'title')
+    return JsonResponse(list(songs), safe=False)
+
 # Update Song
 def song_update(request, pk):
     song = get_object_or_404(Song, pk=pk)
@@ -165,17 +169,33 @@ def song_delete(request, pk):
         return redirect('music:song_list')
     return render(request, 'music/song_confirm_delete.html', {'song': song})
 
-# Create Playlist
+
 def playlist_create(request):
     if request.method == 'POST':
         form = PlaylistForm(request.POST)
         if form.is_valid():
-            form.save()
+            # Create a new playlist instance but don't save it to the database yet
+            playlist = form.save(commit=False)
+            
+            # Save the playlist to the database
+            playlist.save()
+            
+            # Get the list of selected song IDs from the form
+            selected_song_ids = form.cleaned_data.get('songs')
+            
+            # Retrieve the selected song objects based on the IDs and set them for the playlist
+            selected_songs = Song.objects.filter(id__in=selected_song_ids)
+            playlist.songs.set(selected_songs)
+            
+            # Save the changes to the playlist
+            playlist.save()
+            
+            # Redirect to the playlist list page (or wherever is appropriate)
             return redirect('music:playlist_list')
     else:
         form = PlaylistForm()
+    
     return render(request, 'music/playlist_create.html', {'form': form})
-
 
 # List Playlists
 def playlist_list(request):

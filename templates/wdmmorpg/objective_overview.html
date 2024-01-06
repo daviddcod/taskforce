@@ -1,18 +1,17 @@
 {% extends 'base.html' %}
 
 {% block extra_css %}
-
 <style>
     :root {
         /* Color Scheme with enhanced contrast and modern hues */
-        --primary-color: #ffffff; /* darker shade for better readability */
-        --secondary-color: #2a9d8f; /* softer and more engaging */
-        --background-color: #f4f1de; /* lighter and more neutral for a wider appeal */
-        --text-color: #333333; /* stronger contrast for better legibility */
-        --accent-color: #e76f51; /* vibrant color for call-to-action buttons and links */
+        --primary-color: #ffffff;
+        --secondary-color: #2a9d8f;
+        --background-color: #005a4a;
+        --text-color: #000000;
+        --accent-color: #e76f51;
 
         /* Typography with a modern, clean font */
-        --font-family: 'Nunito', sans-serif; /* A more rounded, friendly font */
+        --font-family: 'Nunito', sans-serif;
 
         /* Spacing system for consistent margins and paddings */
         --space-xs: 8px;
@@ -26,22 +25,24 @@
         --hover-box-shadow: 0 6px 12px 0 rgba(0, 0, 0, 0.2);
     }
 
-    /* Global Styles */
     body {
         font-family: var(--font-family);
         background-color: var(--background-color);
         color: var(--text-color);
         margin: 0;
         padding: var(--space-md);
-        transition: background-color 0.3s; /* Smooth transition for theme changes */
+        transition: background-color 0.3s;
     }
 
-    /* Navigation Styles */
+    main {
+        color: rgb(255, 255, 255);
+    }
+
     .main-navigation ul {
         display: flex;
         list-style: none;
         padding-left: 0;
-        margin-bottom: var(--space-lg); /* More space below the nav for separation */
+        margin-bottom: var(--space-lg);
     }
 
     .main-navigation a {
@@ -49,22 +50,20 @@
         color: var(--secondary-color);
         padding: var(--space-sm);
         display: block;
-        transition: border-radius, color 0.3s, background-color 0.3s;
-        text-decoration: none;
+        transition: color 0.3s, background-color 0.3s;
     }
 
     .main-navigation a:hover, .main-navigation a:focus {
         background-color: var(--primary-color);
-        color: rgb(93, 25, 25); /* Ensures readability on hover/focus */
-        outline: none; /* Removes the default focus outline and replaces it with a color change */
+        color: rgb(93, 25, 25);
+        outline: none;
         border-radius: 12px;
-        text-decoration: none;
     }
 
-    /* Grid Layout */
     .grid-container {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* More responsive grid items */
+        grid-template-columns: 1fr;
+        grid-template-rows: repeat(3, auto);
         gap: var(--space-md);
         padding: var(--space-md);
     }
@@ -73,58 +72,161 @@
         background: rgb(78, 75, 75);
         padding: var(--space-md);
         box-shadow: var(--box-shadow);
-        transition: transform 0.3s, box-shadow 0.3s; /* Smooth transitions for hover */
-        border-radius: 24px;
+        transition: transform 0.3s, box-shadow 0.3s;
+        border-radius: 0px;
     }
 
     .grid-item:hover {
         transform: translateY(-5px);
-        box-shadow: var(--hover-box-shadow); /* Deeper shadow on hover for a 'lifting' effect */
+        box-shadow: var(--hover-box-shadow);
     }
 
-    /* Typography */
     h1, h2 {
         color: var(--primary-color);
-        margin-top: 0; /* Removes default browser margin */
+        margin-top: 0;
     }
 
-    /* Responsive Navigation: Collapse on smaller screens */
-    @media screen and (max-width: 768px) {
-        .main-navigation ul {
-            flex-direction: column;
-            align-items: center; /* Centers links on mobile */
-        }
-
-        .main-navigation a {
-            width: 100%; /* Full-width links for easier touch */
-            text-align: center; /* Centers text in mobile nav links */
+    @media screen and (min-width: 768px) {
+        .grid-container {
+            grid-template-columns: repeat(3, 1fr);
         }
     }
 
-    /* Print Styles */
     @media print {
         body {
-            color: black; /* Ensures everything is legible when printed */
-            background: white;
+            color: black;
+            background: rgb(138, 119, 119);
         }
 
         .main-navigation, .grid-item:hover {
-            display: none; /* Removes interactive elements not necessary for print */
+            display: none;
         }
 
         .center {
             display: flex;
-
             justify-content: center;
             align-items: center;
         }
     }
-</style>
 
+     /* Additional styles for the table */
+     .overview-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .overview-table th, .overview-table td {
+        border: 0px solid var(--secondary-color);
+        padding: var(--space-sm);
+        text-align: left;
+    }
+
+    .overview-table th {
+        background-color: var(--secondary-color);
+        color: var(--primary-color);
+    }
+
+    .overview-table tbody tr:nth-child(odd) {
+        background-color: var(--background-color);
+    }
+
+    .overview-table {
+    width: 100%;
+    border-collapse: separate; /* Allows for rounded corners */
+    border-spacing: 0;
+    margin-bottom: var(--space-lg);
+    box-shadow: var(--box-shadow);
+    overflow: hidden; /* Ensures the border-radius applies to children */
+}
+
+.overview-table th,
+.overview-table td {
+    padding: var(--space-sm);
+    text-align: left;
+    border-bottom: 2px solid var(--background-color); /* Subtle separation */
+}
+
+.overview-table th {
+    background-color: var(--secondary-color);
+    color: var(--primary-color);
+    font-size: 1.1em;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+}
+
+.overview-table tbody tr {
+    transition: background-color 0.3s;
+}
+
+.overview-table tbody tr:hover {
+    background-color: rgba(42, 157, 143, 0.2); /* Subtle hover effect */
+}
+
+.overview-table tbody tr:nth-child(odd) {
+    background-color: var(--background-color);
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 768px) {
+    .overview-table, .overview-table thead, .overview-table tbody, .overview-table th, .overview-table td, .overview-table tr {
+        display: block;
+    }
+
+    .overview-table thead tr {
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+    }
+
+    .overview-table tr {
+        margin-bottom: var(--space-md);
+    }
+
+    .overview-table td {
+        /* Behave like "row" */
+        position: relative;
+        padding-left: 50%;
+        text-align: right;
+    }
+
+    .overview-table td:before {
+        /* Adding a pseudo-element for the labels */
+        position: absolute;
+        top: 12px;
+        left: var(--space-sm);
+        width: 45%;
+        padding-right: var(--space-sm);
+        white-space: nowrap;
+        text-align: left;
+        font-weight: 600;
+        content: attr(data-label); /* Using the data-label attribute */
+    }
+}
+
+/* Print styles */
+@media print {
+    .overview-table {
+        box-shadow: none;
+    }
+
+    .overview-table th, .overview-table td {
+        border: 1px solid #000;
+    }
+
+    .overview-table th {
+        background-color: #fff;
+        color: #000;
+    }
+
+    .overview-table tbody tr:nth-child(odd) {
+        background-color: #fff;
+    }
+}
+</style>
 {% endblock %}
 
 {% block content %}
-
+{% load my_custom_filters %}
 
 <nav class="main-navigation center">
     <ul class="nav justify-content-center">
@@ -134,69 +236,74 @@
     </ul>
 </nav>
 
-<main class="grid-container">
 
-    <section id="projects" class="grid-item">
-        <h2>Projects</h2>
-        <div>
-            {% for project in projects %}
-            <p><strong>{{ project.title }}</strong>: {{ project.description }}</p>
-            <a href="{% url 'wdm:objective_overview_project' project.id %}" class="filter-project-btn">Filter Missions and Tasks by this Project</a>
-        {% empty %}
-            <p>No projects available.</p>
-        {% endfor %}
-        </div>
-    </section>
+<main>
+    <table class="overview-table">
+        <thead>
+            <tr>
+                <th>Priority (Importance)</th>
+                <th>Tasks (Urgency: due_date)</th>
+                <th>Missions (Urgency: due_date)</th>
+                <th>Projects (Urgency: End_Date)</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for rank in ranks %}
+                <tr>
+                    <td>{{ rank.title }} ({{ rank.points }} points)</td>
+                    <td>
+                        {% with tasks|priority_filter:rank as filtered_tasks %}
+                            {% for task in filtered_tasks %}
+                                <div>
+                                    <p>Task: {{ task.title }}</p>
+                                    <p>Due Date: {{ task.due_date }}</p>
+                                </div>
+                            {% empty %}
 
+                            {% endfor %}
+                        {% endwith %}
+                    </td>
+                    <td>
+                        {% with missions|priority_filter:rank as filtered_missions %}
+                            {% for mission in filtered_missions %}
+                                <div>
+                                    <p>Mission: {{ mission.title }}</p>
+                                    <p>Due Date: {{ mission.due_date }}</p>
+                                </div>
+                            {% empty %}
 
-    <section id="missions" class="grid-item">
-        <h2>Missions</h2>
-        {% for mission in missions %}
-            <p><strong>{{ mission.title }}</strong>: {{ mission.description }}</p>
-        {% empty %}
-            <p>No missions available.</p>
-        {% endfor %}
-    </section>
-    
-
-    <section id="tasks" class="grid-item">
-        {% if selected_mission %}
-            <h2>Tasks for {{ selected_mission.title }}</h2>
-        {% else %}
-            <h2>All Tasks</h2>
-        {% endif %}
-        <div>
-            {% for task in tasks %}
-                <p><strong>{{ task.title }}</strong>: {{ task.description }}</p>
-                <form action="{% url 'wdm:complete_task' task.id %}" method="post">
-                    {% csrf_token %}
-                    <button type="submit">Complete Task</button>
-                </form>
-            {% empty %}
-                <p>No tasks available.</p>
+                            {% endfor %}
+                        {% endwith %}
+                    </td>
+                    <td>
+                        {% with projects|priority_filter:rank as filtered_projects %}
+                            {% for project in filtered_projects %}
+                                <div>
+                                    <p>Project: {{ project.title }}</p>
+                                    <p>End Date: {{ project.end_date }}</p>
+                                </div>
+                            {% empty %}
+                            
+                            {% endfor %}
+                        {% endwith %}
+                    </td>
+                </tr>
             {% endfor %}
-        </div>
-    </section>
-
+        </tbody>
+    </table>
 </main>
-
 
 {% endblock %}
 
 {% block extra_js %}
 <script>
-// Inside your <script> tag or an external .js file
 function filterTasksByMission(missionId) {
-    // Make an AJAX call to your server
     fetch(`/objectives/mission/${missionId}/`)
         .then(response => response.text())
         .then(html => {
-            // Replace the task section with the response
             document.getElementById('tasks').innerHTML = html;
         })
         .catch(error => console.error('Error:', error));
 }
-
-
 </script>
 {% endblock %}

@@ -31,35 +31,6 @@
     z-index: 1;
 }
 
-.progress-bar-container.level {
-    background-color: #fff3cd; /* light yellow background */
-    position: relative;
-    padding: 0 10px; /* Padding to ensure the text doesn't hug the borders too tightly */
-}
-
-.progress-bar {
-    background-color: #ffc107; /* brighter yellow for the filled part */
-    height: 20px;
-    line-height: 20px;
-    position: relative;
-    overflow: hidden; /* Ensures content doesn't spill out */
-}
-
-.progress-text {
-    color: #333;
-    position: absolute;
-    white-space: nowrap; /* Prevents the text from wrapping into a new line */
-}
-
-.progress-text.left {
-    left: 10px; /* Position from the left */
-    top: 0;
-}
-
-.progress-text.right {
-    right: 10px; /* Position from the right */
-    top: 0;
-}
 
 
 .level .progress-bar { background-color: #f0ad4e; }

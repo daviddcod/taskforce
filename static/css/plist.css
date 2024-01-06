@@ -2,6 +2,45 @@ embody {
     background-image: url("{% static 'images/patern.jpg' %}");
 }
 
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 20px;
+}
+.container {
+    background-color: white;
+    max-width: 800px;
+    margin: auto;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+h1 {
+    color: rgb(255, 255, 255);
+}
+form {
+    margin-top: 20px;
+}
+.submit-btn {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+}
+.submit-btn:hover {
+    background-color: #0056b3;
+}
+.checkbox-list {
+    margin-top: 20px;
+}
+.checkbox-item {
+    margin-bottom: 10px;
+}
+.checkbox-item label {
+    margin-left: 8px;
+}
+
 .textfx:hover {
     padding-inline: 10px;
     background-color: rgb(255, 174, 0);

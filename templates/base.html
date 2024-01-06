@@ -39,7 +39,7 @@
 
         .sidebar {
             position: fixed;
-            top: 56px; /* Adjusted for navbar height */
+            top: 70px; /* Adjusted for navbar height */
             left: 0;
             width: 16%; /* Adjusted width to percentage for a more dynamic layout */
             height: calc(100vh - 56px); /* Full height minus navbar */
@@ -52,7 +52,7 @@
 
         body {
             margin: 0;
-            padding-top: 56px; /* Height of the top navigation */
+            padding-top: 70px; /* Height of the top navigation */
             padding-bottom: 40px; /* Additional space for the footer */
             display: flex;
             flex-direction: column;
@@ -86,15 +86,136 @@
             border-radius: 50%;
             margin-right: 5px;
         }
+        /* Global Styles */
+        :root {
+            --primary-color: #06D6A0; /* A vibrant primary color for accents */
+            --dark-bg: #121212; /* Dark background for a deep look */
+            --light-text: #FAFAFA; /* Light text for contrast */
+            --font-family: 'Roboto', sans-serif; /* Consistent font throughout */
+        }
+
+        /* Navbar Styles */
+        .navbar-custom {
+            background-color: transparent;
+            backdrop-filter: blur(10px);
+        }
+
+        .navbar-custom .navbar-brand,
+        .navbar-custom .nav-link {
+            color: var(--light-text);
+            transition: color 0.3s ease;
+        }
+
+        .navbar-custom .navbar-brand:hover,
+        .navbar-custom .nav-link:hover {
+            color: var(--primary-color);
+        }
+
+        .navbar-toggler {
+            border-color: var(--primary-color);
+        }
+
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(6, 214, 160, 1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+        }
+
+        /* Enhancements for progress bars in the navbar */
+        .progress-bars-container {
+            display: flex;
+            gap: 6px;
+            row-gap: 10px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .progress-bar-wrapper {
+            background-color: var(--dark-bg);
+            border-radius: 5px;
+            overflow: hidden;
+            width: 200px;
+        }
+
+        .progress-bar {
+            background-color: var(--primary-color);
+            transition: width 0.5s ease;
+        }
+
+
+        /* Enhancements for progress bars in the navbar */
+        .progress-bars-container {
+            display: flex;
+            flex-direction: column; /* Stack rows vertically */
+            align-items: center;
+            justify-content: center;
+        }
+
+        .progress-bar-row {
+            display: flex;
+            width: 100%; /* Full width of the container */
+            justify-content: space-around; /* Distribute space around the items */
+            margin-bottom: 1px; /* Space between rows */
+        }
+
+        .progress-bar-wrapper {
+            background-color: var(--dark-bg);
+            border-radius: 5px;
+            overflow: hidden;
+            width: 65%; /* Slightly less than half the container for spacing */
+            transition: background-color 0.5s ease;
+        }
+
+        .progress-bar {
+            background-color: var(--primary-color);
+            transition: width 0.5s ease;
+            width: 200px;;
+        }
+
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .navbar-custom {
+                text-align: center;
+            }
+            .progress-bar-row {
+                flex-direction: column; /* Stack bars vertically on smaller screens */
+            }
+            .progress-bar-wrapper {
+                width: 80%; /* Adjust width for smaller screens */
+                margin-bottom: 1px; /* Space between bars */
+            }
+        }
+
+
     </style>
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="background-color: rgba(0, 0, 0, 0.5);">
-    <a class="navbar-brand" href="{% url 'home_app:welcome' %}" style="color: var(--bs-light);">WDMMORPG</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top navbar-custom">
+        <a class="navbar-brand" href="{% url 'home_app:welcome' %}">WDMMORPG</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav ml-auto">
+                {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'auth_app:logout' %}">Logout</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'auth_app:login' %}">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'wdm:register_user' %}">Register</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>    
+    </nav>
+    <!-- ... rest of your HTML ... -->
+    
+
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ml-auto">
             {% if user.is_authenticated %}
@@ -109,8 +230,18 @@
 
 <div class="sidebar">
     <ul class="nav flex-column">
-        <li class="nav-item">
-            <a class="nav-link active" href="{% url 'home_app:welcome' %}">Dashboard</a>
+
+
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Profile
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                <a class="dropdown-item" href="{% url 'wdmmorpg:user_profile' %}">Task List</a>
+                <a class="dropdown-item" href="{% url 'wdmmorpg:envlist' %}">Env List</a>
+
+                <!-- Additional task-related links -->
+            </div>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="{% url 'music:playlist_detail' pk=1 %}">Music</a>
@@ -119,11 +250,15 @@
             <a class="nav-link" href="{% url 'music:add_song' %}">Add Song</a>
         </li>
         <li class="nav-item">
+            <a class="nav-link" href="{% url 'music:playlist_list' %}">Playlists</a>
+        </li>
+        <li class="nav-item">
             <a class="nav-link" href="{% url 'music:album_list' %}">Albums</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="{% url 'myblog:blog_list' %}">Blog</a>
         </li>
+
         <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Tasks
@@ -131,10 +266,28 @@
             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                 <a class="dropdown-item" href="{% url 'wdmmorpg:task_list' %}">Task List</a>
                 <a class="dropdown-item" href="{% url 'wdmmorpg:mission_list' %}">Mission List</a>
+                <a class="dropdown-item" href="{% url 'wdmmorpg:project_list' %}">Project List</a>
+
                 <!-- Additional task-related links -->
             </div>
         </li>
         <!-- Additional sidebar items -->
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                E-value
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                <a class="dropdown-item" href="{% url 'wdmmorpg:priorityscale_list' %}">Priorities</a>
+                <a class="dropdown-item" href="{% url 'wdmmorpg:rank_list' %}">Ranks</a>
+                <a class="dropdown-item" href="{% url 'wdmmorpg:objective_overview' %}">Objectives</a>
+
+                <!-- Additional task-related links -->
+            </div>
+        </li>
+
+        <li>
+
+        </li>
     </ul>
 </div>
 
@@ -147,7 +300,7 @@
 </div>
 
 <footer class="footer">
-    &copy; 2023 WDMMORPG. All rights reserved.
+    &copy; 2024 WDMMORPG. All rights reserved.
 </footer>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

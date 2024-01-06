@@ -151,7 +151,8 @@ class Project(models.Model):
     start_date = models.DateField(null=True, blank=True)  # Added this field
     end_date = models.DateField(null=True, blank=True)    # Added this field
     status = models.CharField(max_length=100, null=True, blank=True)  # Added this line
-
+    priority = models.ForeignKey(PriorityScale, on_delete=models.CASCADE, default=1)
+    
     def calculate_experience(self):
         return sum([mission.calculate_experience() for mission in self.missions.all()]) * 1.5
 
