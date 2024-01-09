@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block extra_styles %}
+<style>
+</style>
+{% endblock %}
+
+{% block content %}
+<h2>{% if form.instance.pk %}Edit Product{% else %}Create Product{% endif %}</h2>
+<form method="post" class="product-form">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Save</button>
+</form>
+{% endblock %}

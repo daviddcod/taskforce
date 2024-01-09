@@ -402,22 +402,29 @@ def mission_list(request):
 from django.shortcuts import render, redirect
 from .forms import ProjectForm
 from django.contrib.auth.decorators import login_required
-
 @login_required
 def create_project(request):
     if request.method == 'POST':
-        form = ProjectForm(request.POST)  # Pass the user to the form
+        form = ProjectForm(request.POST)
         form.set_user(request.user)
 
         if form.is_valid():
-            # Create a new project instance without saving it to the DB yet
-            new_project = form.save(commit=False)
-            new_project.user = request.user.userprofile  # Assign the current user's profile to the project
-            new_project.save()  # Save the project to the DB
-            form.save_m2m()  # If the form has many-to-many fields, this is required
-            return redirect('wdm:project_list')  # Redirect to the list view
+            project, task_player = form.save(commit=True, user=request.user)  # Save the project and potentially create a TaskPlayer
+            # Assign the current user's profile to the project
+            project.user = request.user.userprofile
+            # Save the project to the DB
+            project.save()
+            # If the form has many-to-many fields, this is required
+            form.save_m2m()
+            # Redirect to the success page if a TaskPlayer was created
+            if task_player:
+                return render(request, 'taskplayer_success.html', {'project': project, 'taskplayer': task_player})
+
+            # Otherwise, redirect to the project list
+            return redirect('wdm:project_list')
+
     else:
-        form = ProjectForm()  # Pass the user to the form
+        form = ProjectForm()
         form.set_user(request.user)
 
     return render(request, 'wdmmorpg/create_project.html', {'form': form})
@@ -502,6 +509,7 @@ def complete_task(request, task_id):
         # Update the user's experience in their profile using the model's method
         user_profile, created = UserProfile.objects.get_or_create(user=request.user)
         user_profile.add_experience(gained_experience)
+        print('user gained: ', gained_experience)
 
 
         # Since we've marked the task as completed, it's removed from the active task list automatically.
@@ -510,6 +518,7 @@ def complete_task(request, task_id):
         # Redirect to the task detail or another appropriate page
         return redirect('wdm:objective_overview')
 
+    print('task_completed')
     # If the task is already completed, redirect to the task list or appropriate page
     return redirect('wdm:objective_overview')
 
@@ -577,12 +586,89 @@ def objective_overview(request, project_id=None):
         'priority_scales': priority_scales,
     }
 
-    print('Projects:', projects)
-    print('Missions:', missions)
-    print('Tasks:', tasks)
-    print('Ranks:', ranks)
-    print('Priority Scales:', priority_scales)
-
     return render(request, 'wdmmorpg/objective_overview.html', context)
 
 
+from django.shortcuts import render
+from .models import TaskPlayer
+def task_player_overview(request, task_player_id=None):
+    # Fetch all TaskPlayers for the logged-in user
+    task_players = TaskPlayer.objects.filter(user=request.user.userprofile).select_related('task')
+    
+    # You might want to add more context data as needed
+    context = {
+        'task_players': task_players,
+        'task_player_id': task_player_id,
+    }
+    return render(request, 'wdmmorpg/task_player_overview.html', context)
+from django.http import JsonResponse
+from django.utils import timezone
+
+# Assuming you have a TaskPlayer model as described before
+
+def start_task(request, task_player_id):
+    task_player = TaskPlayer.objects.get(id=task_player_id, user=request.user.userprofile)
+    task_player.start_task()
+    return JsonResponse({'status': 'started', 'start_time': task_player.start_time})
+
+def break_task(request, task_player_id):
+    task_player = TaskPlayer.objects.get(id=task_player_id, user=request.user.userprofile)
+    task_player.end_task()
+    return JsonResponse({'status': 'stopped', 'end_time': task_player.end_time})
+
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+from .models import TaskPlayer, Task, Project
+from django.utils import timezone
+from wdmmorpg.forms import TaskPlayerForm
+
+@login_required
+def create_taskplayer(request, project_id):
+    user_profile = request.user.userprofile
+    project = get_object_or_404(Project, pk=project_id, user=user_profile)
+
+    # Fetch tasks related to the project, ordered by priority
+    missions = Mission.objects.filter(project=project)
+    tasks = Task.objects.filter(mission__in=missions, user=user_profile).order_by('-priority')
+
+    # Initialize the form
+    if request.method == 'POST':
+        form = TaskPlayerForm(request.POST)
+        if form.is_valid():
+            taskplayer = form.save(commit=False)
+            taskplayer.user = user_profile
+            taskplayer.current_task = tasks.first() if tasks.exists() else None
+            taskplayer.save()
+            # If the tasks were set, assign them
+            if tasks.exists():
+                taskplayer.tasks.set(tasks)
+            return redirect('wdm:task-player-overview')
+    else:
+        form = TaskPlayerForm()
+
+    # If no POST or the form is not valid, render the page with the form
+    return render(request, 'wdmmorpg/create_taskplayer.html', {'form': form, 'project': project})
+
+from django.views.generic import CreateView, UpdateView, DetailView, DeleteView
+from .models import TaskPlayer
+from .forms import TaskPlayerForm
+from django.urls import reverse_lazy
+
+class TaskPlayerCreate(CreateView):
+    model = TaskPlayer
+    form_class = TaskPlayerForm
+    template_name = 'taskplayer_form.html'
+
+class TaskPlayerDetail(DetailView):
+    model = TaskPlayer
+    template_name = 'taskplayer_detail.html'
+
+class TaskPlayerUpdate(UpdateView):
+    model = TaskPlayer
+    form_class = TaskPlayerForm
+    template_name = 'taskplayer_form.html'
+
+class TaskPlayerDelete(DeleteView):
+    model = TaskPlayer
+    success_url = reverse_lazy('taskplayer_list')  # Redirect after delete, replace 'taskplayer_list' with your list view
+    template_name = 'taskplayer_confirm_delete.html'

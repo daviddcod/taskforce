@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+
+{% block extra_css %}
+<style>
+    /* Basic Reset for Padding and Margin */
+    *, *::before, *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        color: white;
+        text-align: center;
+    }
+
+    /* Container Styling */
+    .about-me-container {
+        font-family: 'Arial', sans-serif;
+        color: #333;
+        max-width: 800px;
+        margin: 20px auto;
+        padding: 20px;
+        background-color: #000000;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        text-align: center; /* Center-align all text within the container */
+    }
+
+    /* Title Styling */
+    .about-me-container h1 {
+        color: #ffffff;
+        margin-bottom: 1em;
+        font-size: 2em;
+    }
+
+    /* Image Styling */
+    .about-me-container img {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        border: 0px solid #ffffff;
+    }
+
+    /* Paragraph Styling */
+    .about-me-container p {
+        line-height: 1.6;
+        margin-bottom: 1em;
+    }
+
+    /* List Styling */
+    .about-me-container ul {
+        list-style: none;
+        padding: 0;
+    }
+
+    .about-me-container li {
+        margin-bottom: 10px;
+        font-size: 16px;
+        display: flex;
+        align-items: center;
+    }
+
+    .about-me-container li i {
+        color: #ffffff;
+        margin-right: 8px;
+        font-size: 1.2em;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 600px) {
+        .about-me-container {
+            padding: 15px;
+            margin: 10px;
+        }
+
+        .about-me-container h1 {
+            font-size: 1.5em;
+        }
+
+        .about-me-container li {
+            font-size: 14px;
+        }
+    }
+
+    .center {
+        justify-content: center;
+        display: flex;
+        align-items: center;
+    }
+</style>
+{% endblock extra_css %}
+
+{% block content %}
+{% load static %}
+<div class="about-me-container">
+    <h1>WDMMORPG</h1>
+    <div>
+        <img src="{% static 'images/CEO.png' %}" alt="CEO">
+    </div>
+    <p>Hello, I'm <strong>David</strong>!</p>
+    <p>I am the Founder of WDMMORPG. Here's a little about me:</p>
+    <ul class="center">
+        <li><i class="center fas fa-code"></i> Started Programming applications in 2020</li>
+        <li><i class="fas fa-music"></i> Passionate about music creation for 6 years</li>
+        <li><i class="fas fa-lightbulb"></i> Always learning different programming practices</li>
+        <li><i class="fas fa-tools"></i> Experienced with Tkinter, Three.JS, JavaFX</li>
+        <li><i class="fas fa-laptop-code"></i> Skilled in HTML, Java, C#, CSS, JavaScript, Python</li>
+        <li><i class="fas fa-database"></i> Data management with SSMS18, MySQL, MongoDB, PostgreSQL</li>
+        <li><i class="fas fa-cloud"></i> Cloud Practices: Docker, AWS [S3, EC2, IAM, and more]</li>
+        <li><i class="fas fa-graduation-cap"></i> Educational Background: HAVO, B-HBO-ICT</li>
+        <!-- Add more about your background, experiences, and interests -->
+    </ul>
+
+    <p>
+        My goal is to help individuals transform their daily lives into an adventure akin to what they experience in online games. WDMMORPG envisions a world where people invest time in self-improvement and reach their fullest potential in the most fun balanced way.
+    </p>
+
+    <p> WDMMORPG stands for </p>
+</div>
+{% endblock %}

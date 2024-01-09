@@ -21,7 +21,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from HomeApp import views as home_views
-
+from .views import about_me
 urlpatterns = [
     path('', include('HomeApp.urls')),
     path('admin/', admin.site.urls),
@@ -33,6 +33,9 @@ urlpatterns = [
     path('payment_processor/', include('payment_processor.urls', namespace='payment_processor')),
     path('wdmmorpg/', include('wdmmorpg.urls', namespace='wdmmorpg')),
     path('chat/', include('chat.urls', namespace='chat')),
+    path('shop/', include('shop_manager.urls', namespace='shop')),
+    path('about-me/', about_me, name='about-me'),
+
 
 
 

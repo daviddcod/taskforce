@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+from wdmmorpg.views import TaskPlayerCreate, TaskPlayerDelete, TaskPlayerDetail, TaskPlayerUpdate
 
 app_name = 'wdm'
 
@@ -48,5 +49,16 @@ urlpatterns = [
     path('objectives/', views.objective_overview, name='objective_overview'),
 
     path('objectives/project/<int:project_id>/', views.objective_overview, name='objective_overview_project'),
+    path('task-player/', views.task_player_overview, name='task-player-overview'),
+    # Include these patterns in your app's urls.py file
+    path('task-player/<int:task_player_id>/start/', views.start_task, name='start-task'),
+    path('task-player/<int:task_player_id>/break/', views.break_task, name='break-task'),
+    path('projects/<int:project_id>/create_taskplayer/', views.create_taskplayer, name='create_taskplayer'),
+    path('create_taskplayer/', views.create_taskplayer, name='create_taskplayer'),
+
+    path('taskplayer/add/', TaskPlayerCreate.as_view(), name='taskplayer_add'),
+    path('taskplayer/<int:pk>/', TaskPlayerDetail.as_view(), name='taskplayer_detail'),
+    path('taskplayer/<int:pk>/update/', TaskPlayerUpdate.as_view(), name='taskplayer_update'),
+    path('taskplayer/<int:pk>/delete/', TaskPlayerDelete.as_view(), name='taskplayer_delete'),
 ]
 

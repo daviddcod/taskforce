@@ -195,12 +195,14 @@ class Inventory(models.Model):
 
 # Task Player Functionality
 class TaskPlayer(models.Model):
-    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name='taskplayers', default=1)    
-    task = models.ForeignKey(Task, on_delete=models.CASCADE)
+    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name='user_taskplayers', default=1)    
+    tasks = models.ManyToManyField(Task)  # This allows multiple tasks to be associated with one TaskPlayer
+    current_task = models.ForeignKey(Task, related_name='current_task', on_delete=models.SET_NULL, null=True, blank=True)
     start_time = models.DateTimeField(auto_now_add=True)
     end_time = models.DateTimeField(null=True, blank=True, default=datetime.datetime(2024, 12, 31, 23, 59, 59))
     achievements = models.JSONField(default=dict)
-
+    project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='taskplayers')
+    
     def start_task(self):
         self.start_time = timezone.now()
         self.save()

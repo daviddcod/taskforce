@@ -37,11 +37,15 @@
             z-index: 1030; /* Ensures the navbar is above the sidebar */
         }
 
+        a {
+            padding-left: 20px;
+        }
+
         .sidebar {
             position: fixed;
             top: 70px; /* Adjusted for navbar height */
             left: 0;
-            width: 16%; /* Adjusted width to percentage for a more dynamic layout */
+            width: 9%; /* Adjusted width to percentage for a more dynamic layout */
             height: calc(100vh - 56px); /* Full height minus navbar */
             background: var(--bs-dark);
             color: var(--bs-light);
@@ -63,7 +67,7 @@
         .main-content {
             flex: 1; /* Allows the content to grow and fill the available space, pushing the footer down */
             width: calc(100% - 200px); /* Adjust width to account for the sidebar */
-            margin-left: 200px; /* Sidebar width */
+            margin-left: 160px; /* Sidebar width */
             padding: 1rem; /* Padding for content */
             overflow-x: hidden; /* Prevent horizontal scroll */
             overflow-y: auto; /* Enable vertical scroll */
@@ -196,13 +200,30 @@
             <span class="navbar-toggler-icon"></span>
         </button>
 
+        <!-- Inside your navigation menu in base.html or wherever appropriate -->
+
+        <a  href="{% url 'shop:product_list' %}">Shop</a>
+
+        <a href="{% url 'about-me' %}">info</a>
+        
+
+    
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
             <ul class="navbar-nav ml-auto">
                 {% if user.is_authenticated %}
+
+                <a class="nav-link" href="{% url 'shop:cart' %}">
+                    Cart    
+                    <span id="cart-count" class="badge badge-pill badge-warning">
+                        {{ request.session.cart|length }}
+                    </span>
+                </a>
+
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'auth_app:logout' %}">Logout</a>
                     </li>
                 {% else %}
+                
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'auth_app:login' %}">Login</a>
                     </li>
@@ -210,8 +231,11 @@
                         <a class="nav-link" href="{% url 'wdm:register_user' %}">Register</a>
                     </li>
                 {% endif %}
+                <li class="nav-item">
+
+                </li>
             </ul>
-        </div>    
+        </div>
     </nav>
     <!-- ... rest of your HTML ... -->
     
@@ -237,7 +261,7 @@
                 Profile
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                <a class="dropdown-item" href="{% url 'wdmmorpg:user_profile' %}">Task List</a>
+                <a class="dropdown-item" href="{% url 'wdmmorpg:user_profile' %}">Dashboard</a>
                 <a class="dropdown-item" href="{% url 'wdmmorpg:envlist' %}">Env List</a>
 
                 <!-- Additional task-related links -->
@@ -245,9 +269,6 @@
         </li>
         <li class="nav-item">
             <a class="nav-link" href="{% url 'music:playlist_detail' pk=1 %}">Music</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="{% url 'music:add_song' %}">Add Song</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="{% url 'music:playlist_list' %}">Playlists</a>

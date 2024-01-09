@@ -1,0 +1,115 @@
+% extends 'base.html' %}
+
+{% block title %}Task Player{% endblock %}
+
+{% block extrahead %}
+<!-- Add Bootstrap CSS for styling and responsiveness -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="path_to_custom_styles.css"> <!-- Your custom CSS -->
+
+<style>
+    .task-player-card {
+        background: #1a1a1a;
+        color: #fff;
+        margin-top: 20px;
+    }
+
+    .task-player-details span {
+        display: block;
+    }
+
+    .task-player-controls {
+        margin: 10px 0;
+    }
+
+    .task-timer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .timer {
+        font-size: 1.5em;
+        font-weight: bold;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card task-player-card">
+                <div class="card-body">
+                    <h5 class="card-title">Mockup Forgery</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">Object Fetched</h6>
+                    <div class="progress">
+                        <div class="progress-bar" role="progressbar" style="width: 22%;" aria-valuenow="2" aria-valuemin="0" aria-valuemax="9">2/9</div>
+                    </div>
+                    <div class="task-player-details">
+                        <span>Gain 100 EXP. Points</span>
+                        <span>Cost: 5 Fuel, 10 Endurance and 10 Health</span>
+                        <p>Build 9 High-Quality FIGMA Mockups in order to complete The Mockup Forgery Mission</p>
+                        <div class="task-player-controls">
+                            <button class="btn btn-success btn-start"><i class="fas fa-play"></i> Start</button>
+                            <button class="btn btn-danger btn-stop"><i class="fas fa-stop"></i> Stop</button>
+                        </div>
+                        <div class="task-timer">
+                            <button class="btn btn-dark btn-break">Break</button>
+                            <span class="timer">00:30</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extrajs %}
+<!-- Add Bootstrap Bundle with Popper for interactive components -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+<!-- Add Font Awesome for icons -->
+<script src="https://kit.fontawesome.com/your-fontawesome-kit.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+    const startButton = document.querySelector('.btn-start');
+    const breakButton = document.querySelector('.btn-break');
+    const timerDisplay = document.querySelector('.timer');
+    let timer;
+
+    startButton.addEventListener('click', function() {
+        // Call Django view to start the task
+        fetch('{% url 'wdm:start-task' task_player.id %}')
+            .then(response => response.json())
+            .then(data => {
+                if(data.status === 'started') {
+                    // Start the timer
+                    const startTime = Date.parse(data.start_time);
+                    timer = setInterval(function() {
+                        const now = new Date();
+                        const difference = now - startTime;
+                        const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+                        const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+                        timerDisplay.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+                    }, 1000);
+                }
+            });
+    });
+
+    breakButton.addEventListener('click', function() {
+        // Call Django view to break the task
+        fetch('{% url 'wdm:break-task' task_player.id %}') // Replace 'task_player.id' with actual ID
+            .then(response => response.json())
+            .then(data => {
+                if(data.status === 'stopped') {
+                    // Stop the timer
+                    clearInterval(timer);
+                    timerDisplay.textContent = '00:00';
+                }
+            });
+    });
+});
+
+</script>
+{% endblock %}

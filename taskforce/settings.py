@@ -8,6 +8,9 @@ import os
 from pathlib import Path
 from django.core.exceptions import ImproperlyConfigured
 
+import dj_database_url
+DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -15,13 +18,18 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-@t3fm0tc3=4hwlzs%tyv+y0#w5y2_%(29-x$grlhb4h_++w7ow'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
+SECURE_SSL_REDIRECT = True
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+SECURE_HSTS_SECONDS = 31536000  # Example: 1 year
 
-
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 MOLLIE_API_KEY = 'test_9cpV9y2UtfS2KR4SDeUVp4Vkp2tBWg'
 
+ALLOWED_HOSTS = ['taskforce-name.herokuapp.com', 'localhost', '127.0.0.1', 'wdmmorpg.com']
 
 # Application definition
 
@@ -84,11 +92,16 @@ MIDDLEWARE = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+      'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
         'corsheaders.middleware.CorsMiddleware',
 ]
 
+MIDDLEWARE += ['django.middleware.security.SecurityMiddleware']
+
 CORS_ALLOW_ALL_ORIGINS = True
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
 # ALLOWED_HOSTS = ['','ff59-144-178-82-114.ngrok-free.app']
@@ -117,7 +130,7 @@ ROOT_URLCONF = 'taskforce.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        'DIRS': [os.path.join(BASE_DIR, 'templates'), 'C:\\Users\\atlas\\DjangoProjects\\aws\\taskforce\\templates\\wdmmorpg'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -161,6 +174,10 @@ DATABASES = {
     }
 }
 
+# settings.py
+
+STRIPE_PUBLIC_KEY = 'pk_test_51OM9S0FvUJbELXUhuQYqg0M4jKRImgfeKnSjPFOcQvclN2TMHgfzQkOH8aCkEg10w37w68QCYo5sPxp6MBTrk3HL00q9lbEJQI'
+STRIPE_SECRET_KEY = 'sk_test_51OM9S0FvUJbELXUhaxMxJxgP7996dk5SERIuQF52lpEnAi5FuMpxI3OF5rW1us5jpuLQvytuuWEkst2RLB1LXRiO00NIFjcFAO'
 
 
 

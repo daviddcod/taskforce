@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<p>User: {{ taskplayer.user }}</p>
+<p>Current Task: {{ taskplayer.current_task }}</p>
+<p>Start Time: {{ taskplayer.start_time }}</p>
+<p>End Time: {{ taskplayer.end_time }}</p>
+<p>Achievements: {{ taskplayer.achievements }}</p>
+<!-- Add more fields as needed -->
+<a href="{% url 'wdn:taskplayer_update' taskplayer.pk %}">Edit</a>
+<a href="{% url 'wdm:taskplayer_delete' taskplayer.pk %}">Delete</a>
+{% endblock %}

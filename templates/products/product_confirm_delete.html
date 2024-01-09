@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block extra_styles %}
+<style>
+    /* Add your custom delete confirmation styles here */
+
+</style>
+{% endblock %}
+
+{% block content %}
+<h2>Are you sure you want to delete "{{ object.name }}"?</h2>
+<form method="post" class="delete-confirmation">
+    {% csrf_token %}
+    <button type="submit">Yes, delete</button>
+    <a href="{% url 'shop:product_list' %}">Cancel</a>
+</form>
+{% endblock %}

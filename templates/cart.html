@@ -1,0 +1,155 @@
+{% extends 'base.html' %}
+
+{% block extra_css %}
+<style>
+    body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f5f5f5;
+    color: #ffffff;
+    line-height: 1.6;
+}
+
+h1 {
+    text-align: center;
+    color: #ffffff;
+}
+
+table {
+    width: 100%;
+    margin: 20px 0;
+    border-collapse: collapse;
+}
+
+table, th, td {
+    border: 0px solid #ddd;
+}
+
+th {
+    background-color: #4CAF50;
+    color: rgb(0, 0, 0);
+    padding: 10px;
+}
+
+td {
+    text-align: center;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #000000;
+}
+
+strong {
+    color: #ffffff;
+}
+
+a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Call-to-Action Button */
+#checkout-button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-top: 20px;
+    background-color: #28a745;
+    color: rgb(0, 0, 0);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+#checkout-button:hover {
+    background-color: #218838;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    table, thead, tbody, th, td, tr {
+        display: block;
+    }
+
+    thead tr {
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+    }
+
+    tr {
+        margin-bottom: 10px;
+    }
+
+    td {
+        border: none;
+        position: relative;
+        padding-left: 50%;
+        text-align: left;
+    }
+
+    td:before {
+        position: absolute;
+        top: 6px;
+        left: 6px;
+        width: 45%;
+        padding-right: 10px;
+        white-space: nowrap;
+        font-weight: bold;
+    }
+
+    td:nth-of-type(1):before { content: "Product"; }
+    td:nth-of-type(2):before { content: "Quantity"; }
+    td:nth-of-type(3):before { content: "Price"; }
+    td:nth-of-type(4):before { content: "Subtotal"; }
+}
+
+</style>
+{% endblock %}
+{% block content %}
+<h1>Shopping Cart</h1>
+
+{% if cart_items %}
+    <table>
+        <tr>
+            <th>Product</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th>Subtotal</th>
+        </tr>
+        {% for item in cart_items %}
+            <tr>
+                <td>{{ item.product.name }}</td>
+                <td>{{ item.quantity }}</td>
+                <td>€{{ item.product.price }},-</td>
+                <td>€{{ item.subtotal }},-</td>
+            </tr>
+        {% endfor %}
+        <tr>
+            <td colspan="3"><strong>Total</strong></td>
+            <td><strong>€{{ total_price }},-</strong></td>
+        </tr>
+    </table>
+
+    
+    <p>To place your order, please send an email with your cart details to <a href="mailto:daviddcod@outlook.com?subject=New Order Request">daviddcod@outlook.com</a>.</p>
+    <p><a href="mailto:daviddcod@outlook.com?subject=New Order Request">Click here</a> to open your email client.</p>
+
+    
+    <!-- Checkout Button
+    <form action="{% url 'shop:checkout' %}" method="POST">
+        {% csrf_token %}
+        <button type="submit" id="checkout-button">Proceed to Checkout</button>
+    </form> -->
+    
+{% else %}
+    <p>Your cart is empty.</p>
+    <!-- Maybe add a link back to products here -->
+{% endif %}
+
+{% endblock %}

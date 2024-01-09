@@ -126,16 +126,16 @@ class MissionForm(forms.ModelForm):
         label='Description',
         widget=forms.Textarea(attrs={'class': 'form-control'})
     )
-    priority = forms.ModelChoiceField(
-        label='Priority',
-        queryset=PriorityScale.objects.all(),
-        widget=forms.Select(attrs={'class': 'form-control'})
-    )
     tasks = forms.ModelMultipleChoiceField(
         label='Tasks',
         queryset=Task.objects.none(),
         widget=forms.CheckboxSelectMultiple,
         required=False
+    )
+    priority = forms.ModelChoiceField(
+        label='Priority',
+        queryset=PriorityScale.objects.all(),
+        widget=forms.Select(attrs={'class': 'form-control'})
     )
 
     class Meta:
@@ -156,6 +156,13 @@ class MissionForm(forms.ModelForm):
         else:
             tasks_queryset = Task.objects.filter(user=user)
         self.fields['tasks'].queryset = tasks_queryset
+        self.fields['priority'] = forms.ModelChoiceField(
+        label='Priority',
+        queryset=PriorityScale.objects.filter(user=user),
+        widget=forms.Select(attrs={'class': 'form-control'})
+    )
+
+        
         
     @transaction.atomic
     def save(self, commit=True):
@@ -176,6 +183,8 @@ class MissionForm(forms.ModelForm):
             # Set tasks queryset for new mission
             self.set_userprofile(self.user)
 
+
+
 # ProjectForm
 class ProjectForm(forms.ModelForm):
     missions = forms.ModelMultipleChoiceField(
@@ -189,11 +198,22 @@ class ProjectForm(forms.ModelForm):
     queryset=PriorityScale.objects.all(),
     widget=forms.Select(attrs={'class': 'form-control'})
     )
+
+    create_taskplayer = forms.BooleanField(
+        label='Create a TaskPlayer for this project',
+        required=False,
+        initial=False
+    )
+
             
     class Meta:
         model = Project
-        fields = ['title', 'description', 'priority','start_date', 'end_date', 'status', 'missions']
+        fields = ['title', 'description', 'priority','start_date', 'end_date', 'status', 'missions', 'create_taskplayer']
+        widgets = {
+            'end_date': forms.DateInput(attrs={'type': 'date'}),
+            'start_date': forms.DateInput(attrs={'type': 'date'}),
 
+        }
 
 
     def clean(self):
@@ -206,13 +226,44 @@ class ProjectForm(forms.ModelForm):
 
     def set_user(self, user):
         self.fields['missions'].queryset = Mission.objects.filter(user=user.userprofile)
+        self.fields['priority'].queryset = PriorityScale.objects.filter(user=user.userprofile)
         
     @transaction.atomic
-    def save(self, commit=True):
+    def save(self, commit=True, user=None):
         project = super().save(commit=False)
         if commit:
             project.save()
             self.save_m2m()
+
+            if self.cleaned_data.get('create_taskplayer'):
+                # Retrieve all tasks from the project's missions
+                all_tasks = []
+                for mission in project.missions.all():
+                    for task in mission.tasks.all():
+                        all_tasks.append(task)
+
+                # Sort or arrange all_tasks if necessary, then pick the first task as the current_task
+                first_task = all_tasks[0] if all_tasks else None
+
+                # Create a new TaskPlayer object
+                task_player = TaskPlayer.objects.create(
+                    user=project.user,
+                    current_task=first_task,  # Set the first task as the current task
+                    achievements={'completionist': True},  # Auto-fill achievements
+                    project=project,  # Assign the project
+                    end_time=project.end_date  # Initialize end_time to the project's end date
+                )
+                
+                print(project.end_date)
+
+
+                # Add all tasks from the project's missions to the TaskPlayer
+                task_player.tasks.set(all_tasks)
+                task_player.save()
+
+                # Optionally return both project and task_player
+                return project, task_player
+
         return project
 
     # Additional custom validations
@@ -300,10 +351,11 @@ class RankForm(forms.ModelForm):
     # Custom validations for Rank
 
 # TaskPlayerForm
+
 class TaskPlayerForm(forms.ModelForm):
     class Meta:
         model = TaskPlayer
-        fields = ['task', 'user', 'end_time', 'achievements']
+        fields = ['tasks', 'user', 'end_time', 'achievements', 'project']
 
     def clean(self):
         cleaned_data = super().clean()
@@ -317,13 +369,22 @@ class TaskPlayerForm(forms.ModelForm):
         task_player = super().save(commit=False)
         if commit:
             # Experience calculation logic based on task priority
-            task = self.cleaned_data['task']
-            user_profile = self.cleaned_data['player']
+            task = self.cleaned_data['tasks']
+            user_profile = self.cleaned_data['user']  # Changed from 'player' to 'user' to match the model field
+            project = self.cleaned_data['project']  # Ensure 'project' is included in your form fields
+
+            # Calculate experience and update user profile
             user_profile.experience += calculate_exp_for_task(task.priority)
             user_profile.save()
+
+            # Set the start and end time for TaskPlayer
+            task_player.start_time = timezone.now()  # Assuming start_time is set when the task is started
+            task_player.end_time = project.end_date  # Set end_time to the end_date of the associated project
+
             task_player.save()
         return task_player
 
+    
     # Additional custom validations
 
 # Additional forms and custom validations for other models...
@@ -367,6 +428,9 @@ class TaskForm(forms.ModelForm):
     class Meta:
         model = Task
         fields = ['title', 'description', 'priority', 'environment', 'due_date', 'status', 'is_active']
+        widgets = {
+            'due_date': forms.DateInput(attrs={'type': 'date'}),
+        }
 
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('user', None)

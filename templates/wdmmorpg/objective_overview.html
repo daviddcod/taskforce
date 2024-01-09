@@ -34,6 +34,10 @@
         transition: background-color 0.3s;
     }
 
+    .heading {
+        color: black;
+    }
+
     main {
         color: rgb(255, 255, 255);
     }
@@ -148,7 +152,7 @@
 
 .overview-table th {
     background-color: var(--secondary-color);
-    color: var(--primary-color);
+    color: black;
     font-size: 1.1em;
     border-top-left-radius: 0px;
     border-top-right-radius: 0px;
@@ -222,29 +226,93 @@
         background-color: #fff;
     }
 }
+.progress-bar-container.level {
+    background-color: #1c1c1c; /* Dark background */
+    border: 2px solid #4e4e4e; /* Slightly lighter border for a subtle contrast */
+    border-radius: 12px; /* Less pronounced rounded corners */
+    position: relative;
+    padding: 2px; /* Tighter padding for a more compact look */
+    box-shadow: inset 0 0 10px #000; /* Inner shadow for depth */
+    margin-bottom: 20px;
+}
+
+.progress-bar {
+    background-color: #606c38; /* Muted green for the filled part, reminiscent of Dark Souls' estus flasks */
+    height: 20px;
+    border-radius: 10px; /* Slightly rounded corners within the bar */
+    box-shadow: 0 2px 4px #000, 0 0 20px #00f; /* Shadow for a 3D effect with lightning effect */
+    position: relative;
+    overflow: hidden;
+    margin: 20px;
+}
+
+/* Modal Styling */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
+    padding-top: 60px;
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 5% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+#myBtn {
+    border-radius: 4px;
+    background-color: var(--secondary-color);
+    border: 0px;
+    height: 40px;
+    width: 160.5vh;
+}
+
+
 </style>
 {% endblock %}
 
 {% block content %}
 {% load my_custom_filters %}
 
-<nav class="main-navigation center">
-    <ul class="nav justify-content-center">
-        <li><a href="#tasks">Tasks</a></li>
-        <li><a href="#missions">Missions</a></li>
-        <li><a href="#projects">Projects</a></li>
-    </ul>
-</nav>
+<div class="progress-bar-container level">
+    <div class="progress-bar" style="width: {{ user_profile.calculate_experience_percentage }}%; background-color: #ffc107;">
+        <span> {{ user_profile.level }}</span>
+    </div>
+</div>
 
 
 <main>
     <table class="overview-table">
         <thead>
             <tr>
-                <th>Priority (Importance)</th>
-                <th>Tasks (Urgency: due_date)</th>
-                <th>Missions (Urgency: due_date)</th>
-                <th>Projects (Urgency: End_Date)</th>
+                <th class="heading">Priority (Importance)</th>
+                <th class="heading">Tasks (Urgency: due_date)</th>
+                <th class="heading">Missions (Urgency: due_date)</th>
+                <th class="heading">Projects (Urgency: End_Date)</th>
             </tr>
         </thead>
         <tbody>
@@ -252,14 +320,15 @@
                 <tr>
                     <td>{{ rank.title }} ({{ rank.points }} points)</td>
                     <td>
-                        {% with tasks|priority_filter:rank as filtered_tasks %}
+                        {% with tasks|priority_filter:rank|exclude_completed as filtered_tasks %}
                             {% for task in filtered_tasks %}
                                 <div>
                                     <p>Task: {{ task.title }}</p>
                                     <p>Due Date: {{ task.due_date }}</p>
+                                    <a href="{% url 'wdm:complete_task' task.id %}">Complete</a>
                                 </div>
                             {% empty %}
-
+                                <div>No incomplete tasks for this priority.</div>
                             {% endfor %}
                         {% endwith %}
                     </td>
@@ -283,7 +352,7 @@
                                     <p>End Date: {{ project.end_date }}</p>
                                 </div>
                             {% empty %}
-                            
+
                             {% endfor %}
                         {% endwith %}
                     </td>
@@ -292,6 +361,44 @@
         </tbody>
     </table>
 </main>
+
+<button id="myBtn">Create New Task</button>
+
+
+
+<!-- Task Creation Modal -->
+<div id="taskCreationModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Create New Task</h2>
+        <form id="taskForm">
+            <label for="title">Title:</label>
+            <input type="text" id="title" name="title"><br><br>
+
+            <label for="description">Description:</label>
+            <textarea id="description" name="description"></textarea><br><br>
+
+            <label for="priority">Priority:</label>
+            <select id="priority" name="priority"></select><br><br>
+
+            <label for="environment">Environment:</label>
+            <select id="environment" name="environment"></select><br><br>
+
+            <label for="due_date">Due Date:</label>
+            <input type="date" id="due_date" name="due_date"><br><br>
+
+            <label for="status">Status:</label>
+            <select id="status" name="status">
+                <!-- Populate this with status options -->
+            </select><br><br>
+
+            <input type="checkbox" id="is_active" name="is_active">
+            <label for="is_active">Is Active</label><br><br>
+
+            <input type="submit" value="Create Task">
+        </form>
+    </div>
+</div>
 
 {% endblock %}
 
@@ -306,4 +413,50 @@ function filterTasksByMission(missionId) {
         .catch(error => console.error('Error:', error));
 }
 </script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+    var modal = document.getElementById('taskCreationModal');
+    
+    // Get the button that opens the modal
+    var btn = document.getElementById("myBtn");
+    
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+    
+    // When the user clicks the button, open the modal 
+    btn.onclick = function() {
+        modal.style.display = "block";
+    }
+    
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function() {
+        modal.style.display = "none";
+    }
+    
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+});
+    </script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+    $(document).ready(function() {
+        function updateCartCount(newCount) {
+            $("#cart-count").text(newCount);
+        }
+    
+        // Assuming you have buttons or links with a class 'add-to-cart-button'
+        $('.add-to-cart-button').on('click', function() {
+            // Your logic to add an item to the cart...
+            // On success:
+            const newCount = /* get the new cart count from your server */;
+            updateCartCount(newCount);
+        });
+    });
+    </script>
+    
 {% endblock %}

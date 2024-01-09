@@ -1,6 +1,74 @@
 {% extends 'base.html' %}
 
 {% block extra_css %}
+<style>
+    .album-container {
+    padding: 20px;
+    background-color: transparent;
+}
+
+.page-title {
+    text-align: center;
+    font-size: 2em;
+    margin-bottom: 30px;
+    color: #ffffff;
+}
+
+.album-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+
+.album-card {
+    background-color: rgb(224, 0, 0);
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    width: 200px;
+    overflow: hidden;
+}
+
+.album-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.album-link {
+    text-decoration: none;
+    color: inherit;
+}
+
+.album-info {
+    padding: 15px;
+    text-align: center;
+}
+
+.album-title {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.album-artist {
+    font-size: 1em;
+    color: #666;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .album-list {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .album-card {
+        width: 90%;
+    }
+}
+
+</style>
 {% load static %}
 <link rel="stylesheet" href="{% static 'css/album_list.css' %}">
 {% endblock %}

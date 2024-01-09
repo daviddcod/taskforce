@@ -8,7 +8,8 @@
 
     <!-- Render other fields as paragraphs -->
     {% for field in form %}
-        {% if field.name != 'missions' %}
+        <!-- Check if the field is not 'missions' or 'create_taskplayer' -->
+        {% if field.name != 'missions' and field.name != 'create_taskplayer' %}
             <div class="form-group">
                 {{ field.label_tag }}
                 {{ field }}
@@ -30,6 +31,13 @@
             {% endfor %}
         </div>
     </fieldset>
+
+    <!-- Add create_taskplayer checkbox -->
+    <div class="form-group">
+        {{ form.create_taskplayer.label_tag }}
+        {{ form.create_taskplayer }}
+        {{ form.create_taskplayer.errors }}
+    </div>
 
     <button type="submit" class="btn btn-primary">Create Project</button>
 </form>
