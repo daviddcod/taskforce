@@ -22,6 +22,9 @@ RUN pip install django-cors-headers
 RUN pip install mutagen
 RUN pip install mollie-api-python
 RUN pip install pillow
+RUN pip install Twisted
+RUN pip install gunicorn
+
 
 # Add the rest of the code
 COPY . /usr/src/taskforce
