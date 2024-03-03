@@ -323,9 +323,8 @@
                         {% with tasks|priority_filter:rank|exclude_completed as filtered_tasks %}
                             {% for task in filtered_tasks %}
                                 <div>
-                                    <p>Task: {{ task.title }}</p>
-                                    <p>Due Date: {{ task.due_date }}</p>
-                                    <a href="{% url 'wdm:complete_task' task.id %}">Complete</a>
+                                    <p>Task:<a href="{% url 'wdm:task_detail' task.id %}">{{ task.title }}</a>                                    </p>
+                                    <p>Due Date: {{ task.due_date }} <a href="{% url 'wdm:complete_task' task.id %}">Complete</a>                                    </p>
                                 </div>
                             {% empty %}
                                 <div>No incomplete tasks for this priority.</div>

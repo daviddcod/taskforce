@@ -8,7 +8,7 @@ from datetime import date
 
 from .models import (UserProfile, Task, Mission, Project, InventoryItem, 
                      Environment, Tool, TransportationKey, Consumable, 
-                     Skill, PriorityScale, Rank, TaskPlayer, Inventory, UserTaskInteraction)
+                     Skill, PriorityScale, Rank, TaskPlayer, Inventory, Attribute, UserTaskInteraction)
 
 # UserTaskInteractionForm
 class UserTaskInteractionForm(forms.ModelForm):
@@ -95,7 +95,13 @@ class UserProfileForm(forms.ModelForm):
 
     # Additional custom validations
 
-# TaskForm
+from django import forms
+from .models import Task
+from django import forms
+from .models import Task, Environment
+from django import forms
+from .models import Task
+
 class TaskForm(forms.ModelForm):
     class Meta:
         model = Task
@@ -106,6 +112,14 @@ class TaskForm(forms.ModelForm):
         if due_date and due_date < date.today():
             raise ValidationError('Due date cannot be in the past.')
         return due_date
+
+    def __init__(self, *args, **kwargs):
+        super(TaskForm, self).__init__(*args, **kwargs)
+        
+        # If an environment is already associated with the task,
+        # disable the environment field in the form
+        if self.instance.environment:
+            self.fields['environment'].widget.attrs['disabled'] = True
 
     # Additional custom validations
 
@@ -324,7 +338,7 @@ class ConsumableForm(forms.ModelForm):
 class SkillForm(forms.ModelForm):
     class Meta:
         model = Skill
-        fields = ['name', 'type', 'level', 'user']
+        fields = ['name', 'type', 'level', 'user', 'cost', 'gain']
 
     # Custom validations for Skill
 
@@ -439,3 +453,7 @@ class TaskForm(forms.ModelForm):
             self.fields['priority'].queryset = PriorityScale.objects.filter(user=user)
             self.fields['environment'].queryset = Environment.objects.filter(user=user)
 
+class AttributeForm(forms.ModelForm):
+    class Meta:
+        model = Attribute
+        fields = ['title' , 'description', 'total_points']

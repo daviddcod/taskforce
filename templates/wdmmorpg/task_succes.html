@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<!-- Custom CSS for Styling -->
+<style>
+    body, html {
+        height: 100%;
+        margin: 0;
+        font-family: 'Arial', sans-serif;
+        background: #f4f4f4;
+    }
+
+    .parallax {
+        /* The image used */
+        background-image: url('your-image-url.jpg');
+
+        /* Full height */
+        height: 300px; 
+
+        /* Create the parallax scrolling effect */
+        background-attachment: fixed;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+
+    .content {
+        padding: 30px;
+        background: white;
+        margin: 50px auto;
+        box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+        border-radius: 4px;
+        max-width: 800px;
+    }
+
+    h2 {
+        color: #333;
+    }
+
+    .btn {
+        margin-right: 5px;
+    }
+
+    .list-group-item {
+        position: relative;
+        display: block;
+        padding: 10px 15px;
+        margin-bottom: -1px;
+        background-color: #fff;
+        border: 1px solid #ddd;
+    }
+
+    .float-right {
+        float: right;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="content">
+    <h1>say outloud:</h1>
+    <p> {{task.title}} </p>
+    <p>is complete, no need to wait till {{task.due_date}}</p>
+</div>
+
+<a href="{% url 'wdmmorpg:task_create' %}" class="btn btn-primary">Add New Task</a>
+<a href="{% url 'wdmmorpg:task_list' %}" class="btn btn-primary">Task List</a>
+
+
+{% endblock %}

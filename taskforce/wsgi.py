@@ -1,15 +1,11 @@
-"""
-WSGI config for taskforce project.
-
-It exposes the WSGI callable as a module-level variable named ``application``.
-
-For more information on this file, see
-https://docs.djangoproject.com/en/5.0/howto/deployment/wsgi/
-"""
-
 import os
-
 from django.core.wsgi import get_wsgi_application
+
+# Get the port from the environment variable or default to 8000
+port = int(os.environ.get('PORT', 8000))
+
+# Start the Gunicorn server
+bind = f'0.0.0.0:{port}'
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'taskforce.settings')
 

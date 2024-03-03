@@ -1,0 +1,74 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: django
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8000
+      targetPort: 8000
+  selector:
+    app: django
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: django
+spec:
+  replicas: 3 # More replicas for high availability
+  selector:
+    matchLabels:
+      app: django
+  template:
+    metadata:
+      labels:
+        app: django
+    spec:
+      initContainers:
+      - name: migrate
+        image: ddcodwdm/taskforce:productionlatest  # Gebruik dezelfde image als uw applicatie
+        command: ["python", "manage.py", "migrate"]
+        env:
+          - name: DATABASE_URL
+            value: postgres://postgres:Lightvessel100!@postgres:5432/wdmdb
+          - name: REDIS_URL
+            value: redis://redis:6379
+      containers:
+      - name: django
+        image: ddcodwdm/taskforce:productionlatest
+        resources:
+          limits:
+            cpu: "2"
+            memory: "500Mi"
+          requests:
+            cpu: "2"
+            memory: "300Mi"
+        envFrom:
+          - secretRef:
+              name: django-secrets
+        env:
+          - name: DATABASE_URL
+            value: postgres://postgres:Lightvessel100!@postgres:5432/wdmdb
+          - name: REDIS_URL
+            value: redis://redis:6379
+          - name: DEBUG
+            valueFrom:
+              configMapKeyRef:
+                name: django-config
+                key: DEBUG
+          - name: ALLOWED_HOSTS
+            valueFrom:
+              configMapKeyRef:
+                name: django-config
+                key: ALLOWED_HOSTS
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: django
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 8000
+  selector:
+    app: django

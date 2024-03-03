@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Attribute List</h1>
+  <ul>
+    {% for attribute in attributes %}
+      <li><a href="{% url 'wdmmorpg:attribute_detail' attribute.pk %}">{{ attribute.title }}</a></li>
+    {% endfor %}
+  </ul>
+  <a href="{% url 'wdmmorpg:attribute_create' %}">Create New Attribute</a>
+{% endblock %}

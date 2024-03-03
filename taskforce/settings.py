@@ -9,7 +9,6 @@ from pathlib import Path
 from django.core.exceptions import ImproperlyConfigured
 
 import dj_database_url
-DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -18,18 +17,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-@t3fm0tc3=4hwlzs%tyv+y0#w5y2_%(29-x$grlhb4h_++w7ow'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
-
-SECURE_SSL_REDIRECT = True
-SESSION_COOKIE_SECURE = True
-CSRF_COOKIE_SECURE = True
-SECURE_HSTS_SECONDS = 31536000  # Example: 1 year
+DEBUG = True
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 MOLLIE_API_KEY = 'test_9cpV9y2UtfS2KR4SDeUVp4Vkp2tBWg'
 
-ALLOWED_HOSTS = ['taskforce-name.herokuapp.com', 'localhost', '127.0.0.1', 'wdmmorpg.com']
+# ALLOWED_HOSTS = ['34.70.47.207','taskforce-name.herokuapp.com', 'localhost', '127.0.0.1', 'wdmmorpg.com']
 
 # Application definition
 
@@ -116,11 +110,11 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 # ]
 
 
-ALLOWED_HOSTS = [
-    'last-env.eba-rp7uv7de.eu-north-1.elasticbeanstalk.com',
-    'localhost',
-    '127.0.0.1',
-]
+import os
+
+# Lees ALLOWED_HOSTS vanuit een omgevingsvariabele
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
+
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
@@ -164,16 +158,8 @@ AUTH_USER_MODEL = 'auth_app.CustomUser'
 # }
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'wdmdb',  # Update with your local database name
-        'USER': 'postgres',
-        'PASSWORD': 'Lightvessel100!',  # Keep the password the same
-        'HOST': 'localhost',  # Pointing to the local machine
-        'PORT': '5432',  # Default PostgreSQL port
-    }
+    'default': dj_database_url.config(default='postgres://postgres:Lightvessel100!@localhost:5432/wdmdb')
 }
-
 # settings.py
 
 STRIPE_PUBLIC_KEY = 'pk_test_51OM9S0FvUJbELXUhuQYqg0M4jKRImgfeKnSjPFOcQvclN2TMHgfzQkOH8aCkEg10w37w68QCYo5sPxp6MBTrk3HL00q9lbEJQI'

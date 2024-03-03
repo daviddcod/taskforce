@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Skill Detail</h1>
+  <p>Name: {{ skill.name }}</p>
+  <p>Type: {{ skill.type }}</p>
+  <p>Level: {{ skill.level }}</p>
+  <a href="{% url 'wdmmorpg:skill_update' skill.pk %}">Edit</a>
+  <form action="{% url 'wdmmorpg:skill_delete' skill.pk %}" method="post">
+    {% csrf_token %}
+    <input type="submit" value="Delete">
+  </form>
+{% endblock %}

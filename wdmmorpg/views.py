@@ -125,18 +125,28 @@ def task_detail(request, pk):
 from .forms import TaskForm
 from django.shortcuts import redirect
 
+from .forms import TaskForm, EnvironmentForm
+
 @login_required
 def task_create(request):
     if request.method == 'POST':
-        form = TaskForm(request.POST, user= request.user.userprofile)
-        if form.is_valid():
-            task = form.save(commit=False)
+        task_form = TaskForm(request.POST, user=request.user.userprofile)
+        if task_form.is_valid():
+            task = task_form.save(commit=False)
             task.user = request.user.userprofile
             task.save()
-            return redirect('wdmmorpg:task_list')
+            return render(request, 'wdmmorpg/task_succes.html', {'task': task})
     else:
-        form = TaskForm(user=request.user.userprofile)
-    return render(request, 'wdmmorpg/task_form.html', {'form': form})
+        task_form = TaskForm(user=request.user.userprofile)
+
+    return render(request, 'wdmmorpg/task_form.html', {'task_form': task_form})
+
+
+@login_required
+def task_succes(request, pk):
+    task = Task.objects.get(id=pk)  # Use get instead of filter to ensure only one task is returned
+    return render(request, 'wdmmorpg/task_succes.html', {'task': task})
+
 
 from django.http import HttpResponseNotFound
 @login_required
@@ -459,15 +469,16 @@ def delete_project(request, pk):
 
 @login_required
 def project_detail(request, pk):
-    # Ensure the project belonags to the user
+    # Ensure the project belongs to the user
     project = get_object_or_404(Project, pk=pk, user=request.user.userprofile)
-    mission = project.missions.filter(user=request.user.userprofile).first()  # Replace 'missions' with related_name if set
-    experience = mission.calculate_experience() if mission else 0
+    missions = project.missions.filter(user=request.user.userprofile)  # Replace 'missions' with related_name if set
+    experiences = [mission.calculate_experience() for mission in missions]
     return render(request, 'wdmmorpg/project_detail.html', {
         'project': project,
-        'mission': mission,
-        'experience': experience
+        'missions': missions,
+        'experiences': experiences
     })
+
 
 from django.shortcuts import render
 from .models import Project
@@ -591,14 +602,14 @@ def objective_overview(request, project_id=None):
 
 from django.shortcuts import render
 from .models import TaskPlayer
-def task_player_overview(request, task_player_id=None):
+def task_player_overview(request, pk):
     # Fetch all TaskPlayers for the logged-in user
     task_players = TaskPlayer.objects.filter(user=request.user.userprofile).select_related('task')
     
     # You might want to add more context data as needed
     context = {
         'task_players': task_players,
-        'task_player_id': task_player_id,
+        'task_player_id': pk,
     }
     return render(request, 'wdmmorpg/task_player_overview.html', context)
 from django.http import JsonResponse
@@ -672,3 +683,94 @@ class TaskPlayerDelete(DeleteView):
     model = TaskPlayer
     success_url = reverse_lazy('taskplayer_list')  # Redirect after delete, replace 'taskplayer_list' with your list view
     template_name = 'taskplayer_confirm_delete.html'
+
+from django.shortcuts import render, redirect, get_object_or_404
+from .models import Skill
+from .forms import SkillForm
+
+@login_required
+def skill_list(request):
+    skills = Skill.objects.all()
+    return render(request, 'wdmmorpg/skill_list.html', {'skills': skills})
+
+@login_required
+def skill_detail(request, pk):
+    skill = get_object_or_404(Skill, pk=pk)
+    return render(request, 'wdmmorpg/skill_detail.html', {'skill': skill})
+
+@login_required
+def skill_create(request):
+    if request.method == 'POST':
+        form = SkillForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('wdm:skill_list')
+    else:
+        form = SkillForm()
+    return render(request, 'wdmmorpg/skill_form.html', {'form': form})
+
+@login_required
+def skill_update(request, pk):
+    skill = get_object_or_404(Skill, pk=pk)
+    if request.method == 'POST':
+        form = SkillForm(request.POST, instance=skill)
+        if form.is_valid():
+            form.save()
+            return redirect('wdm:skill_list')
+    else:
+        form = SkillForm(instance=skill)
+    return render(request, 'wdmmorpg/skill_form.html', {'form': form})
+
+@login_required
+def skill_delete(request, pk):
+    skill = get_object_or_404(Skill, pk=pk)
+    if request.method == 'POST':
+        skill.delete()
+        return redirect('wdm:skill_list')
+    return render(request, 'wdmmorpg/skill_confirm_delete.html', {'skill': skill})
+
+
+from .models import Attribute
+from .forms import AttributeForm
+
+@login_required
+def attribute_list(request):
+    attributes = Attribute.objects.all()
+
+    return render(request, 'wdmmorpg/attribute_list.html', {'attributes': attributes})
+
+@login_required
+def attribute_detail(request, pk):
+    attribute = get_object_or_404(Attribute, pk=pk)
+    return render(request, 'wdmmorpg/attribute_detail.html', {'attribute': attribute})
+
+@login_required
+def attribute_create(request):
+    if request.method == 'POST':
+        form = AttributeForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('wdm:attribute_list')
+    else:
+        form = AttributeForm()
+    return render(request, 'wdmmorpg/attribute_form.html', {'form': form})
+
+@login_required
+def attribute_update(request, pk):
+    attribute = get_object_or_404(Skill, pk=pk)
+    if request.method == 'POST':
+        form = SkillForm(request.POST, instance=attribute)
+        if form.is_valid():
+            form.save()
+            return redirect('wdm:attribute_list')
+    else:
+        form = AttributeForm(instance=attribute)
+    return render(request, 'wdmmorpg/attribute_form.html', {'form': form})
+
+@login_required
+def attribute_delete(request, pk):
+    attribute = get_object_or_404(Attribute, pk=pk)
+    if request.method == 'POST':
+        attribute.delete()
+        return redirect('wdm:attribute_list')
+    return render(request, 'wdmmorpg/attribute_confirm_delete.html', {'attribute': attribute})

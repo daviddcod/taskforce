@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Delete Skill</h1>
+  <p>Are you sure you want to delete "{{ skill.name }}"?</p>
+  <form action="{% url 'wdmmorpg:skill_delete' skill.pk %}" method="post">
+    {% csrf_token %}
+    <input type="submit" value="Confirm">
+  </form>
+{% endblock %}

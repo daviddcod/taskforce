@@ -51,7 +51,7 @@
     <h2>{% if form.instance.pk %}Edit Task{% else %}Add New Task{% endif %}</h2>
     <form method="post">
         {% csrf_token %}
-        {{ form.as_p }}
+        {{ task_form.as_p }}
         <button type="submit" class="btn btn-primary">{% if form.instance.pk %}Update{% else %}Create{% endif %} Task</button>
         <a href="{% url 'wdmmorpg:task_list' %}" class="btn btn-light">Cancel</a>
     </form>

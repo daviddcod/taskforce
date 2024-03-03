@@ -10,6 +10,7 @@ urlpatterns = [
     path('profile/update/', views.update_profile, name='update_profile'),
     path('user/stats/', views.user_stats_view, name='user-stats'),
     path('tasklist', views.task_list, name='task_list'),
+    path('task_succes/<int:pk>', views.task_succes, name='task_succes'),
     path('task/<int:pk>/', views.task_detail, name='task_detail'),
     path('task/new/', views.task_create, name='task_create'),
     path('task/<int:pk>/edit/', views.task_update, name='task_update'),
@@ -56,9 +57,24 @@ urlpatterns = [
     path('projects/<int:project_id>/create_taskplayer/', views.create_taskplayer, name='create_taskplayer'),
     path('create_taskplayer/', views.create_taskplayer, name='create_taskplayer'),
 
+    path('taskplayer/play/<int:pk>', views.task_player_overview, name='task_player_overview'),
+
+
     path('taskplayer/add/', TaskPlayerCreate.as_view(), name='taskplayer_add'),
     path('taskplayer/<int:pk>/', TaskPlayerDetail.as_view(), name='taskplayer_detail'),
     path('taskplayer/<int:pk>/update/', TaskPlayerUpdate.as_view(), name='taskplayer_update'),
     path('taskplayer/<int:pk>/delete/', TaskPlayerDelete.as_view(), name='taskplayer_delete'),
+
+    path('skill/list', views.skill_list, name='skill_list'),
+    path('skill/detail/<int:pk>/', views.skill_detail, name='skill_detail'),
+    path('skill/create/', views.skill_create, name='skill_create'),
+    path('skill/update/<int:pk>/', views.skill_update, name='skill_update'),
+    path('skill/delete/<int:pk>/', views.skill_delete, name='skill_delete'),
+
+    path('attribute/list', views.attribute_list, name='attribute_list'),
+    path('attribute/detail/<int:pk>/', views.attribute_detail, name='attribute_detail'),
+    path('attribute/create/', views.attribute_create, name='attribute_create'),
+    path('attribute/update/<int:pk>/', views.attribute_update, name='attribute_update'),
+    path('attribute/delete/<int:pk>/', views.attribute_delete, name='attribute_delete'),
 ]
 

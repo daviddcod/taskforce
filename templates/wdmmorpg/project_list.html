@@ -12,8 +12,8 @@
         {% for project in projects %}
           <li class="project">
             <article>
-              <h3>Title: {{ project.title }}</h3>
-              <p>Description: {{ project.description }}</p>
+              <h3>{{ project.title }}</h3>
+              <p>{{ project.description }}</p>
               <div class="project-actions">
                 <!-- Provide links to project actions -->
                 <a href="{% url 'wdmmorpg:project_detail' project.id %}" class="btn btn-info">View Details</a>

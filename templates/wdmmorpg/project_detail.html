@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{%block extra_css %}
+{% block extra_css %}
 <style>
     .project-detail {
     font-family: 'Arial', sans-serif;
@@ -80,13 +80,12 @@ button:hover {
     <p>{{ project.description }}</p>
     <!-- Project information here -->
 
-    {% if mission %}
+    {% for mission in missions %}
     <div class="mission-detail">
-        <h3>Mission Details</h3>
-        <p>Title: {{ mission.title }}</p>
+        <h3>{{ mission.title }}</h3>
         <p>Description: {{ mission.description }}</p>
-        <p>Priority: {{ mission.priority.name }}</p>  <!-- Assuming PriorityScale has a 'name' field -->
-        <p>Experience: {{ experience }}</p>
+        <p>Priority: {{ mission.priority }}</p>  <!-- Assuming PriorityScale has a 'name' field -->
+        <p>Experience: {{ mission.calculate_experience }}</p>
 
         <h4>Tasks</h4>
         {% for task in mission.tasks.all %}
@@ -122,8 +121,6 @@ button:hover {
         {% endfor %}
 
     </div>
-    {% else %}
-    <p>No mission details are available for this project.</p>
-    {% endif %}
+    {% endfor %}
 </div>
 {% endblock %}

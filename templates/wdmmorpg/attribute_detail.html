@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Attribute Detail</h1>
+  <p>Name: {{ attribute.title }}</p>
+  <p>Type: {{ attribute.description }}</p>
+  <p>Level: {{ attribute.total_points }}</p>
+  <a href="{% url 'wdmmorpg:attribute_update' attribute.pk %}">Edit</a>
+  <form action="{% url 'wdmmorpg:attribute_delete' attribute.pk %}" method="post">
+    {% csrf_token %}
+    <input type="submit" value="Delete">
+  </form>
+{% endblock %}

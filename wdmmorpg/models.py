@@ -198,10 +198,10 @@ class TaskPlayer(models.Model):
     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name='user_taskplayers', default=1)    
     tasks = models.ManyToManyField(Task)  # This allows multiple tasks to be associated with one TaskPlayer
     current_task = models.ForeignKey(Task, related_name='current_task', on_delete=models.SET_NULL, null=True, blank=True)
+    project = models.ForeignKey(Project, on_delete=models.CASCADE, default=1, related_name='projectss')
     start_time = models.DateTimeField(auto_now_add=True)
     end_time = models.DateTimeField(null=True, blank=True, default=datetime.datetime(2024, 12, 31, 23, 59, 59))
     achievements = models.JSONField(default=dict)
-    project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='taskplayers')
     
     def start_task(self):
         self.start_time = timezone.now()
@@ -236,11 +236,23 @@ class InventoryItem(models.Model):
     def __str__(self):
         return self.name
 
+class Attribute(models.Model):
+    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name='attribute_user', default=1)    
+    title = models.CharField(max_length=100)
+    description = models.TextField()
+    total_points = models.IntegerField(default=100)
+
+    def __str__(self):
+        return f"{self.user.user.username} - {self.title}"
+
+
 # Skill Model
 class Skill(models.Model):
     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name='skills', default=1)    
     name = models.CharField(max_length=100)
-    type = models.CharField(max_length=100)
+    type = models.ForeignKey(Attribute, on_delete=models.CASCADE, related_name='skill_attribute')
+    cost = models.IntegerField(default=0)
+    gain = models.IntegerField(default=0)
     level = models.IntegerField(default=1)
     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
 
@@ -257,3 +269,4 @@ class UserTaskInteraction(models.Model):
 
     def __str__(self):
         return f"{self.user.user.username} - {self.task.title}"
+

@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Delete Attribute</h1>
+  <p>Are you sure you want to delete "{{ attribute.title }}"?</p>
+  <form action="{% url 'wdmmorpg:attribute_delete' attribute.pk %}" method="post">
+    {% csrf_token %}
+    <input type="submit" value="Confirm">
+  </form>
+{% endblock %}
